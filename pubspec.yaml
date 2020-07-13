@@ -47,7 +47,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/
     - images/LoginPage/
     - images/ProfilePage/
   # An image asset can refer to one or more resolution-specific "variants", see
