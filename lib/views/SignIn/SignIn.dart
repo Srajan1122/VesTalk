@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:socail_network_flutter/views/Home/homePage.dart';
+import 'package:socail_network_flutter/views/LandingPage/LandingPage.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -36,7 +36,7 @@ class _SignInState extends State<SignIn> {
     isLoggedIn = await _googleSignIn.isSignedIn();
     if (isLoggedIn) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
+          context, MaterialPageRoute(builder: (context) => LandingPage()));
     }
     setState(() {
       isLoading = false;
@@ -85,7 +85,7 @@ class _SignInState extends State<SignIn> {
         isLoading = false;
       });
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
+          context, MaterialPageRoute(builder: (context) => LandingPage()));
     } else {
       Fluttertoast.showToast(msg: "Sign In Failed");
       setState(() {

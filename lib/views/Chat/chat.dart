@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 // import 'package:socail_network_flutter/Widgets/widgets.dart';
 
-class HomePage extends StatefulWidget {
+class Chat extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _ChatState createState() => _ChatState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ChatState extends State<Chat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: GetAppBar(),
       body: Center(
-        child: Text("Home Page"),
+        child: Text("Chat Page"),
       ),
     );
   }

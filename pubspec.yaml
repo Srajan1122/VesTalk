@@ -26,8 +26,8 @@ dependencies:
   google_sign_in: ^4.5.1
   shared_preferences: ^0.5.8
   fluttertoast: ^4.0.0
-  flutter_auth_buttons: ^0.8.0
   font_awesome_flutter: ^8.8.1
+  curved_navigation_bar: ^0.3.3
 
   flutter:
     sdk: flutter
@@ -47,7 +47,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/
     - images/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

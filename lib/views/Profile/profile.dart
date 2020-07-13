@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 // import 'package:socail_network_flutter/Widgets/widgets.dart';
 
-class HomePage extends StatefulWidget {
+class ProfilePage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: GetAppBar(),
       body: Center(
-        child: Text("Home Page"),
+        child: Text("Profile Page"),
       ),
     );
   }
