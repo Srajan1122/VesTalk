@@ -4,6 +4,5 @@ Widget getAppBar() {
   return AppBar(
     backgroundColor: Colors.redAccent,
     title: Text('Appbar'),
-    centerTitle: true,
   );
 }
