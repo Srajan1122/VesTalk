@@ -103,7 +103,7 @@ class _SignInState extends State<SignIn> {
           constraints: BoxConstraints.expand(),
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('images/Login.png'), fit: BoxFit.cover),
+                image: AssetImage('images/LoginPage/Login.png'), fit: BoxFit.cover),
           ),
           child: Container(
             padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
