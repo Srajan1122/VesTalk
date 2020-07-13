@@ -8,7 +8,6 @@ import 'package:socail_network_flutter/views/Home/homePage.dart';
 import 'package:socail_network_flutter/views/Profile/profile.dart';
 import 'package:socail_network_flutter/views/Chat/chat.dart';
 import 'package:socail_network_flutter/views/newPost/createPost.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
 class LandingPage extends StatefulWidget {
