@@ -9,6 +9,7 @@ import 'package:socail_network_flutter/views/Profile/profile.dart';
 import 'package:socail_network_flutter/views/Chat/chat.dart';
 import 'package:socail_network_flutter/views/newPost/createPost.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socail_network_flutter/views/Search/Search.dart';
 import 'dart:async';
 
 class LandingPage extends StatefulWidget {
@@ -19,23 +20,25 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  String name = '';
-  String email = '';
-  String photoUrl = '';
+  String name, email, photoUrl;
 
-  getUserData () async {
+  getUserData() async {
     await SharedPreferences.getInstance().then((value) => {
-      this.setState(() {
-        name = value.getString("displayName");
-        email = value.getString("email");
-        photoUrl = value.getString("photoUrl");
-      })
-    });
+          this.setState(() {
+            name = (value.getString("displayName") ?? '');
+            email = (value.getString("email") ?? '');
+            photoUrl = (value.getString("photoUrl") ?? '');
+          })
+        });
+    print(name);
+    print(email);
+    print(photoUrl);
   }
 
   int _currentIndex = 0;
   final List<Widget> _children = [
     HomePage(),
+    SearchPage(),
     CreatePost(),
     Chat(),
     ProfilePage()
@@ -79,7 +82,7 @@ class _LandingPageState extends State<LandingPage> {
             height: 60,
             items: <Widget>[
               Icon(Icons.home, size: 20, color: Colors.white),
-              // Icon(Icons.search, size: 20, color: Colors.white),
+              Icon(Icons.search, size: 20, color: Colors.white),
               Icon(Icons.add, size: 20, color: Colors.white),
               Icon(Icons.chat, size: 20, color: Colors.white),
               Icon(Icons.person, size: 20, color: Colors.white),
@@ -100,8 +103,8 @@ class _LandingPageState extends State<LandingPage> {
                   accountEmail: Text(email),
                   currentAccountPicture: GestureDetector(
                     child: CircleAvatar(
-                        backgroundColor: Colors.grey,
-                        backgroundImage: NetworkImage(photoUrl),
+                      backgroundColor: Colors.grey,
+                      backgroundImage: NetworkImage(photoUrl),
                     ),
                   ),
                   decoration: BoxDecoration(color: Colors.redAccent),

@@ -10,7 +10,7 @@ class Council extends StatefulWidget {
 class _CouncilState extends State<Council> {
   String displayName, description, members;
   bool checkValidation() {
-    if (members == null || displayName == null) {
+    if (members == null || displayName == null || description == null) {
       return false;
     } else {
       return true;
