@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:socail_network_flutter/views/LandingPage/LandingPage.dart';
+import 'package:socail_network_flutter/views/Onboarding/onBoarding.dart';
+import 'package:socail_network_flutter/views/ProfileCompletion/designation.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -84,8 +86,17 @@ class _SignInState extends State<SignIn> {
       setState(() {
         isLoading = false;
       });
+      // TODO : Check Condition if user has filled the profile before : checkProfile()
+
+      // if(!checkProfile){
+      //   Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => LandingPage()));
+      // }
+      // else{
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LandingPage()));
+          context, MaterialPageRoute(builder: (context) => Designation()));
+      // }
+
     } else {
       Fluttertoast.showToast(msg: "Sign In Failed");
       setState(() {
@@ -103,7 +114,8 @@ class _SignInState extends State<SignIn> {
           constraints: BoxConstraints.expand(),
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('images/LoginPage/Login.png'), fit: BoxFit.cover),
+                image: AssetImage('images/LoginPage/Login.png'),
+                fit: BoxFit.cover),
           ),
           child: Container(
             padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
