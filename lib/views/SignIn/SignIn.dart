@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/LandingPage/LandingPage.dart';
 import 'package:socail_network_flutter/views/ProfileCompletion/designation.dart';
 
@@ -17,6 +18,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final DatabaseMethods databaseMethods = new DatabaseMethods();
 
   bool isLoading = false;
   bool isLoggedIn = false;
@@ -54,32 +56,20 @@ class _SignInState extends State<SignIn> {
         (await firebaseAuth.signInWithCredential(credential)).user;
 
     if (firebaseUser != null) {
-      final QuerySnapshot result = await Firestore.instance
-          .collection('user')
-          .where('id', isEqualTo: firebaseUser.uid)
-          .getDocuments();
-
-      List<DocumentSnapshot> documents = result.documents;
+      List<DocumentSnapshot> documents = await databaseMethods.findUserById(firebaseUser.uid);
       if (documents.length == 0) {
-        Firestore.instance
-            .collection('user')
-            .document(firebaseUser.uid)
-            .setData({
-          'id': firebaseUser.uid,
-          'displayName': firebaseUser.displayName,
-          'photoUrl': firebaseUser.photoUrl
-        });
-
-        // Local Data
+        await databaseMethods.uploadUserData( firebaseUser.uid, firebaseUser.displayName, firebaseUser.photoUrl, firebaseUser.email);
 
         currentUser = firebaseUser;
         await prefs.setString('id', currentUser.uid);
         await prefs.setString('displayName', currentUser.displayName);
         await prefs.setString('photoUrl', currentUser.photoUrl);
+        await prefs.setString('email', currentUser.email);
       } else {
         await prefs.setString('id', documents[0]['id']);
-        await prefs.setString('id', documents[0]['displayName']);
-        await prefs.setString('id', documents[0]['phototUrl']);
+        await prefs.setString('displayName', documents[0]['displayName']);
+        await prefs.setString('photoUrl', documents[0]['phototUrl']);
+        await prefs.setString('email', documents[0]['email']);
       }
       Fluttertoast.showToast(msg: "Sign In success");
       setState(() {
