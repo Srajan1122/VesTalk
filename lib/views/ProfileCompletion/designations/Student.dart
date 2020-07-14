@@ -8,10 +8,10 @@ class Student extends StatefulWidget {
 }
 
 class _StudentState extends State<Student> {
-  String phone_number, branch, batch, year;
+  String phoneNumber, branch, batch, year;
 
   bool checkValidation() {
-    if (phone_number.length != 10) {
+    if (phoneNumber.length != 10) {
       // TODO : show alert
       return false;
     }
@@ -45,7 +45,7 @@ class _StudentState extends State<Student> {
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
                   setState(() {
-                    phone_number = value;
+                    phoneNumber = value;
                   });
                 },
               ),

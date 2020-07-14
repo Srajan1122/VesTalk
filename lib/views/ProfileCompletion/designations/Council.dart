@@ -8,9 +8,9 @@ class Council extends StatefulWidget {
 }
 
 class _CouncilState extends State<Council> {
-  String display_name, description, members;
+  String displayName, description, members;
   bool checkValidation() {
-    if (members == null || display_name == null) {
+    if (members == null || displayName == null) {
       return false;
     } else {
       return true;
@@ -39,7 +39,7 @@ class _CouncilState extends State<Council> {
                 ),
                 onChanged: (value) {
                   setState(() {
-                    display_name = value;
+                    displayName = value;
                   });
                 },
               ),
@@ -85,7 +85,7 @@ class _CouncilState extends State<Council> {
         onPressed: () {
           if (checkValidation()) {
             print('good to go');
-            print(display_name + ' ' + members + '\n' + description);
+            print(displayName + ' ' + members + '\n' + description);
 
             // TODO : Add Council function for Firebase
 
