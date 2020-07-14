@@ -8,6 +8,7 @@ import 'package:socail_network_flutter/views/Home/homePage.dart';
 import 'package:socail_network_flutter/views/Profile/profile.dart';
 import 'package:socail_network_flutter/views/Chat/chat.dart';
 import 'package:socail_network_flutter/views/newPost/createPost.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
 class LandingPage extends StatefulWidget {
@@ -17,6 +18,20 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  String name = '';
+  String email = '';
+  String photoUrl = '';
+
+  getUserData () async {
+    await SharedPreferences.getInstance().then((value) => {
+      this.setState(() {
+        name = value.getString("displayName");
+        email = value.getString("email");
+        photoUrl = value.getString("photoUrl");
+      })
+    });
+  }
 
   int _currentIndex = 0;
   final List<Widget> _children = [
@@ -42,6 +57,12 @@ class _LandingPageState extends State<LandingPage> {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => MyApp()),
         (Route<dynamic> route) => false);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
   }
 
   @override
@@ -75,15 +96,13 @@ class _LandingPageState extends State<LandingPage> {
             child: ListView(
               children: <Widget>[
                 UserAccountsDrawerHeader(
-                  accountName: Text('Devdatta Khoche'),
-                  accountEmail: Text('something@gmail.com'),
+                  accountName: Text(name),
+                  accountEmail: Text(email),
                   currentAccountPicture: GestureDetector(
                     child: CircleAvatar(
                         backgroundColor: Colors.grey,
-                        child: Icon(
-                          Icons.person,
-                          color: Colors.white,
-                        )),
+                        backgroundImage: NetworkImage(photoUrl),
+                    ),
                   ),
                   decoration: BoxDecoration(color: Colors.redAccent),
                 ),

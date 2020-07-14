@@ -57,16 +57,18 @@ class _SignInState extends State<SignIn> {
     if (firebaseUser != null) {
       List<DocumentSnapshot> documents = await databaseMethods.findUserById(firebaseUser.uid);
       if (documents.length == 0) {
-        await databaseMethods.uploadUserData( firebaseUser.uid, firebaseUser.displayName, firebaseUser.photoUrl);
+        await databaseMethods.uploadUserData( firebaseUser.uid, firebaseUser.displayName, firebaseUser.photoUrl, firebaseUser.email);
 
         currentUser = firebaseUser;
         await prefs.setString('id', currentUser.uid);
         await prefs.setString('displayName', currentUser.displayName);
         await prefs.setString('photoUrl', currentUser.photoUrl);
+        await prefs.setString('email', currentUser.email);
       } else {
         await prefs.setString('id', documents[0]['id']);
         await prefs.setString('displayName', documents[0]['displayName']);
         await prefs.setString('photoUrl', documents[0]['phototUrl']);
+        await prefs.setString('email', documents[0]['email']);
       }
       Fluttertoast.showToast(msg: "Sign In success");
       setState(() {

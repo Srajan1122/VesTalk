@@ -11,20 +11,22 @@ class DatabaseMethods {
       allUsers.add({
         'id': user.data['id'],
         'displayName': user.data['displayName'],
-        'photoUrl': user.data['photoUrl']
+        'photoUrl': user.data['photoUrl'],
+        'email': user.data['email']
       });
     }
     return allUsers;
   }
 
-  uploadUserData(id, displayName, photoUrl) async {
+  uploadUserData(id, displayName, photoUrl, email) async {
     await Firestore.instance
         .collection('user')
         .document(id)
         .setData({
       'id': id,
       'displayName': displayName,
-      'photoUrl': photoUrl
+      'photoUrl': photoUrl,
+      'email': email
     });
   }
 
