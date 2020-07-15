@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/LandingPage/LandingPage.dart';
+import 'package:socail_network_flutter/views/ProfileCompletion/designation.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -55,27 +56,41 @@ class _SignInState extends State<SignIn> {
         (await firebaseAuth.signInWithCredential(credential)).user;
 
     if (firebaseUser != null) {
-      List<DocumentSnapshot> documents = await databaseMethods.findUserById(firebaseUser.uid);
+      List<DocumentSnapshot> documents =
+          await databaseMethods.findUserById(firebaseUser.uid);
       if (documents.length == 0) {
-        await databaseMethods.uploadUserData( firebaseUser.uid, firebaseUser.displayName, firebaseUser.photoUrl, firebaseUser.email);
+        await databaseMethods.uploadUserData(
+            firebaseUser.uid,
+            firebaseUser.displayName,
+            firebaseUser.photoUrl,
+            firebaseUser.email);
 
         currentUser = firebaseUser;
         await prefs.setString('id', currentUser.uid);
         await prefs.setString('displayName', currentUser.displayName);
-        await prefs.setString('photoUrl', currentUser.photoUrl);
         await prefs.setString('email', currentUser.email);
+        await prefs.setString('photoUrl', currentUser.photoUrl);
       } else {
         await prefs.setString('id', documents[0]['id']);
         await prefs.setString('displayName', documents[0]['displayName']);
-        await prefs.setString('photoUrl', documents[0]['phototUrl']);
         await prefs.setString('email', documents[0]['email']);
+        await prefs.setString('photoUrl', documents[0]['phototUrl']);
       }
       Fluttertoast.showToast(msg: "Sign In success");
       setState(() {
         isLoading = false;
       });
+      // TODO : Check Condition if user has filled the profile before : checkProfile()
+
+      // if(!checkProfile){
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => LandingPage()));
+      // }
+      // else{
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LandingPage()));
+          context, MaterialPageRoute(builder: (context) => Designation()));
+      // }
+
     } else {
       Fluttertoast.showToast(msg: "Sign In Failed");
       setState(() {
@@ -93,7 +108,8 @@ class _SignInState extends State<SignIn> {
           constraints: BoxConstraints.expand(),
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('images/LoginPage/Login.png'), fit: BoxFit.cover),
+                image: AssetImage('images/LoginPage/Login.png'),
+                fit: BoxFit.cover),
           ),
           child: Container(
             padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
