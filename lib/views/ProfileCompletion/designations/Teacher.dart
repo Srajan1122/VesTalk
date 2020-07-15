@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/services/Database.dart';
@@ -23,6 +24,7 @@ class _TeacherState extends State<Teacher> {
 
   bool checkValidation() {
     if (branch == null || post == null) {
+      Fluttertoast.showToast(msg: "Please enter all the fields");
       return false;
     }
     return true;

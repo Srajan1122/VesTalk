@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/ProfileCompletion/details.dart';
@@ -21,11 +22,23 @@ class _DesignationState extends State<Designation> {
     });
   }
 
+  bool checkValidation() {
+    if (dropdownValue == null) {
+      Fluttertoast.showToast(msg: "Please enter the fields" );
+      return false;
+    }else{
+      return true;
+    }
+  }
+
   onSubmit(context) async {
     await getUserId();
     databaseMethods.uploadUserDesignation(id, dropdownValue);
     print(id);
     print(dropdownValue);
+    if(!checkValidation()){
+      print('not good');
+    }
 
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => Details(designation: dropdownValue)));

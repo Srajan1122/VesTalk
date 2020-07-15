@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/services/Database.dart';
@@ -22,11 +23,15 @@ class _StudentState extends State<Student> {
   }
 
   bool checkValidation() {
+    if(phoneNumber == null){
+      Fluttertoast.showToast(msg: "Please enter all the fields" );
+    }
     if (phoneNumber.length != 10) {
-      // TODO : show alert
+      Fluttertoast.showToast(msg: "Please enter a valid number" );
       return false;
     }
     if (branch == null || batch == null || year == null) {
+      Fluttertoast.showToast(msg: "Please enter all the fields" );
       return false;
     }
 
@@ -86,7 +91,7 @@ class _StudentState extends State<Student> {
                     child: TextField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Enter Your Phone number',
+                        labelText: 'Enter Your Phone Number',
                       ),
                       keyboardType: TextInputType.number,
                       onChanged: (value) {
