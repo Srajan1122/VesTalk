@@ -34,39 +34,75 @@ class _DesignationState extends State<Designation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          child: DropdownButton<String>(
-            hint: Text('Select Designation'),
-            icon: Icon(Icons.arrow_downward),
-            value: dropdownValue,
-            iconSize: 24,
-            elevation: 16,
-            underline: Container(
-              height: 2,
-              color: Colors.blueAccent,
-            ),
-            onChanged: (String newValue) {
-              setState(() {
-                dropdownValue = newValue;
-              });
-            },
-            items: <String>['Student', 'Teacher', 'Council', 'Other']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('images/ProfileComp/ProfileCompletion.png'),
+            fit: BoxFit.fill,
+          ),
+        ),
+        child: Center(
+          child: Container(
+              width: 300,
+              height: 300,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.rectangle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black,
+                    blurRadius: 5.0,
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                    child: Center(
+                      child: Text('Please select your role :', style: TextStyle(fontSize: 20.0,),),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: DropdownButton<String>(
+                      hint: Text('Select Designation         '),
+                      icon: Icon(Icons.arrow_downward, color: Color(0xFF000050),),
+                      value: dropdownValue,
+                      iconSize: 24,
+                      elevation: 16,
+                      underline: Container(
+                        height: 2,
+                        color: Colors.redAccent,
+                      ),
+                      onChanged: (String newValue) {
+                        setState(() {
+                          dropdownValue = newValue;
+                        });
+                      },
+                      items: <String>['Student', 'Teacher', 'Council', 'Other']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
+              ),
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
-             onSubmit(context);
+            onSubmit(context);
           },
           child: FaIcon(FontAwesomeIcons.arrowRight),
-          backgroundColor: Colors.redAccent),
+          backgroundColor: Color(0xFF000050)),
     );
+
   }
 }
