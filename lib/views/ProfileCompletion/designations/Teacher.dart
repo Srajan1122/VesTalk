@@ -82,7 +82,7 @@ class _TeacherState extends State<Teacher> {
             // TODO : Add Teacher function for student data
 
             Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => LandingPage()));
+                .pushReplacement(MaterialPageRoute(builder: (context) => LandingPage()));
           } else {
             print('not good');
           }

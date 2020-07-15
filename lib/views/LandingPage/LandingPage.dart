@@ -5,7 +5,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:socail_network_flutter/views/Home/homePage.dart';
-import 'package:socail_network_flutter/views/Profile/profile.dart';
+import 'package:socail_network_flutter/views/Profile/ProfilePage.dart';
+import 'file:///E:/AndroidStudioProjects/Social-Network-Flutter/lib/views/Profile/DesignationProfilePage/Student.dart';
 import 'package:socail_network_flutter/views/Chat/chat.dart';
 import 'package:socail_network_flutter/views/newPost/createPost.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -41,7 +42,7 @@ class _LandingPageState extends State<LandingPage> {
     SearchPage(),
     CreatePost(),
     Chat(),
-    ProfilePage()
+    ProfilePage(designation: "Teacher")
   ];
   bool isLoading = false;
   Future<Null> handleSignOut() async {

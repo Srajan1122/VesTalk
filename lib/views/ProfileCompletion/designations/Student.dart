@@ -139,7 +139,7 @@ class _StudentState extends State<Student> {
             // TODO : Add firebase function for student data
 
             Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => LandingPage()));
+                .pushReplacement(MaterialPageRoute(builder: (context) => LandingPage()));
           } else {
             print('not good');
           }

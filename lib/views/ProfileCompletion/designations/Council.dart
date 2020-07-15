@@ -90,7 +90,7 @@ class _CouncilState extends State<Council> {
             // TODO : Add Council function for Firebase
 
             Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => LandingPage()));
+                .pushReplacement(MaterialPageRoute(builder: (context) => LandingPage()));
           } else {
             print('not good');
           }
