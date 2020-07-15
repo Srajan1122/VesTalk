@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/ProfileCompletion/details.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -8,7 +10,26 @@ class Designation extends StatefulWidget {
 }
 
 class _DesignationState extends State<Designation> {
-  String dropdownValue;
+  String dropdownValue, id;
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+
+  getUserId() async {
+    await SharedPreferences.getInstance().then((value) => {
+      this.setState(() {
+        id = value.getString('id');
+      })
+    });
+  }
+
+  onSubmit(context) async {
+    await getUserId();
+    databaseMethods.uploadUserDesignation(id, dropdownValue);
+    print(id);
+    print(dropdownValue);
+
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => Details(designation: dropdownValue)));
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +62,8 @@ class _DesignationState extends State<Designation> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => Details(designation: dropdownValue)));
+          onPressed: () async {
+             onSubmit(context);
           },
           child: FaIcon(FontAwesomeIcons.arrowRight),
           backgroundColor: Colors.redAccent),

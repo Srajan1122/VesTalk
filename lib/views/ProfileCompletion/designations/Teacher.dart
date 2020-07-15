@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/LandingPage/LandingPage.dart';
 
 class Teacher extends StatefulWidget {
@@ -8,14 +10,35 @@ class Teacher extends StatefulWidget {
 }
 
 class _TeacherState extends State<Teacher> {
-  String post;
-  String branch;
+  String id, post, branch;
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+
+  getUserId() async {
+    await SharedPreferences.getInstance().then((value) => {
+      this.setState(() {
+        id = value.getString('id');
+      })
+    });
+  }
+
   bool checkValidation() {
     if (branch == null || post == null) {
       return false;
     }
-
     return true;
+  }
+
+  onSubmit(context) async {
+    if(!checkValidation()){
+      print('not good');
+    }
+    else{
+      print('good to go');
+      await getUserId();
+      databaseMethods.uploadTeacherInfo(id, post, branch);
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => LandingPage()));
+    }
   }
 
   @override
@@ -76,16 +99,7 @@ class _TeacherState extends State<Teacher> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (checkValidation()) {
-            print('good to go');
-
-            // TODO : Add Teacher function for student data
-
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => LandingPage()));
-          } else {
-            print('not good');
-          }
+            onSubmit(context);
         },
         child: FaIcon(FontAwesomeIcons.arrowRight),
         backgroundColor: Colors.redAccent,

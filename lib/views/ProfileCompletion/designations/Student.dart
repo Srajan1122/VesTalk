@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/LandingPage/LandingPage.dart';
 
 class Student extends StatefulWidget {
@@ -8,7 +10,16 @@ class Student extends StatefulWidget {
 }
 
 class _StudentState extends State<Student> {
-  String phoneNumber, branch, batch, year;
+  String id, phoneNumber, branch, batch, year;
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+
+  getUserId() async {
+    await SharedPreferences.getInstance().then((value) => {
+      this.setState(() {
+        id = value.getString('id');
+      })
+    });
+  }
 
   bool checkValidation() {
     if (phoneNumber.length != 10) {
@@ -20,6 +31,19 @@ class _StudentState extends State<Student> {
     }
 
     return true;
+  }
+
+  onSubmit(context) async {
+    if(!checkValidation()){
+      print('not good');
+    }
+    else{
+      print('good to go');
+      await getUserId();
+      databaseMethods.uploadStudentInfo(id, phoneNumber, branch, batch, year);
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => LandingPage()));
+    }
   }
 
   @override
@@ -133,16 +157,7 @@ class _StudentState extends State<Student> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (checkValidation()) {
-            print('good to go');
-
-            // TODO : Add firebase function for student data
-
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => LandingPage()));
-          } else {
-            print('not good');
-          }
+            onSubmit(context);
         },
         child: FaIcon(FontAwesomeIcons.arrowRight),
         backgroundColor: Colors.redAccent,

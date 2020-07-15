@@ -20,19 +20,16 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  String name, email, photoUrl;
+  String name='No name', email='No email', photoUrl='http://noPhoto';
 
   getUserData() async {
     await SharedPreferences.getInstance().then((value) => {
           this.setState(() {
-            name = (value.getString("displayName") ?? '');
-            email = (value.getString("email") ?? '');
+            name = (value.getString("displayName") ?? 'No name');
+            email = (value.getString("email") ?? 'No email');
             photoUrl = (value.getString("photoUrl") ?? '');
           })
         });
-    print(name);
-    print(email);
-    print(photoUrl);
   }
 
   int _currentIndex = 0;

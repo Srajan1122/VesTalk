@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/LandingPage/LandingPage.dart';
 
 class Council extends StatefulWidget {
@@ -8,12 +10,35 @@ class Council extends StatefulWidget {
 }
 
 class _CouncilState extends State<Council> {
-  String displayName, description, members;
+  String id, displayName, description, members;
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+
+  getUserId() async {
+    await SharedPreferences.getInstance().then((value) => {
+      this.setState(() {
+        id = value.getString('id');
+      })
+    });
+  }
+
   bool checkValidation() {
     if (members == null || displayName == null || description == null) {
       return false;
     } else {
       return true;
+    }
+  }
+
+  onSubmit(context) async {
+    if(!checkValidation()){
+      print('not good');
+    }
+    else{
+      print('good to go');
+      await getUserId();
+      databaseMethods.uploadCouncilInfo(id, displayName, description, members);
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => LandingPage()));
     }
   }
 
@@ -83,17 +108,7 @@ class _CouncilState extends State<Council> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (checkValidation()) {
-            print('good to go');
-            print(displayName + ' ' + members + '\n' + description);
-
-            // TODO : Add Council function for Firebase
-
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => LandingPage()));
-          } else {
-            print('not good');
-          }
+          onSubmit(context);
         },
         child: FaIcon(FontAwesomeIcons.arrowRight),
         backgroundColor: Colors.redAccent,
