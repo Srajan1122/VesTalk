@@ -75,7 +75,7 @@ class _DesignationState extends State<Designation> {
                       elevation: 16,
                       underline: Container(
                         height: 2,
-                        color: Colors.redAccent,
+                        color: Color(0xFFFC2542),
                       ),
                       onChanged: (String newValue) {
                         setState(() {

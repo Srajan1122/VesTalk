@@ -45,73 +45,98 @@ class _CouncilState extends State<Council> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(40, 50, 40, 0),
-            child: Center(
-              child: Text('Council Details'),
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('images/ProfileComp/ProfileCompletion.png'),
+            fit: BoxFit.fill,
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
-            child: Container(
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Display name',
+        ),
+        child: Center(
+          child: Container(
+            width: 300,
+            height: 500,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.rectangle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black,
+                  blurRadius: 5.0,
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    displayName = value;
-                  });
-                },
-              ),
+              ],
+              borderRadius: BorderRadius.circular(10),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
-            child: Container(
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'No. of Members',
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                  child: Center(
+                    child: Text('Council Details', style: TextStyle(fontSize: 20),),
+                  ),
                 ),
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  setState(() {
-                    members = value;
-                  });
-                },
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
-            child: Container(
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Description',
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
+                  child: Container(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Display name',
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          displayName = value;
+                        });
+                      },
+                    ),
+                  ),
                 ),
-                maxLines: 9,
-                onChanged: (value) {
-                  setState(() {
-                    description = value;
-                  });
-                },
-              ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
+                  child: Container(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'No. of Members',
+                      ),
+                      keyboardType: TextInputType.number,
+                      onChanged: (value) {
+                        setState(() {
+                          members = value;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
+                  child: Container(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Description',
+                      ),
+                      maxLines: 9,
+                      onChanged: (value) {
+                        setState(() {
+                          description = value;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           onSubmit(context);
         },
         child: FaIcon(FontAwesomeIcons.arrowRight),
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Color(0xFF000050),
       ),
     );
   }
