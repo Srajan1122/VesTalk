@@ -1,9 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/newPost/chewie_list_itme.dart';
 import 'package:video_player/video_player.dart';
 
@@ -13,24 +14,30 @@ class CreatePost extends StatefulWidget {
 }
 
 class _CreatePostState extends State<CreatePost> {
+  DatabaseMethods databaseMethods = new DatabaseMethods();
   ImagePicker _picker = ImagePicker();
   final postController = TextEditingController();
 
-  String description;
+  String description, id;
   File _attachment;
   bool isVideo = false;
-  void handlePress() {
+
+  getUserId() async {
+    await SharedPreferences.getInstance().then((value) => {
+      this.setState(() {
+        id = value.getString('id');
+      })
+    });
+  }
+
+  void handlePress() async {
+    await getUserId();
     if (description == null) {
       // TODO : Add alert
-
       Fluttertoast.showToast(msg: "Please fill post content");
     } else {
       // TODO : UI Customise alert and change buttons if needed
-      // TODO  : Add firebase for post
-      // get user data from shared prefs
-      // Variables : - _attachment (image or video)
-      //                 isVideo    (is video or not)
-      //                  description (content of the post)
+      await databaseMethods.uploadFile(id, description,  _attachment, isVideo);
       setState(() {
         _attachment = null;
         description = null;
