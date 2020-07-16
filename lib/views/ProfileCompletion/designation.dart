@@ -114,7 +114,8 @@ class _DesignationState extends State<Designation> {
             onSubmit(context);
           },
           child: FaIcon(FontAwesomeIcons.arrowRight),
-          backgroundColor: Color(0xFF000050)),
+          backgroundColor: Color(0xFF000050)
+      ),
     );
 
   }
