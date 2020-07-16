@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Widget getAppBar() {
   return AppBar(
-    backgroundColor: Colors.redAccent,
+    backgroundColor: Color(0xFF000050),
     title: Text('Appbar'),
   );
 }

@@ -24,11 +24,14 @@ class _SignInState extends State<SignIn> {
   bool isLoggedIn = false;
   SharedPreferences prefs;
   FirebaseUser currentUser;
+  String id;
 
-  @override
-  void initState() {
-    super.initState();
-    isSignIn();
+  getUserId() async {
+    await SharedPreferences.getInstance().then((value) => {
+      this.setState(() {
+        id = value.getString('id');
+      })
+    });
   }
 
   void isSignIn() async {
@@ -74,22 +77,26 @@ class _SignInState extends State<SignIn> {
         await prefs.setString('id', documents[0]['id']);
         await prefs.setString('displayName', documents[0]['displayName']);
         await prefs.setString('email', documents[0]['email']);
-        await prefs.setString('photoUrl', documents[0]['phototUrl']);
+        await prefs.setString('photoUrl', documents[0]['photoUrl']);
       }
       Fluttertoast.showToast(msg: "Sign In success");
       setState(() {
         isLoading = false;
       });
-      // TODO : Check Condition if user has filled the profile before : checkProfile()
 
-      // if(!checkProfile){
-      // Navigator.push(
-      //     context, MaterialPageRoute(builder: (context) => LandingPage()));
-      // }
-      // else{
-      Navigator.push(
+      check() async {
+        await getUserId();
+        return await databaseMethods.checkIfInitialDataIsFilled(id);
+      }
+
+       if(await check()){
+        Navigator.push(
+           context, MaterialPageRoute(builder: (context) => LandingPage()));
+       }
+       else{
+         Navigator.push(
           context, MaterialPageRoute(builder: (context) => Designation()));
-      // }
+       }
 
     } else {
       Fluttertoast.showToast(msg: "Sign In Failed");
@@ -98,6 +105,12 @@ class _SignInState extends State<SignIn> {
       });
     }
     return firebaseUser;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    isSignIn();
   }
 
   @override

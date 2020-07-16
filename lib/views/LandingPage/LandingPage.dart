@@ -21,19 +21,16 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  String name, email, photoUrl;
+  String name='No name', email='No email', photoUrl='http://noPhoto';
 
   getUserData() async {
     await SharedPreferences.getInstance().then((value) => {
           this.setState(() {
-            name = (value.getString("displayName") ?? '');
-            email = (value.getString("email") ?? '');
+            name = (value.getString("displayName") ?? 'No name');
+            email = (value.getString("email") ?? 'No email');
             photoUrl = (value.getString("photoUrl") ?? '');
           })
         });
-    print(name);
-    print(email);
-    print(photoUrl);
   }
 
   int _currentIndex = 0;
@@ -78,16 +75,16 @@ class _LandingPageState extends State<LandingPage> {
           appBar: getAppBar(),
           body: _children[_currentIndex],
           bottomNavigationBar: CurvedNavigationBar(
-            color: Colors.redAccent,
-            buttonBackgroundColor: Colors.black87,
+            color: Color(0xFF000050),
+            buttonBackgroundColor: Colors.white,
             backgroundColor: Colors.white,
             height: 60,
             items: <Widget>[
-              Icon(Icons.home, size: 20, color: Colors.white),
-              Icon(Icons.search, size: 20, color: Colors.white),
-              Icon(Icons.add, size: 20, color: Colors.white),
-              Icon(Icons.chat, size: 20, color: Colors.white),
-              Icon(Icons.person, size: 20, color: Colors.white),
+              Icon(Icons.home, size: 30, color: Color(0xFFFC2542)),
+              Icon(Icons.search, size: 30, color: Color(0xFFFC2542)),
+              Icon(Icons.add, size: 30, color: Color(0xFFFC2542)),
+              Icon(Icons.chat, size: 30, color: Color(0xFFFC2542)),
+              Icon(Icons.person, size: 30, color: Color(0xFFFC2542)),
             ],
             animationDuration: Duration(milliseconds: 200),
             animationCurve: Curves.bounceInOut,
@@ -105,11 +102,11 @@ class _LandingPageState extends State<LandingPage> {
                   accountEmail: Text(email),
                   currentAccountPicture: GestureDetector(
                     child: CircleAvatar(
-                      backgroundColor: Colors.grey,
+                      backgroundColor: Colors.white,
                       backgroundImage: NetworkImage(photoUrl),
                     ),
                   ),
-                  decoration: BoxDecoration(color: Colors.redAccent),
+                  decoration: BoxDecoration(color: Color(0xFF000050)),
                 ),
                 ListTile(
                   title: Text('Profile'),
