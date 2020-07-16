@@ -6,12 +6,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:socail_network_flutter/views/Home/homePage.dart';
 import 'package:socail_network_flutter/views/Profile/ProfilePage.dart';
-import 'file:///E:/AndroidStudioProjects/Social-Network-Flutter/lib/views/Profile/DesignationProfilePage/Student.dart';
 import 'package:socail_network_flutter/views/Chat/chat.dart';
 import 'package:socail_network_flutter/views/newPost/createPost.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/views/Search/Search.dart';
 import 'dart:async';
+import 'package:socail_network_flutter/services/AsyncStorage.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -42,7 +42,7 @@ class _LandingPageState extends State<LandingPage> {
     SearchPage(),
     CreatePost(),
     Chat(),
-    ProfilePage(designation: "Teacher")
+    ProfilePage(uid: getUserId())
   ];
   bool isLoading = false;
   Future<Null> handleSignOut() async {
@@ -66,6 +66,7 @@ class _LandingPageState extends State<LandingPage> {
   @override
   void initState() {
     super.initState();
+
     getUserData();
   }
 

@@ -3,27 +3,33 @@ import 'package:flutter/material.dart';
 import 'DesignationProfilePage/Student.dart';
 import 'DesignationProfilePage/Teacher.dart';
 import 'DesignationProfilePage/Council.dart';
+
 class ProfilePage extends StatefulWidget {
-  final String designation;
-  ProfilePage({@required this.designation});
+  final String uid;
+  ProfilePage({@required this.uid});
   @override
   _ProfilePagestate createState() => _ProfilePagestate();
 }
 
 class _ProfilePagestate extends State<ProfilePage> {
+  String designation = "Student";
+  // TODO : Get user designation by uid from firestore
+  // Assign the value to designation
+  // Access UID by widget.uid
+
   handleFields(desig) {
     switch (desig) {
       case 'Student':
         {
-          return StudentProfile();
+          return StudentProfile(uid: widget.uid);
         }
       case 'Teacher':
         {
-          return TeacherProfile();
+          return TeacherProfile(uid: widget.uid);
         }
       case 'Council':
         {
-          return CouncilProfile();
+          return CouncilProfile(uid: widget.uid);
         }
         break;
       default:
@@ -42,7 +48,7 @@ class _ProfilePagestate extends State<ProfilePage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: handleFields(widget.designation),
+        body: handleFields(designation),
       ),
     );
   }
