@@ -73,16 +73,16 @@ class _LandingPageState extends State<LandingPage> {
           appBar: getAppBar(),
           body: _children[_currentIndex],
           bottomNavigationBar: CurvedNavigationBar(
-            color: Colors.redAccent,
-            buttonBackgroundColor: Colors.black87,
+            color: Color(0xFF000050),
+            buttonBackgroundColor: Colors.white,
             backgroundColor: Colors.white,
             height: 60,
             items: <Widget>[
-              Icon(Icons.home, size: 20, color: Colors.white),
-              Icon(Icons.search, size: 20, color: Colors.white),
-              Icon(Icons.add, size: 20, color: Colors.white),
-              Icon(Icons.chat, size: 20, color: Colors.white),
-              Icon(Icons.person, size: 20, color: Colors.white),
+              Icon(Icons.home, size: 30, color: Color(0xFFFC2542)),
+              Icon(Icons.search, size: 30, color: Color(0xFFFC2542)),
+              Icon(Icons.add, size: 30, color: Color(0xFFFC2542)),
+              Icon(Icons.chat, size: 30, color: Color(0xFFFC2542)),
+              Icon(Icons.person, size: 30, color: Color(0xFFFC2542)),
             ],
             animationDuration: Duration(milliseconds: 200),
             animationCurve: Curves.bounceInOut,
@@ -100,11 +100,11 @@ class _LandingPageState extends State<LandingPage> {
                   accountEmail: Text(email),
                   currentAccountPicture: GestureDetector(
                     child: CircleAvatar(
-                      backgroundColor: Colors.grey,
+                      backgroundColor: Colors.white,
                       backgroundImage: NetworkImage(photoUrl),
                     ),
                   ),
-                  decoration: BoxDecoration(color: Colors.redAccent),
+                  decoration: BoxDecoration(color: Color(0xFF000050)),
                 ),
                 ListTile(
                   title: Text('Profile'),
