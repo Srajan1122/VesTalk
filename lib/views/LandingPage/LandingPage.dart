@@ -11,7 +11,6 @@ import 'package:socail_network_flutter/views/newPost/createPost.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/views/Search/Search.dart';
 import 'dart:async';
-import 'package:socail_network_flutter/services/AsyncStorage.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -21,7 +20,16 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  String name='No name', email='No email', photoUrl='http://noPhoto';
+  static String uid;
+  String name = 'No name', email = 'No email', photoUrl = 'http://noPhoto';
+
+  getUserId() async {
+    await SharedPreferences.getInstance().then((value) => {
+          this.setState(() {
+            uid = value.getString('id');
+          })
+        });
+  }
 
   getUserData() async {
     await SharedPreferences.getInstance().then((value) => {
@@ -39,7 +47,7 @@ class _LandingPageState extends State<LandingPage> {
     SearchPage(),
     CreatePost(),
     Chat(),
-    ProfilePage(uid: getUserId())
+    ProfilePage(uid: uid)
   ];
   bool isLoading = false;
   Future<Null> handleSignOut() async {

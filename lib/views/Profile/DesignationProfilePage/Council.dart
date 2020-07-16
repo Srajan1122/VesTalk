@@ -12,15 +12,14 @@ class CouncilProfile extends StatefulWidget {
 }
 
 class _CouncilProfilePage extends State<CouncilProfile> {
-  String name, email, photoUrl, members, desc;
-  // setState for there variables
+  String displayname, email, photoUrl, members, desc;
+
+  // TODO : Get data from db
 
   getUserData() async {
-    //TODO : Get user data from uid  and setState for there values , not necessary to use shared prefs
-    // Access uid as uid
     await SharedPreferences.getInstance().then((value) => {
           this.setState(() {
-            name = value.getString("displayName");
+            displayname = value.getString("displayName");
             email = value.getString("email");
             photoUrl = value.getString("photoUrl");
           })
@@ -78,7 +77,7 @@ class _CouncilProfilePage extends State<CouncilProfile> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          name,
+                          'devasdlaksj',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20.0),
                         ),

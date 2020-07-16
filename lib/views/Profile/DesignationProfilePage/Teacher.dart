@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:socail_network_flutter/Widgets/widgets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socail_network_flutter/services/Database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:socail_network_flutter/views/ProfileCompletion/details.dart';
-import 'dart:async';
 
 class TeacherProfile extends StatefulWidget {
   final String uid;
@@ -13,26 +12,29 @@ class TeacherProfile extends StatefulWidget {
 }
 
 class _TeacherProfilePage extends State<TeacherProfile> {
-  String name = '';
-  String email = '';
-  String photoUrl = '';
+  static DatabaseMethods databaseMethods = new DatabaseMethods();
+  String name, photoUrl, email, designation, branch, post;
+  // TODO : add details from db
 
   getUserData() async {
-    await SharedPreferences.getInstance().then((value) => {
-          this.setState(() {
-            name = value.getString("displayName");
-            email = value.getString("email");
-            photoUrl = value.getString("photoUrl");
-          })
-        });
+    List<DocumentSnapshot> documents =
+        await databaseMethods.findUserById(widget.uid);
+    setState(() {
+      name = documents[0]['displayName'];
+      email = documents[0]['email'];
+      photoUrl = documents[0]['photoUrl'];
+      designation = documents[0]['designation'];
+    });
+  }
+
+  getData() async {
+    await getUserData();
   }
 
   @override
   void initState() {
     super.initState();
-    print("helllllllo" + email);
-    getUserData();
-    print("helllllllo" + email);
+    getData();
   }
 
   @override
@@ -69,9 +71,7 @@ class _TeacherProfilePage extends State<TeacherProfile> {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                  'https://www.w3schools.com/w3css/img_lights.jpg')),
+                              fit: BoxFit.cover, image: NetworkImage(photoUrl)),
                           border: Border.all(color: Colors.black, width: 2.0)),
                     ),
                   ),
@@ -82,14 +82,14 @@ class _TeacherProfilePage extends State<TeacherProfile> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Pooja Shety',
+                          name,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20.0),
                         ),
                         Row(
                           children: <Widget>[
                             Text(
-                              'Teacher,',
+                              designation,
                               style: TextStyle(fontSize: 14.0),
                             ),
                             Text(
@@ -99,7 +99,7 @@ class _TeacherProfilePage extends State<TeacherProfile> {
                           ],
                         ),
                         Text(
-                          'Pooja.shety@ves.ac.in',
+                          email,
                           style: TextStyle(fontSize: 14.0),
                         ),
                         Text(

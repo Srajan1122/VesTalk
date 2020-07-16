@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:socail_network_flutter/Widgets/widgets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:async';
-
+import 'package:socail_network_flutter/services/Database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:socail_network_flutter/views/ProfileCompletion/details.dart';
 
 class StudentProfile extends StatefulWidget {
@@ -14,32 +12,31 @@ class StudentProfile extends StatefulWidget {
 }
 
 class _StudentProfilePage extends State<StudentProfile> {
-  String name = '';
-  String email = '';
-  String photoUrl = '';
+  static DatabaseMethods databaseMethods = new DatabaseMethods();
+  String name, photoUrl, email, designation, phone_number, branch, year;
+  // TODO : add details from db
 
   getUserData() async {
-    await SharedPreferences.getInstance().then((value) => {
-          this.setState(() {
-            name = value.getString("displayName");
-            email = value.getString("email");
-            photoUrl = value.getString("photoUrl");
-          })
-        });
+    List<DocumentSnapshot> documents =
+        await databaseMethods.findUserById(widget.uid);
+    setState(() {
+      name = documents[0]['displayName'];
+      email = documents[0]['email'];
+      photoUrl = documents[0]['photoUrl'] ?? 'http://NoUrl';
+      designation = documents[0]['designation'];
+    });
+    print(widget.uid);
   }
 
   @override
   void initState() {
     super.initState();
-    print("helllllllo" + email);
     getUserData();
-    print("helllllllo" + email);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: GetAppBar(),
       body: new Container(
         color: Colors.white,
         child: ListView(children: <Widget>[
@@ -71,8 +68,9 @@ class _StudentProfilePage extends State<StudentProfile> {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: NetworkImage(
-                                  'https://www.w3schools.com/w3css/img_lights.jpg')),
+                              image: (photoUrl == null
+                                  ? AssetImage('images/LoginPage/google.png')
+                                  : NetworkImage(photoUrl))),
                           border: Border.all(color: Colors.black, width: 2.0)),
                     ),
                   ),
@@ -83,16 +81,16 @@ class _StudentProfilePage extends State<StudentProfile> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Aniket Gupta',
+                          name,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20.0),
                         ),
                         Text(
-                          '2018.aniket.gupta@ves.ac.in',
+                          email,
                           style: TextStyle(fontSize: 14.0),
                         ),
                         Text(
-                          'Student',
+                          designation,
                           style: TextStyle(fontSize: 14.0),
                         ),
                         Row(
@@ -130,45 +128,6 @@ class _StudentProfilePage extends State<StudentProfile> {
                 ],
               ),
             ),
-            Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: new EdgeInsets.fromLTRB(10.0, 2.0, 10.0, 2.0),
-                    child: Text(
-                      'Description:',
-                      style: TextStyle(fontSize: 15.0),
-                    ),
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 100.0,
-                    child: Container(
-                      margin: new EdgeInsets.fromLTRB(7.0, 7.0, 7.0, 7.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.0),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            offset: Offset(0.0, 1.0), //(x,y)
-                            blurRadius: 6.0,
-                          ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: new EdgeInsets.fromLTRB(10.0, 2.0, 10.0, 2.0),
-                        child: Text(
-                          'Hello everyone I am intrested in AI and ML please contact me for startup',
-                          style: TextStyle(fontSize: 15.0),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            )
           ])
         ]),
       ),
