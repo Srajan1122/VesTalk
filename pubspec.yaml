@@ -29,6 +29,10 @@ dependencies:
   font_awesome_flutter: ^8.8.1
   intro_views_flutter: "^2.8.1"
   curved_navigation_bar: ^0.3.3
+  flutter_speed_dial: ^1.2.5
+  image_picker: ^0.6.7+4
+  video_player: ^0.10.11+2
+  chewie: ^0.9.10
 
   flutter:
     sdk: flutter
