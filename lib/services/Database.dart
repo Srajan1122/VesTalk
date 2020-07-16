@@ -154,4 +154,9 @@ class DatabaseMethods {
         print('somthing went wrong while uploding file');
       }
   }
+
+  Future getAllUserDocumentSnapshot() async {
+      QuerySnapshot querySnapshot = await Firestore.instance.collection("user").getDocuments();
+      return querySnapshot.documents;
+  }
 }
