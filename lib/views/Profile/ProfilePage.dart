@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 
 class ProfilePage extends StatefulWidget {
-  String uid;
+  final String uid;
   ProfilePage({@required this.uid});
   @override
   _ProfilePagestate createState() => _ProfilePagestate();
@@ -17,12 +17,12 @@ class _ProfilePagestate extends State<ProfilePage> {
   static DatabaseMethods databaseMethods = new DatabaseMethods();
   String designation;
   getUserData() async {
+    print('User id in profile: ${widget.uid}');
     List<DocumentSnapshot> documents =
         await databaseMethods.findUserById(widget.uid);
     setState(() {
       designation = documents[0]['designation'];
     });
-    print('Devdatta : ' + designation);
   }
   // TODO : Get user designation by uid from firestore
 
@@ -43,7 +43,9 @@ class _ProfilePagestate extends State<ProfilePage> {
         break;
       default:
         {
-          return Text('Something went wrong');
+          return Center(
+            child: Container()
+          );
         }
     }
   }

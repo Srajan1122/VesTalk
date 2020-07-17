@@ -34,6 +34,7 @@ class _CreatePostState extends State<CreatePost> {
     await getUserId();
     if (description == null) {
       // TODO : Add alert
+      _showDialog();
       Fluttertoast.showToast(msg: "Please fill post content");
     } else {
       // TODO : UI Customise alert and change buttons if needed
@@ -46,6 +47,27 @@ class _CreatePostState extends State<CreatePost> {
       postController.clear();
       Fluttertoast.showToast(msg: "Post Published");
     }
+  }
+
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Warning !", textAlign: TextAlign.center,),
+          content: new Text("Please enter description"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close", style: TextStyle(color: Color(0xFFFC2542)),),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -74,30 +96,48 @@ class _CreatePostState extends State<CreatePost> {
                   children: [
                     Center(
                         child: Text('Choose from the following!',
-                            style: TextStyle(fontWeight: FontWeight.bold))),
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
                     SizedBox(
                       height: 10,
                     ),
                     Center(
                       // width: 320.0,
-                      child: RaisedButton(
+                      child: FlatButton(
                         onPressed: openCamera,
-                        child: Text(
-                          "Open Camera",
-                          style: TextStyle(color: Colors.white),
+                        textColor: Colors.white,
+                        color: Colors.transparent,
+                        padding: const EdgeInsets.all(0.0),
+                        splashColor: Color(0xFFFC2542),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            color: Color(0xFFFC2542),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          padding: const EdgeInsets.all(10.0),
+                          child:
+                          const Text('Open Camera', style: TextStyle(fontSize: 15)),
                         ),
-                        color: const Color(0xFF1BC0C5),
                       ),
                     ),
                     Center(
                       // width: 320.0,
-                      child: RaisedButton(
+                      child: FlatButton(
                         onPressed: openGallery,
-                        child: Text(
-                          "Open Gallery",
-                          style: TextStyle(color: Colors.white),
+                        textColor: Colors.white,
+                        color: Colors.transparent,
+                        padding: const EdgeInsets.all(0.0),
+                        splashColor: Color(0xFFFC2542),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            color: Color(0xFFFC2542),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          padding: const EdgeInsets.all(10.0),
+                          child:
+                          const Text('Open Gallery', style: TextStyle(fontSize: 15)),
                         ),
-                        color: const Color(0xFF1BC0C5),
                       ),
                     )
                   ],
@@ -252,36 +292,52 @@ class _CreatePostState extends State<CreatePost> {
                           ],
                         )
                       : Container())),
-              OutlineButton(
+              FlatButton(
                   onPressed: handlePress,
-                  child: Text('Publish Post'),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)))
+                textColor: Colors.white,
+                color: Colors.transparent,
+                padding: const EdgeInsets.all(0.0),
+                splashColor: Color(0xFFFC2542),
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    color: Color(0xFFFC2542),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  padding: const EdgeInsets.all(10.0),
+                    child:
+                    const Text('Publish Post', style: TextStyle(fontSize: 20)),
+                  ),
+//                  color: Color(0xFF000050),
+//                  child: Text('Publish Post', style: TextStyle(color: Color(0xFFFC2542)),),
+//                  shape: RoundedRectangleBorder(
+//                      borderRadius: BorderRadius.circular(30)))
+              ),
             ],
           ),
         ]),
         floatingActionButton: SpeedDial(
           animatedIcon: AnimatedIcons.menu_close,
           animatedIconTheme: IconThemeData(size: 22),
-          backgroundColor: Colors.lightBlueAccent,
+          backgroundColor: Color(0xFFFC2542),
           visible: true,
           curve: Curves.bounceIn,
           children: [
             // FAB 1
             SpeedDialChild(
                 child: Icon(Icons.image),
-                backgroundColor: Colors.lightBlueAccent,
+                backgroundColor: Color(0xFFFC2542),
                 onTap: _displayOptionsDialog,
                 label: 'Add Image',
                 labelStyle: TextStyle(
                     fontWeight: FontWeight.w500,
                     color: Colors.white,
                     fontSize: 16.0),
-                labelBackgroundColor: Colors.lightBlueAccent),
+                labelBackgroundColor: Color(0xFF000050)),
             // FAB 2
             SpeedDialChild(
                 child: Icon(Icons.video_call),
-                backgroundColor: Colors.lightBlueAccent,
+                backgroundColor: Color(0xFFFC2542),
                 onTap: () => {
                       setState(() {
                         isVideo = true;
@@ -293,7 +349,7 @@ class _CreatePostState extends State<CreatePost> {
                     fontWeight: FontWeight.w500,
                     color: Colors.white,
                     fontSize: 16.0),
-                labelBackgroundColor: Colors.lightBlueAccent)
+                labelBackgroundColor: Color(0xFF000050))
           ],
         ));
   }

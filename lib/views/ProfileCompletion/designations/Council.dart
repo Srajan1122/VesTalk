@@ -24,11 +24,33 @@ class _CouncilState extends State<Council> {
 
   bool checkValidation() {
     if (members == null || displayName == null || description == null) {
+      _showDialog();
       Fluttertoast.showToast(msg: "Please enter all the fields");
       return false;
     } else {
       return true;
     }
+  }
+
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Warning !", textAlign: TextAlign.center,),
+          content: new Text("Please enter all the fields"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close", style: TextStyle(color: Color(0xFFFC2542)),),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   onSubmit(context) async {
@@ -50,7 +72,7 @@ class _CouncilState extends State<Council> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/ProfileComp/ProfileCompletion.png'),
+            image: AssetImage('images/ProfileComp/Profile.png'),
             fit: BoxFit.fill,
           ),
         ),
