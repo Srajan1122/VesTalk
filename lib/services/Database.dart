@@ -267,14 +267,15 @@ class DatabaseMethods {
 
       await Firestore.instance.collection('posts').document().setData({
         'id': id,
+        'isVideo': isVideo,
         'date': dateFormat,
         'time': timeFormat,
         'weekday': weekday,
         'description': description,
         'fileUrl': fileUrl,
         'displayName': userData.documents[0].data['displayName'],
-        'photoUrl': userData.documents[0].data['displayName'],
-        'designation': userData.documents[0].data['displayName'],
+        'photoUrl': userData.documents[0].data['photoUrl'],
+        'designation': userData.documents[0].data['designation'],
       });
     } catch (e) {
       print('id--> $id');
