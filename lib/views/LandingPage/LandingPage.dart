@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:socail_network_flutter/Widgets/widgets.dart';
 import 'package:socail_network_flutter/main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -79,7 +80,7 @@ class _LandingPageState extends State<LandingPage> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-//          appBar: getAppBar(),
+          appBar: getAppBar(),
           body: _children[_currentIndex],
           bottomNavigationBar: CurvedNavigationBar(
             color: Color(0xFF000050),
