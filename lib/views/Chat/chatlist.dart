@@ -1,23 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/Chat/MassageMainPage.dart';
 class ChatUserList extends StatefulWidget {
-  String displayName;
-  String email;
-  String photoUrl;
-  String designation;
+  final String displayName;
+  final String email;
+  final String photoUrl;
+  final String designation;
   ChatUserList({@required this.displayName,this.email,this.photoUrl,this.designation});
   @override
   _ChatUserListState createState() => _ChatUserListState();
+
 }
 
 class _ChatUserListState extends State<ChatUserList> {
+
+
+  DatabaseMethods _databaseMethods = new DatabaseMethods();
+  String myName="";
+
+  createChatroomAndstartchat(String userName){
+    if(userName != myName){
+      List<String> users = [userName, myName];
+      String chatRoomId = getChatRoomId(userName, myName);
+      Map<String,dynamic> chatRoomMap ={
+        "users" :users,
+        "chatroomId":chatRoomId
+      };
+      _databaseMethods.createChatRoom(chatRoomId, chatRoomMap);
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context) => MassagePage(chatRoomId,widget.displayName,widget.photoUrl)
+      ));
+    }
+    else{
+      print("Same user");
+    }
+
+  }
+  getUserData() async {
+    await SharedPreferences.getInstance().then((value) => {
+      this.setState(() {
+        myName = (value.getString("displayName") ?? '');
+      })
+    });
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context){
-          return MassagePage();
-        }));
+        createChatroomAndstartchat(widget.displayName);
         },
       child: Container(
         color: Colors.grey.shade50,
@@ -48,5 +87,13 @@ class _ChatUserListState extends State<ChatUserList> {
         ),
       ),
     );
+  }
+}
+getChatRoomId(String a,String b){
+  if(a.substring(0,1).codeUnitAt(0)> b.substring(0,1).codeUnitAt(0)){
+    return"$b\_$a";
+  }
+  else{
+    return "$a\_$b";
   }
 }

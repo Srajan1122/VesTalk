@@ -9,7 +9,7 @@ Widget getAppBar() {
   );
 }
 
-Widget getChatAppBar(context){
+Widget getChatAppBar(context,name,photourl){
   return AppBar(
     elevation: 10,
     automaticallyImplyLeading: false,
@@ -27,7 +27,7 @@ Widget getChatAppBar(context){
             ),
             SizedBox(width: 2,),
             CircleAvatar(
-              backgroundImage: NetworkImage('https://www.w3schools.com/w3css/img_lights.jpg'),
+              backgroundImage: NetworkImage(photourl),
               maxRadius: 20,
             ),
             SizedBox(width: 6,),
@@ -37,7 +37,7 @@ Widget getChatAppBar(context){
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(width: 10,),
-                  Text("Hello anik",style: TextStyle(fontWeight: FontWeight.w600),),
+                  Text(name,style: TextStyle(fontWeight: FontWeight.w600),),
                 ],
               ),
             ),

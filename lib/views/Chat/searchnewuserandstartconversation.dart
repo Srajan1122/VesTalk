@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/Chat/chatlist.dart';
 
@@ -13,14 +12,12 @@ class ChatSearchPage extends StatefulWidget {
 
 class _ChatSearchPageState extends State<ChatSearchPage> {
   DatabaseMethods _databaseMethods = new DatabaseMethods();
-  String myName="";
 
   Future _userDocumentSnapshots;
 
   @override
   void initState() {
     super.initState();
-    getUserData();
     _userDocumentSnapshots = _databaseMethods.getAllUserDocumentSnapshot();
   }
 
@@ -29,21 +26,6 @@ class _ChatSearchPageState extends State<ChatSearchPage> {
       _userDocumentSnapshots = _databaseMethods.getAllUserDocumentSnapshot();
     });
   }
-  getUserData() async {
-    await SharedPreferences.getInstance().then((value) => {
-      this.setState(() {
-        myName = (value.getString("displayName") ?? '');
-      })
-    });
-  }
-//  createChatroomAndstartchat(String userName){
-//    List<String> users = [userName, myName];
-//    _databaseMethods.createChatRoom(chartRoomId, chatRoomMap)
-//
-//
-//
-//
-//  }
 
   @override
   Widget build(BuildContext context) {
@@ -155,3 +137,4 @@ class UserSearch extends SearchDelegate<String> {
         });
   }
 }
+

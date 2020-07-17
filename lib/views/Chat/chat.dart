@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:socail_network_flutter/services/Database.dart';
+import 'package:socail_network_flutter/services/constant.dart';
 import 'package:socail_network_flutter/views/Chat/chatlist.dart';
 import 'package:socail_network_flutter/views/Chat/searchnewuserandstartconversation.dart';
 
@@ -8,6 +10,23 @@ class Chat extends StatefulWidget {
 }
 
 class _ChatState extends State<Chat> {
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+  Stream chatRoomList;
+
+  @override
+  void initState()  {
+    super.initState();
+
+    databaseMethods.getChaRooms(Constants.myName).then((value){
+      setState(() {
+        chatRoomList = value;
+      });
+    });
+
+   
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,13 +56,15 @@ class _ChatState extends State<Chat> {
                             return ChatSearchPage();
                           }));
                         },
-                        child:  Row(
-                          children: <Widget>[
-                            Icon(Icons.add,color: Colors.pink,size: 20,),
-                            SizedBox(width: 20,),
-                            Text("New",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),)
-                          ],
-                        ),
+                        child: Container(
+                          child:  Row(
+                            children: <Widget>[
+                              Icon(Icons.add,color: Colors.pink,size: 20,),
+                              SizedBox(width: 20,),
+                              Text("New",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),)
+                            ],
+                          ),
+                        )
                       ),
                     )
                   ],
@@ -71,14 +92,19 @@ class _ChatState extends State<Chat> {
                 ),
               ),
             ),
-            ListView.builder(
-              itemCount: 15,
-              shrinkWrap: true ,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index){
-                return ChatUserList(displayName:"Aniket",email: "Aniket.gupta@ves.ac.in",photoUrl: 'https://www.w3schools.com/w3css/img_lights.jpg',designation: "Student",) ;
+            StreamBuilder(
+              stream: chatRoomList,
+              builder: (context,snapshot){
+                return snapshot.hasData? ListView.builder(
+                  itemCount: snapshot.data.documents.length,
+                  shrinkWrap: true ,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index){
+                  return ChatUserList(displayName:snapshot.data.documents[index].data["chatroomId"]
+                    .toString().replaceAll("_", "").replaceAll(Constants.myName, "").toUpperCase(),
+                    email: "Aniket.gupta@ves.ac.in",photoUrl: 'https://www.w3schools.com/w3css/img_lights.jpg',designation: "Student",) ;},
+                ) : Container();
               },
-
             )
           ],
         ),
