@@ -50,7 +50,7 @@ class _CouncilState extends State<Council> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/ProfileComp/ProfileCompletion.png'),
+            image: AssetImage('images/ProfileComp/Profile.png'),
             fit: BoxFit.fill,
           ),
         ),

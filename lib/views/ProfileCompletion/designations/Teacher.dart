@@ -49,7 +49,7 @@ class _TeacherState extends State<Teacher> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/ProfileComp/ProfileCompletion.png'),
+            image: AssetImage('images/ProfileComp/Profile.png'),
             fit: BoxFit.fill,
           ),
         ),

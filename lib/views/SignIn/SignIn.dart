@@ -8,7 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/LandingPage/LandingPage.dart';
-import 'package:socail_network_flutter/views/ProfileCompletion/designation.dart';
+import 'package:socail_network_flutter/views/Onboarding/onBoarding.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -95,7 +95,7 @@ class _SignInState extends State<SignIn> {
        }
        else{
          Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Designation()));
+          context, MaterialPageRoute(builder: (context) => OnBoarding()));
        }
 
     } else {
