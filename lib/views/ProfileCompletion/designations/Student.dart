@@ -16,22 +16,22 @@ class _StudentState extends State<Student> {
 
   getUserId() async {
     await SharedPreferences.getInstance().then((value) => {
-      this.setState(() {
-        id = value.getString('id');
-      })
-    });
+          this.setState(() {
+            id = value.getString('id');
+          })
+        });
   }
 
   bool checkValidation() {
-    if(phoneNumber == null){
-      Fluttertoast.showToast(msg: "Please enter all the fields" );
+    if (phoneNumber == null) {
+      Fluttertoast.showToast(msg: "Please enter all the fields");
     }
     if (phoneNumber.length != 10) {
-      Fluttertoast.showToast(msg: "Please enter a valid number" );
+      Fluttertoast.showToast(msg: "Please enter a valid number");
       return false;
     }
     if (branch == null || batch == null || year == null) {
-      Fluttertoast.showToast(msg: "Please enter all the fields" );
+      Fluttertoast.showToast(msg: "Please enter all the fields");
       return false;
     }
 
@@ -39,10 +39,9 @@ class _StudentState extends State<Student> {
   }
 
   onSubmit(context) async {
-    if(!checkValidation()){
+    if (!checkValidation()) {
       print('not good');
-    }
-    else{
+    } else {
       print('good to go');
       await getUserId();
       databaseMethods.uploadStudentInfo(id, phoneNumber, branch, batch, year);
@@ -82,7 +81,10 @@ class _StudentState extends State<Student> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
                   child: Center(
-                    child: Text('Student Details :', style: TextStyle(fontSize: 20),),
+                    child: Text(
+                      'Student Details :',
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
                 ),
                 Padding(
@@ -145,8 +147,12 @@ class _StudentState extends State<Student> {
                         year = newValue;
                       });
                     },
-                    items: <String>['1st Year', '2nd Year', '3rd Year', '4th Year']
-                        .map<DropdownMenuItem<String>>((String value) {
+                    items: <String>[
+                      '1st Year',
+                      '2nd Year',
+                      '3rd Year',
+                      '4th Year'
+                    ].map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -187,7 +193,7 @@ class _StudentState extends State<Student> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-            onSubmit(context);
+          onSubmit(context);
         },
         child: FaIcon(FontAwesomeIcons.arrowRight),
         backgroundColor: Color(0xFF000050),

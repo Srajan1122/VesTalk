@@ -16,10 +16,10 @@ class _TeacherState extends State<Teacher> {
 
   getUserId() async {
     await SharedPreferences.getInstance().then((value) => {
-      this.setState(() {
-        id = value.getString('id');
-      })
-    });
+          this.setState(() {
+            id = value.getString('id');
+          })
+        });
   }
 
   bool checkValidation() {
@@ -31,10 +31,9 @@ class _TeacherState extends State<Teacher> {
   }
 
   onSubmit(context) async {
-    if(!checkValidation()){
+    if (!checkValidation()) {
       print('not good');
-    }
-    else{
+    } else {
       print('good to go');
       await getUserId();
       databaseMethods.uploadTeacherInfo(id, post, branch);
@@ -74,7 +73,10 @@ class _TeacherState extends State<Teacher> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
                   child: Center(
-                    child: Text('Teacher Details', style: TextStyle(fontSize: 20),),
+                    child: Text(
+                      'Teacher Details',
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
                 ),
                 Padding(
@@ -106,7 +108,10 @@ class _TeacherState extends State<Teacher> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: Center(
-                    child: Text('Designation : ', style: TextStyle(fontSize: 20),),
+                    child: Text(
+                      'Designation : ',
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
                 ),
                 Padding(
@@ -132,7 +137,7 @@ class _TeacherState extends State<Teacher> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-            onSubmit(context);
+          onSubmit(context);
         },
         child: FaIcon(FontAwesomeIcons.arrowRight),
         backgroundColor: Colors.redAccent,

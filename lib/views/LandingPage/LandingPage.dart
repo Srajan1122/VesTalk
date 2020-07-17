@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:socail_network_flutter/Widgets/widgets.dart';
 import 'package:socail_network_flutter/main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:socail_network_flutter/views/Home/homePage.dart';
-import 'package:socail_network_flutter/views/Profile/profile.dart';
+import 'package:socail_network_flutter/views/Profile/ProfilePage.dart';
 import 'package:socail_network_flutter/views/Chat/chat.dart';
 import 'package:socail_network_flutter/views/newPost/createPost.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,7 +19,16 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  String name='No name', email='No email', photoUrl='http://noPhoto';
+  static String uid;
+  String name = 'No name', email = 'No email', photoUrl = 'http://noPhoto';
+
+  getUserId() async {
+    await SharedPreferences.getInstance().then((value) => {
+          this.setState(() {
+            uid = value.getString('id');
+          })
+        });
+  }
 
   getUserData() async {
     await SharedPreferences.getInstance().then((value) => {
@@ -38,7 +46,7 @@ class _LandingPageState extends State<LandingPage> {
     SearchPage(),
     CreatePost(),
     Chat(),
-    ProfilePage()
+    ProfilePage(uid: uid)
   ];
   bool isLoading = false;
   Future<Null> handleSignOut() async {
@@ -62,6 +70,7 @@ class _LandingPageState extends State<LandingPage> {
   @override
   void initState() {
     super.initState();
+
     getUserData();
   }
 
@@ -70,7 +79,7 @@ class _LandingPageState extends State<LandingPage> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          appBar: getAppBar(),
+//          appBar: getAppBar(),
           body: _children[_currentIndex],
           bottomNavigationBar: CurvedNavigationBar(
             color: Color(0xFF000050),

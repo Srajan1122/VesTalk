@@ -1,6 +1,6 @@
 # social_network_flutter
 
-A new Flutter project.
+A new Flutter project by aniket.
 
 ## Getting Started
 
