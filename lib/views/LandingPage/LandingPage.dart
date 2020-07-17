@@ -31,6 +31,8 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   getUserData() async {
+    await getUserId();
+    print("User id : $uid");
     await SharedPreferences.getInstance().then((value) => {
           this.setState(() {
             name = (value.getString("displayName") ?? 'No name');
@@ -40,15 +42,23 @@ class _LandingPageState extends State<LandingPage> {
         });
   }
 
+  listOfPage(index, id) {
+    if (index == 0) {
+      return HomePage();
+    } else if (index == 1) {
+      return SearchPage();
+    } else if (index == 2) {
+      return CreatePost();
+    } else if (index == 3) {
+      return Chat();
+    } else if (index == 4) {
+      return ProfilePage(uid: id);
+    }
+  }
+
   int _currentIndex = 0;
-  final List<Widget> _children = [
-    HomePage(),
-    SearchPage(),
-    CreatePost(),
-    Chat(),
-    ProfilePage(uid: uid)
-  ];
   bool isLoading = false;
+
   Future<Null> handleSignOut() async {
     setState(() {
       isLoading = true;
@@ -70,7 +80,6 @@ class _LandingPageState extends State<LandingPage> {
   @override
   void initState() {
     super.initState();
-
     getUserData();
   }
 
@@ -80,7 +89,7 @@ class _LandingPageState extends State<LandingPage> {
         debugShowCheckedModeBanner: false,
         home: Scaffold(
 //          appBar: getAppBar(),
-          body: _children[_currentIndex],
+          body: listOfPage(_currentIndex, uid),
           bottomNavigationBar: CurvedNavigationBar(
             color: Color(0xFF000050),
             buttonBackgroundColor: Colors.white,
@@ -95,7 +104,10 @@ class _LandingPageState extends State<LandingPage> {
             ],
             animationDuration: Duration(milliseconds: 200),
             animationCurve: Curves.bounceInOut,
-            onTap: (index) {
+            onTap: (index) async {
+              if (uid == null) {
+                await getUserId();
+              }
               setState(() {
                 _currentIndex = index;
               });
