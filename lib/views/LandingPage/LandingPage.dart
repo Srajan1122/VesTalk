@@ -22,7 +22,6 @@ class _LandingPageState extends State<LandingPage> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   String name, email, photoUrl;
-  String state="Student";
 
   getUserData() async {
     await SharedPreferences.getInstance().then((value) => {
