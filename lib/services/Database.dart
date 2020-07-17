@@ -58,8 +58,8 @@ class DatabaseMethods {
           .where('id', isEqualTo: id)
           .getDocuments();
 
-      final DocumentSnapshot teacherQuery = await Firestore.instance
-          .collection('teacher').document(id).get();
+      final DocumentSnapshot teacherQuery =
+          await Firestore.instance.collection('teacher').document(id).get();
 
       teacherInfo = {
         'name': userQuery.documents[0]['displayName'],
@@ -70,7 +70,7 @@ class DatabaseMethods {
         'post': teacherQuery.data['post']
       };
       print(teacherInfo);
-    }  catch (e) {
+    } catch (e) {
       print('Error in getting teacherInfo for id : $id');
     }
 
@@ -95,8 +95,8 @@ class DatabaseMethods {
           .where('id', isEqualTo: id)
           .getDocuments();
 
-      final DocumentSnapshot studentQuery = await Firestore.instance
-          .collection('student').document(id).get();
+      final DocumentSnapshot studentQuery =
+          await Firestore.instance.collection('student').document(id).get();
       studentInfo = {
         'name': userQuery.documents[0]['displayName'],
         'photoUrl': userQuery.documents[0]['photoUrl'],
@@ -132,8 +132,8 @@ class DatabaseMethods {
           .where('id', isEqualTo: id)
           .getDocuments();
 
-      final DocumentSnapshot councilQuery = await Firestore.instance
-          .collection('council').document(id).get();
+      final DocumentSnapshot councilQuery =
+          await Firestore.instance.collection('council').document(id).get();
 
       councilInfo = {
         'name': userQuery.documents[0]['displayName'],
@@ -145,7 +145,7 @@ class DatabaseMethods {
         'members': councilQuery.data['members'],
       };
       print(councilInfo);
-    }catch (e) {
+    } catch (e) {
       print('Error in getting CouncilInfo for id : $id');
     }
 
@@ -197,9 +197,11 @@ class DatabaseMethods {
     final String date = now.day.toString();
     final String month = now.month.toString();
     final int year = now.year;
+    final int weekday = now.weekday;
 
     final String today = ('$date-$month');
-    final String time = ('$date-$month-$year $hour:$minute');
+    final String dateFormat = ('$date-$month-$year');
+    final String timeFormat = ('$hour:$minute');
     final String storageId = (millSeconds.toString() + id);
 
     String fileUrl;
@@ -228,18 +230,28 @@ class DatabaseMethods {
         });
       }
 
+      QuerySnapshot userData = await Firestore.instance
+          .collection('user')
+          .where('id', isEqualTo: id)
+          .getDocuments();
+
       await Firestore.instance.collection('posts').document().setData({
         'id': id,
-        'timestamp': time,
+        'date': dateFormat,
+        'time': timeFormat,
+        'weekday': weekday,
         'description': description,
         'fileUrl': fileUrl,
+        'displayName': userData.documents[0].data['displayName'],
+        'photoUrl': userData.documents[0].data['displayName'],
+        'designation': userData.documents[0].data['displayName'],
       });
     } catch (e) {
       print('id--> $id');
       print('description--> $description');
       print('file--> $file');
       print('isVideo--> $isVideo');
-      print('somthing went wrong while uploding file');
+      print('something went wrong while uploading file');
     }
   }
 
