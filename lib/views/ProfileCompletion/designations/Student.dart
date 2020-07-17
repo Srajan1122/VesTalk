@@ -24,18 +24,63 @@ class _StudentState extends State<Student> {
 
   bool checkValidation() {
     if (phoneNumber == null) {
+      _showDialog();
       Fluttertoast.showToast(msg: "Please enter all the fields");
     }
     if (phoneNumber.length != 10) {
+      _validNumber();
       Fluttertoast.showToast(msg: "Please enter a valid number");
       return false;
     }
     if (branch == null || batch == null || year == null) {
+      _showDialog();
       Fluttertoast.showToast(msg: "Please enter all the fields");
       return false;
     }
 
     return true;
+  }
+
+  void _validNumber() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Warning !", textAlign: TextAlign.center,),
+          content: new Text("Please enter a valid number"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close", style: TextStyle(color: Color(0xFFFC2542)),),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Warning !", textAlign: TextAlign.center,),
+          content: new Text("Please enter all the fields"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close", style: TextStyle(color: Color(0xFFFC2542)),),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   onSubmit(context) async {
@@ -56,7 +101,7 @@ class _StudentState extends State<Student> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/ProfileComp/ProfileCompletion.png'),
+            image: AssetImage('images/ProfileComp/Profile.png'),
             fit: BoxFit.fill,
           ),
         ),
