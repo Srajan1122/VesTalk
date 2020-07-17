@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,10 +29,10 @@ class _SignInState extends State<SignIn> {
 
   getUserId() async {
     await SharedPreferences.getInstance().then((value) => {
-      this.setState(() {
-        id = value.getString('id');
-      })
-    });
+          this.setState(() {
+            id = value.getString('id');
+          })
+        });
   }
 
   void isSignIn() async {
@@ -50,34 +51,54 @@ class _SignInState extends State<SignIn> {
   }
 
   Future<FirebaseUser> handleSignIn() async {
-    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-    AuthCredential credential = GoogleAuthProvider.getCredential(
-        idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
-    final FirebaseUser firebaseUser =
-        (await firebaseAuth.signInWithCredential(credential)).user;
+    GoogleSignInAccount googleUser;
+    GoogleSignInAuthentication googleAuth;
+    AuthCredential credential;
+    FirebaseUser firebaseUser;
+
+    try {
+      googleUser = await _googleSignIn.signIn();
+      googleAuth = await googleUser.authentication;
+      credential = GoogleAuthProvider.getCredential(
+          idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
+      firebaseUser = (await firebaseAuth.signInWithCredential(credential)).user;
+    } catch (e) {
+      print('This is error in google');
+    }
 
     if (firebaseUser != null) {
-      List<DocumentSnapshot> documents =
-          await databaseMethods.findUserById(firebaseUser.uid);
-      if (documents.length == 0) {
-        await databaseMethods.uploadUserData(
-            firebaseUser.uid,
-            firebaseUser.displayName,
-            firebaseUser.photoUrl,
-            firebaseUser.email);
+      try {
+        List<DocumentSnapshot> documents =
+            await databaseMethods.findUserById(firebaseUser.uid);
+        if (documents.length == 0) {
+          await databaseMethods.uploadUserData(
+              firebaseUser.uid,
+              firebaseUser.displayName,
+              firebaseUser.photoUrl,
+              firebaseUser.email);
 
-        currentUser = firebaseUser;
-        await prefs.setString('id', currentUser.uid);
-        await prefs.setString('displayName', currentUser.displayName);
-        await prefs.setString('email', currentUser.email);
-        await prefs.setString('photoUrl', currentUser.photoUrl);
-      } else {
-        await prefs.setString('id', documents[0]['id']);
-        await prefs.setString('displayName', documents[0]['displayName']);
-        await prefs.setString('email', documents[0]['email']);
-        await prefs.setString('photoUrl', documents[0]['photoUrl']);
+          currentUser = firebaseUser;
+          await prefs.setString('id', currentUser.uid);
+          await prefs.setString('displayName', currentUser.displayName);
+          await prefs.setString('email', currentUser.email);
+          await prefs.setString('photoUrl', currentUser.photoUrl);
+        } else {
+          await prefs.setString('id', documents[0]['id']);
+          await prefs.setString('displayName', documents[0]['displayName']);
+          await prefs.setString('email', documents[0]['email']);
+          await prefs.setString('photoUrl', documents[0]['photoUrl']);
+        }
+      } on PlatformException catch (e) {
+        FirebaseUser user = await FirebaseAuth.instance.currentUser();
+        user.delete();
+        firebaseAuth.signOut();
+        await _googleSignIn.disconnect();
+        await _googleSignIn.signOut();
+
+        Fluttertoast.showToast(msg: "Sign in only with VES ID");
+        return firebaseUser;
+      } catch (e) {
+        Fluttertoast.showToast(msg: "Something went wrong try again later");
       }
       Fluttertoast.showToast(msg: "Sign In success");
       setState(() {
@@ -89,15 +110,13 @@ class _SignInState extends State<SignIn> {
         return await databaseMethods.checkIfInitialDataIsFilled(id);
       }
 
-       if(await check()){
+      if (await check()) {
         Navigator.push(
-           context, MaterialPageRoute(builder: (context) => LandingPage()));
-       }
-       else{
-         Navigator.push(
-          context, MaterialPageRoute(builder: (context) => OnBoarding()));
-       }
-
+            context, MaterialPageRoute(builder: (context) => LandingPage()));
+      } else {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => OnBoarding()));
+      }
     } else {
       Fluttertoast.showToast(msg: "Sign In Failed");
       setState(() {
@@ -145,7 +164,13 @@ class _SignInState extends State<SignIn> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
                   child: RaisedButton.icon(
-                    onPressed: handleSignIn,
+                    onPressed: () {
+                      try {
+                        handleSignIn();
+                      } catch (e) {
+                        print('handle sign in error');
+                      }
+                    },
                     icon: FaIcon(FontAwesomeIcons.google),
                     label: Text('Sign in with Google'),
                     color: Colors.redAccent,
