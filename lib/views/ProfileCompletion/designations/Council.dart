@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/LandingPage/LandingPage.dart';
 
 class Council extends StatefulWidget {
@@ -8,95 +11,134 @@ class Council extends StatefulWidget {
 }
 
 class _CouncilState extends State<Council> {
-  String displayName, description, members;
+  String id, displayName, description, members;
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+
+  getUserId() async {
+    await SharedPreferences.getInstance().then((value) => {
+      this.setState(() {
+        id = value.getString('id');
+      })
+    });
+  }
+
   bool checkValidation() {
     if (members == null || displayName == null || description == null) {
+      Fluttertoast.showToast(msg: "Please enter all the fields");
       return false;
     } else {
       return true;
     }
   }
 
+  onSubmit(context) async {
+    if(!checkValidation()){
+      print('not good');
+    }
+    else{
+      print('good to go');
+      await getUserId();
+      databaseMethods.uploadCouncilInfo(id, displayName, description, members);
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => LandingPage()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(40, 50, 40, 0),
-            child: Center(
-              child: Text('Council Details'),
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('images/ProfileComp/ProfileCompletion.png'),
+            fit: BoxFit.fill,
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
-            child: Container(
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Display name',
+        ),
+        child: Center(
+          child: Container(
+            width: 300,
+            height: 500,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.rectangle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black,
+                  blurRadius: 5.0,
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    displayName = value;
-                  });
-                },
-              ),
+              ],
+              borderRadius: BorderRadius.circular(10),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
-            child: Container(
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'No. of Members',
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                  child: Center(
+                    child: Text('Council Details', style: TextStyle(fontSize: 20),),
+                  ),
                 ),
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  setState(() {
-                    members = value;
-                  });
-                },
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
-            child: Container(
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Description',
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
+                  child: Container(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Display name',
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          displayName = value;
+                        });
+                      },
+                    ),
+                  ),
                 ),
-                maxLines: 9,
-                onChanged: (value) {
-                  setState(() {
-                    description = value;
-                  });
-                },
-              ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
+                  child: Container(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'No. of Members',
+                      ),
+                      keyboardType: TextInputType.number,
+                      onChanged: (value) {
+                        setState(() {
+                          members = value;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
+                  child: Container(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Description',
+                      ),
+                      maxLines: 9,
+                      onChanged: (value) {
+                        setState(() {
+                          description = value;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (checkValidation()) {
-            print('good to go');
-            print(displayName + ' ' + members + '\n' + description);
-
-            // TODO : Add Council function for Firebase
-
-            Navigator.of(context)
-                .pushReplacement(MaterialPageRoute(builder: (context) => LandingPage()));
-          } else {
-            print('not good');
-          }
+          onSubmit(context);
         },
         child: FaIcon(FontAwesomeIcons.arrowRight),
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Color(0xFF000050),
       ),
     );
   }

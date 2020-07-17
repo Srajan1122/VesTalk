@@ -1,22 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/services/Database.dart';
-import 'ListUsers.dart';
+import 'package:socail_network_flutter/views/Chat/chatlist.dart';
 
-class SearchPage extends StatefulWidget {
+
+class ChatSearchPage extends StatefulWidget {
   @override
-  _SearchPageState createState() => _SearchPageState();
+  _ChatSearchPageState createState() => _ChatSearchPageState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _ChatSearchPageState extends State<ChatSearchPage> {
   DatabaseMethods _databaseMethods = new DatabaseMethods();
+  String myName="";
 
   Future _userDocumentSnapshots;
 
   @override
   void initState() {
     super.initState();
+    getUserData();
     _userDocumentSnapshots = _databaseMethods.getAllUserDocumentSnapshot();
   }
 
@@ -25,6 +29,21 @@ class _SearchPageState extends State<SearchPage> {
       _userDocumentSnapshots = _databaseMethods.getAllUserDocumentSnapshot();
     });
   }
+  getUserData() async {
+    await SharedPreferences.getInstance().then((value) => {
+      this.setState(() {
+        myName = (value.getString("displayName") ?? '');
+      })
+    });
+  }
+//  createChatroomAndstartchat(String userName){
+//    List<String> users = [userName, myName];
+//    _databaseMethods.createChatRoom(chartRoomId, chatRoomMap)
+//
+//
+//
+//
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +75,7 @@ class _SearchPageState extends State<SearchPage> {
                   return ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (_, index) {
-                        return ListUsers(
+                        return ChatUserList(
                           displayName: snapshot.data[index].data['displayName'],
                           photoUrl: snapshot.data[index].data['photoUrl'],
                           designation: snapshot.data[index].data['designation'],
@@ -120,14 +139,14 @@ class UserSearch extends SearchDelegate<String> {
     final suggestion = query.isEmpty
         ? []
         : userList.where((element) => element['displayName']
-            .toString()
-            .toLowerCase()
-            .startsWith(query.toLowerCase())).toList();
+        .toString()
+        .toLowerCase()
+        .startsWith(query.toLowerCase())).toList();
 
     return ListView.builder(
         itemCount: suggestion.length,
         itemBuilder: (_, index) {
-          return ListUsers(
+          return  ChatUserList(
             displayName: suggestion.toList()[index]['displayName'],
             photoUrl: suggestion.toList()[index]['photoUrl'],
             designation: suggestion.toList()[index]['designation'],

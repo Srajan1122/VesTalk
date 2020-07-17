@@ -23,12 +23,17 @@ environment:
 dependencies:
   firebase_auth: ^0.16.0
   cloud_firestore: ^0.13.7
+  firebase_storage: ^3.1.6
   google_sign_in: ^4.5.1
   shared_preferences: ^0.5.8
   fluttertoast: ^4.0.0
   font_awesome_flutter: ^8.8.1
   intro_views_flutter: "^2.8.1"
   curved_navigation_bar: ^0.3.3
+  flutter_speed_dial: ^1.2.5
+  image_picker: ^0.6.7+4
+  video_player: ^0.10.11+2
+  chewie: ^0.9.10
 
   flutter:
     sdk: flutter
@@ -50,6 +55,7 @@ flutter:
   assets:
     - images/LoginPage/
     - images/ProfilePage/
+    - images/ProfileComp/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

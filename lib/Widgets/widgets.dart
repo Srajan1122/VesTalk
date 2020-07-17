@@ -4,23 +4,28 @@ import 'package:flutter/material.dart';
 
 Widget getAppBar() {
   return AppBar(
-    backgroundColor: Colors.redAccent,
+    backgroundColor: Color(0xFF000050),
     title: Text('Appbar'),
   );
 }
 
 Widget getChatAppBar(context){
   return AppBar(
-    elevation: 0,
-    backgroundColor: Colors.redAccent,
-
+    elevation: 10,
+    automaticallyImplyLeading: false,
+    backgroundColor: Colors.white,
     flexibleSpace: SafeArea(
       child: Container(
-        padding: EdgeInsets.fromLTRB(10, 5, 5, 10),
+        padding: EdgeInsets.only(right: 16),
         child: Row(
           children: <Widget>[
-
-            SizedBox(width: 50,),
+            IconButton(
+              onPressed: (){
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.arrow_back,color: Colors.black,),
+            ),
+            SizedBox(width: 2,),
             CircleAvatar(
               backgroundImage: NetworkImage('https://www.w3schools.com/w3css/img_lights.jpg'),
               maxRadius: 20,

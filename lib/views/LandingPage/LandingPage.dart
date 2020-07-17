@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:socail_network_flutter/Widgets/widgets.dart';
 import 'package:socail_network_flutter/main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:socail_network_flutter/views/Home/homePage.dart';
 import 'package:socail_network_flutter/views/Profile/ProfilePage.dart';
-import 'file:///E:/AndroidStudioProjects/Social-Network-Flutter/lib/views/Profile/DesignationProfilePage/Student.dart';
 import 'package:socail_network_flutter/views/Chat/chat.dart';
 import 'package:socail_network_flutter/views/newPost/createPost.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,19 +19,25 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  String name, email, photoUrl;
+  static String uid;
+  String name = 'No name', email = 'No email', photoUrl = 'http://noPhoto';
+
+  getUserId() async {
+    await SharedPreferences.getInstance().then((value) => {
+          this.setState(() {
+            uid = value.getString('id');
+          })
+        });
+  }
 
   getUserData() async {
     await SharedPreferences.getInstance().then((value) => {
           this.setState(() {
-            name = (value.getString("displayName") ?? '');
-            email = (value.getString("email") ?? '');
+            name = (value.getString("displayName") ?? 'No name');
+            email = (value.getString("email") ?? 'No email');
             photoUrl = (value.getString("photoUrl") ?? '');
           })
         });
-    print(name);
-    print(email);
-    print(photoUrl);
   }
 
   int _currentIndex = 0;
@@ -42,7 +46,7 @@ class _LandingPageState extends State<LandingPage> {
     SearchPage(),
     CreatePost(),
     Chat(),
-    ProfilePage(designation: "Teacher")
+    ProfilePage(uid: uid)
   ];
   bool isLoading = false;
   Future<Null> handleSignOut() async {
@@ -66,6 +70,7 @@ class _LandingPageState extends State<LandingPage> {
   @override
   void initState() {
     super.initState();
+
     getUserData();
   }
 
@@ -74,19 +79,19 @@ class _LandingPageState extends State<LandingPage> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          appBar: getAppBar(),
+//          appBar: getAppBar(),
           body: _children[_currentIndex],
           bottomNavigationBar: CurvedNavigationBar(
-            color: Colors.redAccent,
-            buttonBackgroundColor: Colors.black87,
+            color: Color(0xFF000050),
+            buttonBackgroundColor: Colors.white,
             backgroundColor: Colors.white,
             height: 60,
             items: <Widget>[
-              Icon(Icons.home, size: 20, color: Colors.white),
-              Icon(Icons.search, size: 20, color: Colors.white),
-              Icon(Icons.add, size: 20, color: Colors.white),
-              Icon(Icons.chat, size: 20, color: Colors.white),
-              Icon(Icons.person, size: 20, color: Colors.white),
+              Icon(Icons.home, size: 30, color: Color(0xFFFC2542)),
+              Icon(Icons.search, size: 30, color: Color(0xFFFC2542)),
+              Icon(Icons.add, size: 30, color: Color(0xFFFC2542)),
+              Icon(Icons.chat, size: 30, color: Color(0xFFFC2542)),
+              Icon(Icons.person, size: 30, color: Color(0xFFFC2542)),
             ],
             animationDuration: Duration(milliseconds: 200),
             animationCurve: Curves.bounceInOut,
@@ -104,11 +109,11 @@ class _LandingPageState extends State<LandingPage> {
                   accountEmail: Text(email),
                   currentAccountPicture: GestureDetector(
                     child: CircleAvatar(
-                      backgroundColor: Colors.grey,
+                      backgroundColor: Colors.white,
                       backgroundImage: NetworkImage(photoUrl),
                     ),
                   ),
-                  decoration: BoxDecoration(color: Colors.redAccent),
+                  decoration: BoxDecoration(color: Color(0xFF000050)),
                 ),
                 ListTile(
                   title: Text('Profile'),
