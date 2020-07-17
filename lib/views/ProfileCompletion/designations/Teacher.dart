@@ -24,10 +24,32 @@ class _TeacherState extends State<Teacher> {
 
   bool checkValidation() {
     if (branch == null || post == null) {
+      _showDialog();
       Fluttertoast.showToast(msg: "Please enter all the fields");
       return false;
     }
     return true;
+  }
+
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Warning !", textAlign: TextAlign.center,),
+          content: new Text("Please enter all the fields"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close", style: TextStyle(color: Color(0xFFFC2542)),),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   onSubmit(context) async {

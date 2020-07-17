@@ -24,11 +24,32 @@ class _DesignationState extends State<Designation> {
 
   bool checkValidation() {
     if (dropdownValue == null) {
+      _showDialog();
       Fluttertoast.showToast(msg: "Please enter the fields" );
       return false;
     }else{
       return true;
     }
+  }
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Warning !", textAlign: TextAlign.center,),
+          content: new Text("Please enter your role."),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close", style: TextStyle(color: Color(0xFFFC2542)),),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   onSubmit(context) async {

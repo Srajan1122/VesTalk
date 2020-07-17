@@ -54,7 +54,7 @@ class _CreatePostState extends State<CreatePost> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text("Warning !"),
+          title: new Text("Warning !", textAlign: TextAlign.center,),
           content: new Text("Please enter description"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
@@ -107,16 +107,11 @@ class _CreatePostState extends State<CreatePost> {
                         textColor: Colors.white,
                         color: Colors.transparent,
                         padding: const EdgeInsets.all(0.0),
+                        splashColor: Color(0xFFFC2542),
                         child: Container(
                           decoration: BoxDecoration(
                             shape: BoxShape.rectangle,
-                            color: Colors.white,
-                            gradient: LinearGradient(
-                              colors: <Color>[
-                                Color(0xFFFC2542),
-                                Color(0xFF000050),
-                              ],
-                            ),
+                            color: Color(0xFFFC2542),
                             borderRadius: BorderRadius.circular(30),
                           ),
                           padding: const EdgeInsets.all(10.0),
@@ -132,16 +127,11 @@ class _CreatePostState extends State<CreatePost> {
                         textColor: Colors.white,
                         color: Colors.transparent,
                         padding: const EdgeInsets.all(0.0),
+                        splashColor: Color(0xFFFC2542),
                         child: Container(
                           decoration: BoxDecoration(
                             shape: BoxShape.rectangle,
-                            color: Colors.white,
-                            gradient: LinearGradient(
-                              colors: <Color>[
-                                Color(0xFFFC2542),
-                                Color(0xFF000050),
-                              ],
-                            ),
+                            color: Color(0xFFFC2542),
                             borderRadius: BorderRadius.circular(30),
                           ),
                           padding: const EdgeInsets.all(10.0),
@@ -304,22 +294,17 @@ class _CreatePostState extends State<CreatePost> {
                       : Container())),
               FlatButton(
                   onPressed: handlePress,
-                  textColor: Colors.white,
-                  color: Colors.transparent,
-                  padding: const EdgeInsets.all(0.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      color: Colors.white,
-                      gradient: LinearGradient(
-                        colors: <Color>[
-                          Color(0xFFFC2542),
-                          Color(0xFF000050),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    padding: const EdgeInsets.all(10.0),
+                textColor: Colors.white,
+                color: Colors.transparent,
+                padding: const EdgeInsets.all(0.0),
+                splashColor: Color(0xFFFC2542),
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    color: Color(0xFFFC2542),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  padding: const EdgeInsets.all(10.0),
                     child:
                     const Text('Publish Post', style: TextStyle(fontSize: 20)),
                   ),
@@ -341,18 +326,18 @@ class _CreatePostState extends State<CreatePost> {
             // FAB 1
             SpeedDialChild(
                 child: Icon(Icons.image),
-                backgroundColor: Color(0xFF000050),
+                backgroundColor: Color(0xFFFC2542),
                 onTap: _displayOptionsDialog,
                 label: 'Add Image',
                 labelStyle: TextStyle(
                     fontWeight: FontWeight.w500,
                     color: Colors.white,
                     fontSize: 16.0),
-                labelBackgroundColor: Color(0xFFFC2542)),
+                labelBackgroundColor: Color(0xFF000050)),
             // FAB 2
             SpeedDialChild(
                 child: Icon(Icons.video_call),
-                backgroundColor: Color(0xFF000050),
+                backgroundColor: Color(0xFFFC2542),
                 onTap: () => {
                       setState(() {
                         isVideo = true;
@@ -364,7 +349,7 @@ class _CreatePostState extends State<CreatePost> {
                     fontWeight: FontWeight.w500,
                     color: Colors.white,
                     fontSize: 16.0),
-                labelBackgroundColor: Color(0xFFFC2542))
+                labelBackgroundColor: Color(0xFF000050))
           ],
         ));
   }
