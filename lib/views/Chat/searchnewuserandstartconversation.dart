@@ -58,6 +58,7 @@ class _ChatSearchPageState extends State<ChatSearchPage> {
                       itemCount: snapshot.data.length,
                       itemBuilder: (_, index) {
                         return ChatUserList(
+                          uid: snapshot.data[index].data['id'],
                           displayName: snapshot.data[index].data['displayName'],
                           photoUrl: snapshot.data[index].data['photoUrl'],
                           designation: snapshot.data[index].data['designation'],
@@ -129,6 +130,7 @@ class UserSearch extends SearchDelegate<String> {
         itemCount: suggestion.length,
         itemBuilder: (_, index) {
           return  ChatUserList(
+            uid: suggestion.toList()[index]['id'],
             displayName: suggestion.toList()[index]['displayName'],
             photoUrl: suggestion.toList()[index]['photoUrl'],
             designation: suggestion.toList()[index]['designation'],

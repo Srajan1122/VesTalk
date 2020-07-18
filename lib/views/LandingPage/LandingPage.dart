@@ -39,6 +39,7 @@ class _LandingPageState extends State<LandingPage> {
             Constants.myName = (value.getString("displayName") ?? 'No name');
             Constants.email = (value.getString("email") ?? 'No email');
             Constants.photoUrl = (value.getString("photoUrl") ?? '');
+            Constants.uid = (value.getString('id') ?? '');
           })
         });
   }

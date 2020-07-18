@@ -17,6 +17,7 @@ class DatabaseMethods {
     }
     return allUsers;
   }
+
   getUserByUsername(String username) async{
     return await Firestore.instance.collection("users")
         .where("name",isEqualTo: username)
@@ -42,9 +43,9 @@ class DatabaseMethods {
         .orderBy("time",descending: false )
         .snapshots();
   }
-  getChaRooms(String userName) async{
+  getChaRooms(String id) async{
     return await Firestore.instance.collection("ChatRoom")
-        .where("users",arrayContains: userName)
+        .where("users",arrayContains: id)
         .snapshots();
   }
 
