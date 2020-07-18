@@ -93,8 +93,8 @@ class _LandingPageState extends State<LandingPage> {
 //          appBar: getAppBar(),
           body: listOfPage(_currentIndex, uid),
           bottomNavigationBar: CurvedNavigationBar(
-            color: Colors.cyan,
-            buttonBackgroundColor: Colors.black,
+            color: Colors.lightBlue,
+            buttonBackgroundColor: Colors.black87,
             backgroundColor: Colors.white,
             height: 60,
             items: <Widget>[

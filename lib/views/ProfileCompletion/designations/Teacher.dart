@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/LandingPage/LandingPage.dart';
+import 'package:socail_network_flutter/views/ProfileCompletion/designation.dart';
 
 class Teacher extends StatefulWidget {
   @override
@@ -70,34 +71,23 @@ class _TeacherState extends State<Teacher> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/ProfileComp/Profile.png'),
+            image: AssetImage('images/ProfileComp/OnBoarding.png'),
             fit: BoxFit.fill,
           ),
         ),
         child: Center(
           child: Container(
-            width: 300,
-            height: 350,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.rectangle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black,
-                  blurRadius: 5.0,
-                ),
-              ],
-              borderRadius: BorderRadius.circular(10),
-            ),
+            width: 450,
+            height: 800,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                  padding: const EdgeInsets.fromLTRB(40, 0, 40, 40),
                   child: Center(
                     child: Text(
                       'Teacher Details',
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 30),
                     ),
                   ),
                 ),
@@ -111,7 +101,7 @@ class _TeacherState extends State<Teacher> {
                     elevation: 16,
                     underline: Container(
                       height: 2,
-                      color: Color(0xFFFC2542),
+                      color: Colors.lightBlue,
                     ),
                     onChanged: (String newValue) {
                       setState(() {
@@ -137,8 +127,9 @@ class _TeacherState extends State<Teacher> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 10, 40, 0),
+                  padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
                   child: Container(
+                    width: 250,
                     child: TextField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
@@ -157,13 +148,40 @@ class _TeacherState extends State<Teacher> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          onSubmit(context);
-        },
-        child: FaIcon(FontAwesomeIcons.arrowRight),
-        backgroundColor: Colors.redAccent,
-      ),
+        floatingActionButton: Stack(
+          children: <Widget>[
+            Padding(padding: EdgeInsets.only(left:31),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: FloatingActionButton(
+                  heroTag: "btn1",
+                  onPressed: () async{
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Designation(),
+                      ),
+                    );
+                  },
+                  child: FaIcon(FontAwesomeIcons.arrowLeft),
+                  backgroundColor: Colors.lightBlue,
+                ),
+              ),
+            ),
+
+            Align(
+              alignment: Alignment.bottomRight,
+              child: FloatingActionButton(
+                heroTag: "btn2",
+                  onPressed: () {
+                    onSubmit(context);
+                  },
+                child: FaIcon(FontAwesomeIcons.arrowRight),
+                backgroundColor: Colors.lightBlue,
+              ),
+            ),
+          ],
+        )
     );
   }
 }

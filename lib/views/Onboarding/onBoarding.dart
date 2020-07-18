@@ -15,39 +15,29 @@ class _OnBoardingState extends State<OnBoarding> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/ProfileComp/Profile.png'),
+            image: AssetImage('images/ProfileComp/OnBoarding.png'),
             fit: BoxFit.fill,
           ),
         ),
         child: Center(
           child: Container(
-            width: 350,
-            height: 600,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.rectangle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black,
-                  blurRadius: 5.0,
-                ),
-              ],
-              borderRadius: BorderRadius.circular(10),
-            ),
+            width: 450,
+            height: 800,
+
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 0, 40, 30),
+                  padding: const EdgeInsets.fromLTRB(40, 0, 40, 80),
                   child: Center(
                     child: Text.rich(
                       TextSpan(
                         text: 'Welcome To Ves',
-                        style: TextStyle(fontSize: 25),
+                        style: TextStyle(fontSize: 30),
                         children: <TextSpan> [
                           TextSpan(
                               text: 'Talk',
-                              style: TextStyle(color: Color(0xffFC2542))
+                              style: TextStyle(color: Colors.lightBlue)
                           ),
                         ],
                       ),
@@ -55,7 +45,7 @@ class _OnBoardingState extends State<OnBoarding> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 40, 40, 0),
+                  padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
                   child: Center(
                     child: Container(
                       width: 350,
@@ -70,7 +60,7 @@ class _OnBoardingState extends State<OnBoarding> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 30, 40, 0),
+                  padding: const EdgeInsets.fromLTRB(40, 90, 40, 0),
                   child: Center(
                     child: Text('A place where each student is connected with each teacher irrespective of their branch.', style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,),
                   ),
@@ -90,7 +80,7 @@ class _OnBoardingState extends State<OnBoarding> {
             );
           },
           child: FaIcon(FontAwesomeIcons.arrowRight),
-          backgroundColor: Color(0xFF000050)
+          backgroundColor: Colors.lightBlue,
       ),
     );
   }

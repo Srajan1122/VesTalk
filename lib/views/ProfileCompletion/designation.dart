@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/ProfileCompletion/details.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:socail_network_flutter/views/Onboarding/onBoarding.dart';
 
 class Designation extends StatefulWidget {
   @override
@@ -71,45 +72,64 @@ class _DesignationState extends State<Designation> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/ProfileComp/Profile.png'),
+            image: AssetImage('images/ProfileComp/OnBoarding.png'),
             fit: BoxFit.fill,
           ),
         ),
         child: Center(
           child: Container(
-              width: 300,
-              height: 300,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.rectangle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black,
-                    blurRadius: 5.0,
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(10),
-              ),
+              width: 450,
+              height: 800,
               child : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                    padding: const EdgeInsets.fromLTRB(40, 0, 40, 80),
                     child: Center(
-                      child: Text('Please select your role :', style: TextStyle(fontSize: 20.0,),),
+                      child: Text.rich(
+                        TextSpan(
+                          text: 'Please select a ',
+                          style: TextStyle(fontSize: 30),
+                          children: <TextSpan> [
+                            TextSpan(
+                                text: 'Role',
+                                style: TextStyle(color: Colors.lightBlue)
+                            ),
+                            TextSpan(
+                              text: " :",
+                                style: TextStyle(color: Colors.black)
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
+                    padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
+                    child: Center(
+                      child: Container(
+                        width: 250,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('images/ProfileComp/role.png'),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(40, 90, 40, 0),
                     child: DropdownButton<String>(
                       hint: Text('Select Designation         '),
-                      icon: Icon(Icons.arrow_downward, color: Color(0xFF000050),),
+                      icon: Icon(Icons.arrow_downward, color: Colors.black87),
                       value: dropdownValue,
                       iconSize: 24,
                       elevation: 16,
                       underline: Container(
                         height: 2,
-                        color: Color(0xFFFC2542),
+                        color: Colors.lightBlue,
                       ),
                       onChanged: (String newValue) {
                         setState(() {
@@ -125,18 +145,54 @@ class _DesignationState extends State<Designation> {
                       }).toList(),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(40, 5, 40, 40),
+                    child: Center(
+                      child: Text(
+                        'Note: You cannot change your role later',
+                        style: TextStyle(fontSize: 11, color: Color(0xFFFC2542)),
+                      ),
+                    ),
+                  ),
                 ],
               ),
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            onSubmit(context);
-          },
-          child: FaIcon(FontAwesomeIcons.arrowRight),
-          backgroundColor: Color(0xFF000050)
-      ),
+        floatingActionButton: Stack(
+          children: <Widget>[
+            Padding(padding: EdgeInsets.only(left:31),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: FloatingActionButton(
+                  heroTag: "btn1",
+                  onPressed: () async{
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OnBoarding(),
+                      ),
+                    );
+                  },
+                  child: FaIcon(FontAwesomeIcons.arrowLeft),
+                  backgroundColor: Colors.lightBlue,
+                ),
+              ),
+            ),
+
+            Align(
+              alignment: Alignment.bottomRight,
+              child: FloatingActionButton(
+                heroTag: "btn2",
+                onPressed: () {
+                  onSubmit(context);
+                },
+                child: FaIcon(FontAwesomeIcons.arrowRight),
+                backgroundColor: Colors.lightBlue,
+              ),
+            ),
+          ],
+        )
     );
 
   }
