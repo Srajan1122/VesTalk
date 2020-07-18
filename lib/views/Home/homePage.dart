@@ -17,8 +17,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future getPosts() async {
-    QuerySnapshot qn =
-        await Firestore.instance.collection('posts').getDocuments();
+    QuerySnapshot qn = await Firestore.instance
+        .collection('posts')
+        .orderBy('created', descending: true)
+        .getDocuments();
     return qn.documents;
   }
 
@@ -79,7 +81,7 @@ class _HomePageState extends State<HomePage> {
                                                                       .data[
                                                                   'photoUrl']),
                                                         ),
-                                                        elevation: 15.0,
+                                                        elevation: 1.0,
                                                         shape: CircleBorder(),
                                                         clipBehavior:
                                                             Clip.antiAlias,
@@ -127,16 +129,20 @@ class _HomePageState extends State<HomePage> {
                             ),
                             (((snapshot.data[index].data['fileUrl'] != null) &&
                                     (!snapshot.data[index].data['isVideo']))
-                                ? Container(
-                                    height: 250.0,
-                                    width: 8100.0,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: NetworkImage(snapshot
-                                            .data[index].data['fileUrl']),
-                                        fit: BoxFit.fill,
-                                      ),
+                                ? Card(
+                                    semanticContainer: true,
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    child: SizedBox(
+                                        height: 200,
+                                        child: Image.network(
+                                            snapshot
+                                                .data[index].data['fileUrl'],
+                                            fit: BoxFit.fitHeight)),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
                                     ),
+                                    elevation: 10,
+                                    margin: EdgeInsets.all(20),
                                   )
                                 : Container()),
                             (((snapshot.data[index].data['fileUrl'] != null) &&
@@ -151,9 +157,8 @@ class _HomePageState extends State<HomePage> {
                                                     .data['fileUrl'])),
                                   )
                                 : Container()),
-                            SizedBox(height: 20),
                             Padding(
-                              padding: const EdgeInsets.all(20.0),
+                              padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
                               child: Container(
                                 height: 50,
                                 child: Text(

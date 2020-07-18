@@ -246,6 +246,7 @@ class DatabaseMethods {
         'displayName': userData.documents[0].data['displayName'],
         'photoUrl': userData.documents[0].data['photoUrl'],
         'designation': userData.documents[0].data['designation'],
+        'created': FieldValue.serverTimestamp()
       });
     } catch (e) {
       print('id--> $id');
