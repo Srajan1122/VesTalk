@@ -3,6 +3,7 @@ import 'package:socail_network_flutter/main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:socail_network_flutter/services/constant.dart';
 import 'package:socail_network_flutter/views/Home/homePage.dart';
 import 'package:socail_network_flutter/views/Profile/ProfilePage.dart';
 import 'package:socail_network_flutter/views/Chat/chat.dart';
@@ -20,7 +21,7 @@ class _LandingPageState extends State<LandingPage> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   static String uid;
-  String name = 'No name', email = 'No email', photoUrl = 'http://noPhoto';
+
 
   getUserId() async {
     await SharedPreferences.getInstance().then((value) => {
@@ -35,9 +36,9 @@ class _LandingPageState extends State<LandingPage> {
     print("User id : $uid");
     await SharedPreferences.getInstance().then((value) => {
           this.setState(() {
-            name = (value.getString("displayName") ?? 'No name');
-            email = (value.getString("email") ?? 'No email');
-            photoUrl = (value.getString("photoUrl") ?? '');
+            Constants.myName = (value.getString("displayName") ?? 'No name');
+            Constants.email = (value.getString("email") ?? 'No email');
+            Constants.photoUrl = (value.getString("photoUrl") ?? '');
           })
         });
   }
@@ -117,12 +118,12 @@ class _LandingPageState extends State<LandingPage> {
             child: ListView(
               children: <Widget>[
                 UserAccountsDrawerHeader(
-                  accountName: Text(name),
-                  accountEmail: Text(email),
+                  accountName: Text(Constants.myName),
+                  accountEmail: Text(Constants.email),
                   currentAccountPicture: GestureDetector(
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
-                      backgroundImage: NetworkImage(photoUrl),
+                      backgroundImage: NetworkImage(Constants.photoUrl),
                     ),
                   ),
                   decoration: BoxDecoration(color: Color(0xFF000050)),
