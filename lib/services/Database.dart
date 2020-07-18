@@ -18,6 +18,37 @@ class DatabaseMethods {
     return allUsers;
   }
 
+  getUserByUsername(String username) async{
+    return await Firestore.instance.collection("users")
+        .where("name",isEqualTo: username)
+        .getDocuments();
+  }
+  createChatRoom(String chatRoomId,chatRoomMap){
+    Firestore.instance.collection("ChatRoom")
+        .document(chatRoomId).setData(chatRoomMap).catchError((e){
+      print(e.toString());
+    });
+  }
+
+  addConversationMessages(String chatRoomId,messageMap){
+    Firestore.instance.collection("ChatRoom")
+        .document(chatRoomId)
+        .collection("chats")
+        .add(messageMap).catchError((e){print(e.toString());});
+  }
+  getConversationMessages(String chatRoomId) async {
+    return await Firestore.instance.collection("ChatRoom")
+        .document(chatRoomId)
+        .collection("chats")
+        .orderBy("time",descending: false )
+        .snapshots();
+  }
+  getChaRooms(String id) async{
+    return await Firestore.instance.collection("ChatRoom")
+        .where("users",arrayContains: id)
+        .snapshots();
+  }
+
   uploadUserData(id, displayName, photoUrl, email) async {
     await Firestore.instance.collection('user').document(id).setData({
       'id': id,
@@ -237,14 +268,16 @@ class DatabaseMethods {
 
       await Firestore.instance.collection('posts').document().setData({
         'id': id,
+        'isVideo': isVideo,
         'date': dateFormat,
         'time': timeFormat,
         'weekday': weekday,
         'description': description,
         'fileUrl': fileUrl,
         'displayName': userData.documents[0].data['displayName'],
-        'photoUrl': userData.documents[0].data['displayName'],
-        'designation': userData.documents[0].data['displayName'],
+        'photoUrl': userData.documents[0].data['photoUrl'],
+        'designation': userData.documents[0].data['designation'],
+        'created': FieldValue.serverTimestamp()
       });
     } catch (e) {
       print('id--> $id');
