@@ -11,6 +11,7 @@ class Details extends StatefulWidget {
 }
 
 class _DetailsState extends State<Details> {
+
   handleFields(desig) {
     switch (desig) {
       case 'Student':
@@ -39,11 +40,8 @@ class _DetailsState extends State<Details> {
   }
 
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return  Scaffold(
         body: handleFields(widget.designation),
-      ),
-    );
+      );
   }
 }

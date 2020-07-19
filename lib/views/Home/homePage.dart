@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:socail_network_flutter/views/newPost/chewie_list_itme.dart';
 import 'package:video_player/video_player.dart';
 import 'package:socail_network_flutter/views/Home/postDetails.dart';
-import 'package:socail_network_flutter/Widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
   @override

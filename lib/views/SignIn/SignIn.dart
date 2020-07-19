@@ -27,6 +27,11 @@ class _SignInState extends State<SignIn> {
   FirebaseUser currentUser;
   String id;
 
+  check() async {
+    await getUserId();
+    return await databaseMethods.checkIfInitialDataIsFilled(id);
+  }
+
   getUserId() async {
     await SharedPreferences.getInstance().then((value) => {
           this.setState(() {
@@ -41,9 +46,13 @@ class _SignInState extends State<SignIn> {
     });
     prefs = await SharedPreferences.getInstance();
     isLoggedIn = await _googleSignIn.isSignedIn();
-    if (isLoggedIn) {
+    if (isLoggedIn && await check()) {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => LandingPage()));
+    }
+    else if(isLoggedIn){
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => OnBoarding()));
     }
     setState(() {
       isLoading = false;
@@ -88,7 +97,8 @@ class _SignInState extends State<SignIn> {
           await prefs.setString('email', documents[0]['email']);
           await prefs.setString('photoUrl', documents[0]['photoUrl']);
         }
-      } on PlatformException catch (e) {
+      } on PlatformException catch (e){
+        print(e);
         FirebaseUser user = await FirebaseAuth.instance.currentUser();
         user.delete();
         firebaseAuth.signOut();
@@ -105,15 +115,10 @@ class _SignInState extends State<SignIn> {
         isLoading = false;
       });
 
-      check() async {
-        await getUserId();
-        return await databaseMethods.checkIfInitialDataIsFilled(id);
-      }
-
       if (await check()) {
-        Navigator.pop(context);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LandingPage()));
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => LandingPage()),
+            (Route<dynamic> route) => false);
       } else {
         Navigator.pop(context);
         Navigator.push(

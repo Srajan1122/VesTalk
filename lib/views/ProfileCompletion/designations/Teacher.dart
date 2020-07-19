@@ -60,8 +60,8 @@ class _TeacherState extends State<Teacher> {
       print('good to go');
       await getUserId();
       databaseMethods.uploadTeacherInfo(id, post, branch);
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => LandingPage()));
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+          LandingPage()), (Route<dynamic> route) => false);
     }
   }
 

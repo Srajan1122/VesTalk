@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/ProfileCompletion/details.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:socail_network_flutter/views/Onboarding/onBoarding.dart';
 
 class Designation extends StatefulWidget {
   @override
@@ -167,12 +166,13 @@ class _DesignationState extends State<Designation> {
                 child: FloatingActionButton(
                   heroTag: "btn1",
                   onPressed: () async{
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => OnBoarding(),
-                      ),
-                    );
+                    Navigator.pop(context);
+//                    Navigator.push(
+//                      context,
+//                      MaterialPageRoute(
+//                        builder: (context) => OnBoarding(),
+//                      ),
+//                    );
                   },
                   child: FaIcon(FontAwesomeIcons.arrowLeft),
                   backgroundColor: Colors.lightBlue,

@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:socail_network_flutter/views/SignIn/SignIn.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

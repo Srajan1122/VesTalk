@@ -63,8 +63,8 @@ class _CouncilState extends State<Council> {
       print('good to go');
       await getUserId();
       databaseMethods.uploadCouncilInfo(id, displayName, description, members);
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => LandingPage()));
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+          LandingPage()), (Route<dynamic> route) => false);
     }
   }
 

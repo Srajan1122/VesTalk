@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/LandingPage/LandingPage.dart';
-import 'package:socail_network_flutter/views/ProfileCompletion/designation.dart';
 
 class Student extends StatefulWidget {
   @override
@@ -91,8 +90,8 @@ class _StudentState extends State<Student> {
       print('good to go');
       await getUserId();
       databaseMethods.uploadStudentInfo(id, phoneNumber, branch, batch, year);
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => LandingPage()));
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+          LandingPage()), (Route<dynamic> route) => false);
     }
   }
 
@@ -245,12 +244,13 @@ class _StudentState extends State<Student> {
                 child: FloatingActionButton(
                   heroTag: "btn1",
                   onPressed: () async{
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Designation(),
-                      ),
-                    );
+                    Navigator.pop(context);
+//                    Navigator.push(
+//                      context,
+//                      MaterialPageRoute(
+//                        builder: (context) => Designation(),
+//                      ),
+//                    );
                   },
                   child: FaIcon(FontAwesomeIcons.arrowLeft),
                   backgroundColor: Colors.lightBlue,
