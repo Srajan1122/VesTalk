@@ -27,7 +27,6 @@ class _PostDetailsState extends State<PostDetails> {
     await SharedPreferences.getInstance().then((value) => {
           this.setState(() {
             uid = value.getString('id');
-            print(uid);
           })
         });
   }
