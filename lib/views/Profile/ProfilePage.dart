@@ -20,6 +20,7 @@ class _ProfilePagestate extends State<ProfilePage> {
     print('User id in profile: ${widget.uid}');
     List<DocumentSnapshot> documents =
         await databaseMethods.findUserById(widget.uid);
+    if(!mounted) return;
     setState(() {
       designation = documents[0]['designation'];
     });

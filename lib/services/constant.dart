@@ -1,4 +1,5 @@
 class Constants {
+  static dynamic data;
   static String uid = 'uid';
   static String myName = "No name";
   static String email = 'No email';

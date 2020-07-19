@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/LandingPage/LandingPage.dart';
-import 'package:socail_network_flutter/views/ProfileCompletion/designation.dart';
 
 class Teacher extends StatefulWidget {
   @override
@@ -156,12 +155,13 @@ class _TeacherState extends State<Teacher> {
                 child: FloatingActionButton(
                   heroTag: "btn1",
                   onPressed: () async{
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Designation(),
-                      ),
-                    );
+                    Navigator.pop(context);
+//                    Navigator.push(
+//                      context,
+//                      MaterialPageRoute(
+//                        builder: (context) => Designation(),
+//                      ),
+//                    );
                   },
                   child: FaIcon(FontAwesomeIcons.arrowLeft),
                   backgroundColor: Colors.lightBlue,

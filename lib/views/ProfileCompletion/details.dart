@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_focus_watcher/flutter_focus_watcher.dart';
 import 'designations/Student.dart';
 import 'designations/Teacher.dart';
 import 'designations/Council.dart';
@@ -40,8 +41,11 @@ class _DetailsState extends State<Details> {
   }
 
   Widget build(BuildContext context) {
-    return  Scaffold(
-        body: handleFields(widget.designation),
-      );
+    return  FocusWatcher(
+      child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: handleFields(widget.designation),
+        ),
+    );
   }
 }
