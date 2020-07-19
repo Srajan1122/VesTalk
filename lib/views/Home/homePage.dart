@@ -51,7 +51,10 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PostDetails()));
+                                  builder: (context) => PostDetails(
+                                      postId: snapshot.data[index].documentID,
+                                      userId:
+                                          snapshot.data[index].data['id'])));
                         },
                         child: Container(
 //                            decoration: BoxDecoration(

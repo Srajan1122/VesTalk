@@ -34,6 +34,7 @@ dependencies:
   image_picker: ^0.6.7+4
   video_player: ^0.10.11+2
   chewie: ^0.9.10
+  timeago: ^2.0.26
 
   flutter:
     sdk: flutter
@@ -48,10 +49,10 @@ flutter:
     - images/LoginPage/
     - images/ProfilePage/
     - images/ProfileComp/
-  fonts:
-    - family: OpenSans
-      fonts:
-        - asset: fonts/OpenSans/OpenSans-Regular.ttf
-    - family: Montserrat
-      fonts:
-        - asset: fonts/Monsterrat-Regular.ttf
+  # fonts:
+  #   - family: OpenSans
+  #     fonts:
+  #       - asset: fonts/OpenSans/OpenSans-Regular.ttf
+  #   - family: Montserrat
+  #     fonts:
+  #       - asset: fonts/Monsterrat-Regular.ttf

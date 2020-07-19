@@ -18,34 +18,47 @@ class DatabaseMethods {
     return allUsers;
   }
 
-  getUserByUsername(String username) async{
-    return await Firestore.instance.collection("users")
-        .where("name",isEqualTo: username)
+  getUserByUsername(String username) async {
+    return await Firestore.instance
+        .collection("users")
+        .where("name", isEqualTo: username)
         .getDocuments();
   }
-  createChatRoom(String chatRoomId,chatRoomMap){
-    Firestore.instance.collection("ChatRoom")
-        .document(chatRoomId).setData(chatRoomMap).catchError((e){
+
+  createChatRoom(String chatRoomId, chatRoomMap) {
+    Firestore.instance
+        .collection("ChatRoom")
+        .document(chatRoomId)
+        .setData(chatRoomMap)
+        .catchError((e) {
       print(e.toString());
     });
   }
 
-  addConversationMessages(String chatRoomId,messageMap){
-    Firestore.instance.collection("ChatRoom")
+  addConversationMessages(String chatRoomId, messageMap) {
+    Firestore.instance
+        .collection("ChatRoom")
         .document(chatRoomId)
         .collection("chats")
-        .add(messageMap).catchError((e){print(e.toString());});
+        .add(messageMap)
+        .catchError((e) {
+      print(e.toString());
+    });
   }
+
   getConversationMessages(String chatRoomId) async {
-    return await Firestore.instance.collection("ChatRoom")
+    return await Firestore.instance
+        .collection("ChatRoom")
         .document(chatRoomId)
         .collection("chats")
-        .orderBy("time",descending: false )
+        .orderBy("time", descending: false)
         .snapshots();
   }
-  getChaRooms(String id) async{
-    return await Firestore.instance.collection("ChatRoom")
-        .where("users",arrayContains: id)
+
+  getChaRooms(String id) async {
+    return await Firestore.instance
+        .collection("ChatRoom")
+        .where("users", arrayContains: id)
         .snapshots();
   }
 
@@ -293,4 +306,22 @@ class DatabaseMethods {
         await Firestore.instance.collection("user").getDocuments();
     return querySnapshot.documents;
   }
+}
+
+uploadComment(comment, userId, postId) async {
+  QuerySnapshot userData = await Firestore.instance
+      .collection('user')
+      .where('id', isEqualTo: userId)
+      .getDocuments();
+  await Firestore.instance
+      .collection('posts/' + postId + '/comments')
+      .document()
+      .setData({
+    'id': userId,
+    'displayName': userData.documents[0].data['displayName'],
+    'photoUrl': userData.documents[0].data['photoUrl'],
+    'designation': userData.documents[0].data['designation'],
+    'comment': comment,
+    'created': FieldValue.serverTimestamp()
+  });
 }
