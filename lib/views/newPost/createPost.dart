@@ -25,10 +25,10 @@ class _CreatePostState extends State<CreatePost> {
 
   getUserId() async {
     await SharedPreferences.getInstance().then((value) => {
-      this.setState(() {
-        id = value.getString('id');
-      })
-    });
+          this.setState(() {
+            id = value.getString('id');
+          })
+        });
   }
 
   void handlePress() async {
@@ -39,7 +39,7 @@ class _CreatePostState extends State<CreatePost> {
       Fluttertoast.showToast(msg: "Please fill post content");
     } else {
       // TODO : UI Customise alert and change buttons if needed
-      await databaseMethods.uploadFile(id, description,  _attachment, isVideo);
+      await databaseMethods.uploadFile(id, description, _attachment, isVideo);
       setState(() {
         _attachment = null;
         description = null;
@@ -55,12 +55,18 @@ class _CreatePostState extends State<CreatePost> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text("Warning !", textAlign: TextAlign.center,),
+          title: new Text(
+            "Warning !",
+            textAlign: TextAlign.center,
+          ),
           content: new Text("Please enter description"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
-              child: new Text("Close", style: TextStyle(color: Color(0xFFFC2542)),),
+              child: new Text(
+                "Close",
+                style: TextStyle(color: Color(0xFFFC2542)),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -99,7 +105,9 @@ class _CreatePostState extends State<CreatePost> {
                       children: <Widget>[
                         Center(
                             child: Text('Choose from the following!',
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20))),
                         SizedBox(
                           height: 10,
                         ),
@@ -111,7 +119,8 @@ class _CreatePostState extends State<CreatePost> {
                                 onPressed: openCamera,
                                 textColor: Colors.white,
                                 color: Colors.transparent,
-                                padding: const EdgeInsets.fromLTRB(30, 20, 0, 0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(30, 20, 0, 0),
                                 splashColor: Colors.lightBlue,
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -120,10 +129,9 @@ class _CreatePostState extends State<CreatePost> {
                                     borderRadius: BorderRadius.circular(30),
                                   ),
                                   padding: const EdgeInsets.all(10.0),
-                                  child:
-                                  const Text('Open Camera', style: TextStyle(fontSize: 15)),
+                                  child: const Text('Open Camera',
+                                      style: TextStyle(fontSize: 15)),
                                 ),
-
                               ),
                             ),
                             Center(
@@ -132,7 +140,8 @@ class _CreatePostState extends State<CreatePost> {
                                 onPressed: openGallery,
                                 textColor: Colors.white,
                                 color: Colors.transparent,
-                                padding: const EdgeInsets.fromLTRB(40, 20, 30, 0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(40, 20, 30, 0),
                                 splashColor: Colors.lightBlue,
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -141,8 +150,10 @@ class _CreatePostState extends State<CreatePost> {
                                     borderRadius: BorderRadius.circular(30),
                                   ),
                                   padding: const EdgeInsets.all(10.0),
-                                  child:
-                                  const Text('Open Gallery', style: TextStyle(fontSize: 15, fontFamily: 'Montserrat')),
+                                  child: const Text('Open Gallery',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontFamily: 'Montserrat')),
                                 ),
                               ),
                             )
@@ -239,8 +250,8 @@ class _CreatePostState extends State<CreatePost> {
                                             VideoPlayerController.file(
                                                 _attachment)),
                                     Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 20, 0, 30),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 20, 0, 30),
                                       child: Ink(
                                         decoration: ShapeDecoration(
                                           color: Colors.black,
@@ -305,7 +316,7 @@ class _CreatePostState extends State<CreatePost> {
                           )
                         : Container())),
                 FlatButton(
-                    onPressed: handlePress,
+                  onPressed: handlePress,
                   textColor: Colors.white,
                   color: Colors.transparent,
                   padding: const EdgeInsets.all(0.0),
@@ -317,9 +328,10 @@ class _CreatePostState extends State<CreatePost> {
                       borderRadius: BorderRadius.circular(30),
                     ),
                     padding: const EdgeInsets.all(10.0),
-                      child:
-                      const Text('Publish Post', style: TextStyle(fontSize: 16, fontFamily: 'Montserrat')),
-                    ),
+                    child: const Text('Publish Post',
+                        style:
+                            TextStyle(fontSize: 16, fontFamily: 'Montserrat')),
+                  ),
 //                  color: Color(0xFF000050),
 //                  child: Text('Publish Post', style: TextStyle(color: Color(0xFFFC2542)),),
                 ),
