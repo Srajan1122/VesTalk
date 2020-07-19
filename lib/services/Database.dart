@@ -62,6 +62,12 @@ class DatabaseMethods {
         .snapshots();
   }
 
+  getsearch(String id) async{
+    return await Firestore.instance.collection("ChatRoom")
+        .where("users",arrayContains: id)
+        .getDocuments();
+  }
+
   uploadUserData(id, displayName, photoUrl, email) async {
     await Firestore.instance.collection('user').document(id).setData({
       'id': id,
