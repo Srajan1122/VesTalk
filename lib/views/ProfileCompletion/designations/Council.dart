@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/LandingPage/LandingPage.dart';
 import 'package:flutter/services.dart';
-import 'package:socail_network_flutter/views/ProfileCompletion/designation.dart';
 
 class Council extends StatefulWidget {
   @override
@@ -63,8 +62,8 @@ class _CouncilState extends State<Council> {
       print('good to go');
       await getUserId();
       databaseMethods.uploadCouncilInfo(id, displayName, description, members);
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => LandingPage()));
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+          LandingPage()), (Route<dynamic> route) => false);
     }
   }
 
@@ -154,12 +153,13 @@ class _CouncilState extends State<Council> {
                 child: FloatingActionButton(
                   heroTag: "btn1",
                   onPressed: () async{
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Designation(),
-                      ),
-                    );
+                    Navigator.pop(context);
+//                    Navigator.push(
+//                      context,
+//                      MaterialPageRoute(
+//                        builder: (context) => Designation(),
+//                      ),
+//                    );
                   },
                   child: FaIcon(FontAwesomeIcons.arrowLeft),
                   backgroundColor: Colors.lightBlue,
