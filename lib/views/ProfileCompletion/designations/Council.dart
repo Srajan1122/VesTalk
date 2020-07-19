@@ -4,6 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/LandingPage/LandingPage.dart';
+import 'package:flutter/services.dart';
+import 'package:socail_network_flutter/views/ProfileCompletion/designation.dart';
 
 class Council extends StatefulWidget {
   @override
@@ -72,36 +74,25 @@ class _CouncilState extends State<Council> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/ProfileComp/Profile.png'),
+            image: AssetImage('images/ProfileComp/OnBoarding.png'),
             fit: BoxFit.fill,
           ),
         ),
         child: Center(
           child: Container(
-            width: 300,
-            height: 500,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.rectangle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black,
-                  blurRadius: 5.0,
-                ),
-              ],
-              borderRadius: BorderRadius.circular(10),
-            ),
+            width: 450,
+            height: 800,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
                   child: Center(
-                    child: Text('Council Details', style: TextStyle(fontSize: 20),),
+                    child: Text('Council Details', style: TextStyle(fontSize: 30),),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
+                  padding: const EdgeInsets.fromLTRB(40, 40, 40, 0),
                   child: Container(
                     child: TextField(
                       decoration: InputDecoration(
@@ -155,13 +146,40 @@ class _CouncilState extends State<Council> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          onSubmit(context);
-        },
-        child: FaIcon(FontAwesomeIcons.arrowRight),
-        backgroundColor: Color(0xFF000050),
-      ),
+        floatingActionButton: Stack(
+          children: <Widget>[
+            Padding(padding: EdgeInsets.only(left:31),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: FloatingActionButton(
+                  heroTag: "btn1",
+                  onPressed: () async{
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Designation(),
+                      ),
+                    );
+                  },
+                  child: FaIcon(FontAwesomeIcons.arrowLeft),
+                  backgroundColor: Colors.lightBlue,
+                ),
+              ),
+            ),
+
+            Align(
+              alignment: Alignment.bottomRight,
+              child: FloatingActionButton(
+                heroTag: "btn2",
+                onPressed: () {
+                  onSubmit(context);
+                },
+                child: FaIcon(FontAwesomeIcons.arrowRight),
+                backgroundColor: Colors.lightBlue,
+              ),
+            ),
+          ],
+        )
     );
   }
 }

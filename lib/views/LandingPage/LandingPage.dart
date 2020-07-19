@@ -38,6 +38,7 @@ class _LandingPageState extends State<LandingPage> {
             Constants.myName = (value.getString("displayName") ?? 'No name');
             Constants.email = (value.getString("email") ?? 'No email');
             Constants.photoUrl = (value.getString("photoUrl") ?? '');
+            Constants.uid = (value.getString('id') ?? '');
           })
         });
   }
@@ -92,7 +93,7 @@ class _LandingPageState extends State<LandingPage> {
           body: listOfPage(_currentIndex, uid),
           bottomNavigationBar: CurvedNavigationBar(
             color: Colors.lightBlue,
-            buttonBackgroundColor: Colors.black,
+            buttonBackgroundColor: Colors.black87,
             backgroundColor: Colors.white,
             height: 50,
             items: <Widget>[
