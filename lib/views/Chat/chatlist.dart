@@ -28,7 +28,7 @@ class _ChatUserListState extends State<ChatUserList> {
 
   createChatroomAndstartchat(String uid, String userName, String email,
       String designation, String photoUrl) {
-    if (userName != myName) {
+    if (widget.displayName != myName) {
       print(uid);
       print(Constants.uid);
       List<String> users = [uid, Constants.uid];
@@ -40,7 +40,8 @@ class _ChatUserListState extends State<ChatUserList> {
         "designation": designation,
         "photoUrl": photoUrl,
         "userName": userName,
-        'id': uid
+        'id': uid,
+        'time':  DateTime.now().millisecondsSinceEpoch
       };
       _databaseMethods.createChatRoom(chatRoomId, chatRoomMap);
       Navigator.push(

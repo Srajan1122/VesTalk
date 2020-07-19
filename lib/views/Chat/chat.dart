@@ -10,19 +10,75 @@ class Chat extends StatefulWidget {
 }
 
 class _ChatState extends State<Chat> {
+  var queryResultSet=[];
+  var tempSearchStore=[];
   DatabaseMethods databaseMethods = new DatabaseMethods();
   Stream chatRoomList;
+
+
+  _searchBar(){
+    return  Padding(
+      padding: EdgeInsets.only(right: 16, left: 16, top: 16, bottom: 0),
+      child: TextField(
+        onChanged: (val){
+          val = val.toLowerCase();
+          setState(() {
+            setState(() {
+              tempSearchStore=queryResultSet.where((element){
+                var _searchResult =element['userName'].toString().toLowerCase();
+                return _searchResult.contains(val);
+              }).toList();
+            });
+          });
+        },
+        decoration: InputDecoration(
+            hintText: "Search...",
+            hintStyle: TextStyle(color: Colors.grey.shade500),
+            prefixIcon: Icon(
+              Icons.search,
+              color: Colors.grey.shade500,
+              size: 20,
+            ),
+            fillColor: Colors.grey.shade100,
+            contentPadding: EdgeInsets.all(8),
+            border: UnderlineInputBorder(
+                borderRadius: BorderRadius.circular(30)),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: BorderSide(color: Colors.grey.shade400))),
+      ),
+    );
+  }
+
+  _listItem (index){
+    print(index.toString()+"insedindsxindexindex");
+    print(queryResultSet[index]['userName'].toString()+"namnamnamnamnamnam");
+    return  ChatUserList(
+      uid: tempSearchStore[index]["id"],
+      displayName:tempSearchStore[index]["userName"],
+      email: tempSearchStore[index]["email"],
+      photoUrl: tempSearchStore[index]["photoUrl"],
+      designation: tempSearchStore[index]["designation"],
+    );
+  }
 
   @override
   void initState() {
     super.initState();
 
-    databaseMethods.getChaRooms(Constants.uid).then((value) {
-      setState(() {
-        chatRoomList = value;
-      });
+    databaseMethods.getsearch(Constants.uid).then((value) {
+//        print(value.documents[0].data.toString()+"HelloHelloHelloHelloHelloHelloHelloHelloHelloHello");
+      for (int i =0; i<value.documents.length; i++){
+        setState(() {
+          queryResultSet.add(value.documents[i].data);
+          tempSearchStore=queryResultSet;
+        });
+
+//        print(value.documents[i].data.toString()+"hghghghghghghghghghghg");
+      }
     });
-}
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -82,48 +138,15 @@ class _ChatState extends State<Chat> {
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(right: 16, left: 16, top: 16, bottom: 0),
-            child: TextField(
-              decoration: InputDecoration(
-                  hintText: "Search...",
-                  hintStyle: TextStyle(color: Colors.grey.shade500),
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: Colors.grey.shade500,
-                    size: 20,
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey.shade100,
-                  contentPadding: EdgeInsets.all(8),
-                  border: UnderlineInputBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide(color: Colors.grey.shade400))),
-            ),
-          ),
-          StreamBuilder(
-            stream: chatRoomList,
-            builder: (context, snapshot) {
-              return snapshot.hasData
-                  ? ListView.builder(
-                      itemCount: snapshot.data.documents.length,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return ChatUserList(
-                          uid: snapshot.data.documents[index].data["id"],
-                          displayName: snapshot.data.documents[index].data["userName"],
-                          email: snapshot.data.documents[index].data["email"],
-                          photoUrl: snapshot.data.documents[index].data["photoUrl"],
-                          designation: snapshot.data.documents[index].data["designation"],
-                        );
-                      },
-                    )
-                  : Container();
+          ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: tempSearchStore.length+1,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return index==0? _searchBar():_listItem(index-1);
             },
-          )
+          ),
         ],
       ),
     ));
