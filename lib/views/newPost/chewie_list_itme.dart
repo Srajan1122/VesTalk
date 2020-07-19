@@ -25,7 +25,7 @@ class _ChewieListItemState extends State<ChewieListItem> {
     // Wrapper on top of the videoPlayerController
     _chewieController = ChewieController(
       videoPlayerController: widget.videoPlayerController,
-      aspectRatio: widget.videoPlayerController.value.aspectRatio,
+      aspectRatio: 16 / 9,
       // Prepare the video to be played and display the first frame
       autoInitialize: true,
       looping: widget.looping,
@@ -34,7 +34,7 @@ class _ChewieListItemState extends State<ChewieListItem> {
       errorBuilder: (context, errorMessage) {
         return Center(
           child: Text(
-            "It seems Something went wrong",
+            errorMessage,
             style: TextStyle(color: Colors.white),
           ),
         );
@@ -44,8 +44,11 @@ class _ChewieListItemState extends State<ChewieListItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Chewie(
-      controller: _chewieController,
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Chewie(
+        controller: _chewieController,
+      ),
     );
   }
 }

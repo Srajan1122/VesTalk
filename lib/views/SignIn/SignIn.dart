@@ -111,9 +111,11 @@ class _SignInState extends State<SignIn> {
       }
 
       if (await check()) {
+        Navigator.pop(context);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => LandingPage()));
       } else {
+        Navigator.pop(context);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => OnBoarding()));
       }

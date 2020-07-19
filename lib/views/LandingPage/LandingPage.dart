@@ -22,7 +22,6 @@ class _LandingPageState extends State<LandingPage> {
 
   static String uid;
 
-
   getUserId() async {
     await SharedPreferences.getInstance().then((value) => {
           this.setState(() {
@@ -92,16 +91,16 @@ class _LandingPageState extends State<LandingPage> {
 //          appBar: getAppBar(),
           body: listOfPage(_currentIndex, uid),
           bottomNavigationBar: CurvedNavigationBar(
-            color: Colors.cyan,
+            color: Colors.lightBlue,
             buttonBackgroundColor: Colors.black,
             backgroundColor: Colors.white,
-            height: 60,
+            height: 50,
             items: <Widget>[
-              Icon(Icons.home, size: 30, color: Colors.white),
-              Icon(Icons.search, size: 30, color: Colors.white),
-              Icon(Icons.add, size: 30, color: Colors.white),
-              Icon(Icons.chat, size: 30, color: Colors.white),
-              Icon(Icons.person, size: 30, color: Colors.white),
+              Icon(Icons.home, size: 20, color: Colors.white),
+              Icon(Icons.search, size: 20, color: Colors.white),
+              Icon(Icons.add, size: 20, color: Colors.white),
+              Icon(Icons.chat, size: 20, color: Colors.white),
+              Icon(Icons.person, size: 20, color: Colors.white),
             ],
             animationDuration: Duration(milliseconds: 200),
             animationCurve: Curves.bounceInOut,
