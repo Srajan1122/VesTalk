@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:socail_network_flutter/views/Profile/ProfilePage.dart';
 
 // TODO: Give ui to this list or users
-// TODO: On tap function to be written by srajan after profile page is ready
+
 class ListUsers extends StatelessWidget {
   final String id, designation, displayName, email, photoUrl;
 

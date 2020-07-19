@@ -16,8 +16,6 @@ class _CouncilProfilePage extends State<CouncilProfile> {
   static DatabaseMethods databaseMethods = new DatabaseMethods();
   String name, photoUrl, email, member, description, designation;
 
-  // TODO : Get data from db
-
   checkIfNull() {
     if (name == null ||
         photoUrl == null ||

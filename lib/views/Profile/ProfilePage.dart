@@ -20,12 +20,11 @@ class _ProfilePagestate extends State<ProfilePage> {
     print('User id in profile: ${widget.uid}');
     List<DocumentSnapshot> documents =
         await databaseMethods.findUserById(widget.uid);
-    if(!mounted) return;
+    if (!mounted) return;
     setState(() {
       designation = documents[0]['designation'];
     });
   }
-  // TODO : Get user designation by uid from firestore
 
   handleFields(desig) {
     switch (desig) {
@@ -44,9 +43,7 @@ class _ProfilePagestate extends State<ProfilePage> {
         break;
       default:
         {
-          return Center(
-            child: Container()
-          );
+          return Center(child: Container());
         }
     }
   }

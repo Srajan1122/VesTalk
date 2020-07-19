@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:timeago/timeago.dart' as timeago;
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:socail_network_flutter/views/newPost/chewie_list_itme.dart';
@@ -230,7 +230,7 @@ class _PostDetailsState extends State<PostDetails> {
                                   if (value == null) {
                                     return;
                                   }
-                                  if (value.length >= 10) {
+                                  if (value.length >= 1) {
                                     setState(() {
                                       flag = Colors.blue;
                                       comment = value;
@@ -250,7 +250,7 @@ class _PostDetailsState extends State<PostDetails> {
                           icon: Icon(Icons.send),
                           color: flag,
                           onPressed: () {
-                            if (comment.length >= 10) {
+                            if (comment.length >= 1) {
                               uploadComment(comment, uid, widget.postId);
                               Fluttertoast.showToast(msg: 'Comment Successful');
                               commentController.clear();
@@ -292,6 +292,10 @@ class CommentList extends StatelessWidget {
               itemCount: snapshot.data.length,
               itemBuilder: (_, index) {
                 DocumentSnapshot comment = snapshot.data[index];
+                if (comment == null) {
+                  return Text('Loading');
+                }
+
                 return Column(
                   children: <Widget>[
                     Container(

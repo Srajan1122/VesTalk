@@ -12,8 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future _data;
-
   Future getPosts() async {
     print('i got called');
     QuerySnapshot qn = await Firestore.instance
@@ -24,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _refresh() async {
-    if(!mounted) return;
+    if (!mounted) return;
     setState(() {
       Constants.data = getPosts();
     });

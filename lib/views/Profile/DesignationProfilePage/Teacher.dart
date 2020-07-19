@@ -16,8 +16,6 @@ class _TeacherProfilePage extends State<TeacherProfile> {
   static DatabaseMethods databaseMethods = new DatabaseMethods();
   String post, name, photoUrl, email, designation, branch;
 
-  // TODO : add details from db
-
   checkIfNull() {
     if (name == null ||
         photoUrl == null ||
@@ -32,7 +30,7 @@ class _TeacherProfilePage extends State<TeacherProfile> {
 
   getUserData() async {
     Map<String, String> teacherInfo =
-    await databaseMethods.getTeacherInfo(widget.uid);
+        await databaseMethods.getTeacherInfo(widget.uid);
     setState(() {
       name = teacherInfo['name'];
       email = teacherInfo['email'];

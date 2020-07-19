@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/Chat/chatlist.dart';
 
-
 class ChatSearchPage extends StatefulWidget {
   @override
   _ChatSearchPageState createState() => _ChatSearchPageState();
@@ -113,7 +112,6 @@ class UserSearch extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
     throw UnimplementedError();
   }
 
@@ -121,15 +119,17 @@ class UserSearch extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) {
     final suggestion = query.isEmpty
         ? []
-        : userList.where((element) => element['displayName']
-        .toString()
-        .toLowerCase()
-        .startsWith(query.toLowerCase())).toList();
+        : userList
+            .where((element) => element['displayName']
+                .toString()
+                .toLowerCase()
+                .startsWith(query.toLowerCase()))
+            .toList();
 
     return ListView.builder(
         itemCount: suggestion.length,
         itemBuilder: (_, index) {
-          return  ChatUserList(
+          return ChatUserList(
             uid: suggestion.toList()[index]['id'],
             displayName: suggestion.toList()[index]['displayName'],
             photoUrl: suggestion.toList()[index]['photoUrl'],
@@ -139,4 +139,3 @@ class UserSearch extends SearchDelegate<String> {
         });
   }
 }
-

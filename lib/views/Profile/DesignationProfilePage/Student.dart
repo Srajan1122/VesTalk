@@ -16,8 +16,6 @@ class _StudentProfilePage extends State<StudentProfile> {
   static DatabaseMethods databaseMethods = new DatabaseMethods();
   String name, photoUrl, designation, branch, year, email, phoneNumber;
 
-  // TODO : add details from db
-
   checkIfNull() {
     if (name == null ||
         photoUrl == null ||
