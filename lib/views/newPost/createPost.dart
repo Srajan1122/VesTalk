@@ -95,52 +95,61 @@ class _CreatePostState extends State<CreatePost> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
-                        child: Text('Choose from the following!',
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Center(
-                      // width: 320.0,
-                      child: FlatButton(
-                        onPressed: openCamera,
-                        textColor: Colors.white,
-                        color: Colors.transparent,
-                        padding: const EdgeInsets.all(0.0),
-                        splashColor: Color(0xFFFC2542),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            color: Color(0xFFFC2542),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          padding: const EdgeInsets.all(10.0),
-                          child:
-                          const Text('Open Camera', style: TextStyle(fontSize: 15)),
+                    Column(
+                      children: <Widget>[
+                        Center(
+                            child: Text('Choose from the following!',
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
+                        SizedBox(
+                          height: 10,
                         ),
-                      ),
-                    ),
-                    Center(
-                      // width: 320.0,
-                      child: FlatButton(
-                        onPressed: openGallery,
-                        textColor: Colors.white,
-                        color: Colors.transparent,
-                        padding: const EdgeInsets.all(0.0),
-                        splashColor: Color(0xFFFC2542),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            color: Color(0xFFFC2542),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          padding: const EdgeInsets.all(10.0),
-                          child:
-                          const Text('Open Gallery', style: TextStyle(fontSize: 15)),
+                        Row(
+                          children: <Widget>[
+                            Center(
+                              // width: 320.0,
+                              child: FlatButton(
+                                onPressed: openCamera,
+                                textColor: Colors.white,
+                                color: Colors.transparent,
+                                padding: const EdgeInsets.fromLTRB(30, 20, 0, 0),
+                                splashColor: Colors.lightBlue,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    color: Colors.lightBlue,
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  padding: const EdgeInsets.all(10.0),
+                                  child:
+                                  const Text('Open Camera', style: TextStyle(fontSize: 15)),
+                                ),
+
+                              ),
+                            ),
+                            Center(
+                              // width: 320.0,
+                              child: FlatButton(
+                                onPressed: openGallery,
+                                textColor: Colors.white,
+                                color: Colors.transparent,
+                                padding: const EdgeInsets.fromLTRB(40, 20, 30, 0),
+                                splashColor: Colors.lightBlue,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    color: Colors.lightBlue,
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  padding: const EdgeInsets.all(10.0),
+                                  child:
+                                  const Text('Open Gallery', style: TextStyle(fontSize: 15, fontFamily: 'Montserrat')),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                      ),
-                    )
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -185,176 +194,171 @@ class _CreatePostState extends State<CreatePost> {
 
   @override
   Widget build(BuildContext context) {
-    return FocusWatcher(
-      child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: ListView(children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(maxHeight: 400),
-                        child: TextField(
-                          controller: postController,
-                          maxLines: null,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: ("What do you want to talk about?"),
-                            hintText: ('Enjoy Posting!'),
-                          ),
-                          onChanged: (val) => {
-                            setState(() {
-                              description = val;
-                            })
-                          },
-                        ),
-                      ),
-                    )),
-                Container(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        child: ((_attachment != null && isVideo == true)
-                            ? Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: Column(
-                                  children: <Widget>[
-                                    ChewieListItem(
-                                        videoPlayerController:
-                                            VideoPlayerController.file(
-                                                _attachment)),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 20, 0, 30),
-                                      child: Ink(
-                                        decoration: ShapeDecoration(
-                                          color: Colors.black,
-                                          shape: CircleBorder(),
-                                        ),
-                                        child: IconButton(
-                                            tooltip: 'Discard',
-                                            color: Colors.white,
-                                            icon: Icon(Icons.close),
-                                            onPressed: () => {
-                                                  setState(() {
-                                                    isVideo = false;
-                                                    _attachment = null;
-                                                  })
-                                                }),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )
-                            : Container()),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                    child: ((_attachment != null && isVideo == false)
-                        ? Column(
-                            children: <Widget>[
-                              Card(
-                                semanticContainer: true,
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                child: SizedBox(
-                                    height: 200,
-                                    child: Image.file(_attachment,
-                                        fit: BoxFit.fitHeight)),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                elevation: 10,
-                                margin: EdgeInsets.all(20),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-                                child: Ink(
-                                  decoration: ShapeDecoration(
-                                    color: Colors.black,
-                                    shape: CircleBorder(),
-                                  ),
-                                  child: IconButton(
-                                      tooltip: 'Discard',
-                                      color: Colors.white,
-                                      icon: Icon(Icons.close),
-                                      onPressed: () => {
-                                            setState(() {
-                                              _attachment = null;
-                                            })
-                                          }),
-                                ),
-                              )
-                            ],
-                          )
-                        : Container())),
-                FlatButton(
-                    onPressed: handlePress,
-                  textColor: Colors.white,
-                  color: Colors.transparent,
-                  padding: const EdgeInsets.all(0.0),
-                  splashColor: Color(0xFFFC2542),
+    return Scaffold(
+        body: ListView(children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                  padding: const EdgeInsets.all(20.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      color: Color(0xFFFC2542),
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    padding: const EdgeInsets.all(10.0),
-                      child:
-                      const Text('Publish Post', style: TextStyle(fontSize: 20)),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(maxHeight: 400),
+                      child: TextField(
+                        controller: postController,
+                        maxLines: null,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: ("What do you want to talk about?"),
+                          hintText: ('Enjoy Posting!'),
+                        ),
+                        onChanged: (val) => {
+                          setState(() {
+                            description = val;
+                          })
+                        },
+                      ),
                     ),
+                  )),
+              Container(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      child: ((_attachment != null && isVideo == true)
+                          ? Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Column(
+                                children: <Widget>[
+                                  ChewieListItem(
+                                      videoPlayerController:
+                                          VideoPlayerController.file(
+                                              _attachment)),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 20, 0, 30),
+                                    child: Ink(
+                                      decoration: ShapeDecoration(
+                                        color: Colors.black,
+                                        shape: CircleBorder(),
+                                      ),
+                                      child: IconButton(
+                                          tooltip: 'Discard',
+                                          color: Colors.white,
+                                          icon: Icon(Icons.close),
+                                          onPressed: () => {
+                                                setState(() {
+                                                  isVideo = false;
+                                                  _attachment = null;
+                                                })
+                                              }),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          : Container()),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                  child: ((_attachment != null && isVideo == false)
+                      ? Column(
+                          children: <Widget>[
+                            Card(
+                              semanticContainer: true,
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              child: SizedBox(
+                                  height: 200,
+                                  child: Image.file(_attachment,
+                                      fit: BoxFit.fitHeight)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              elevation: 10,
+                              margin: EdgeInsets.all(20),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+                              child: Ink(
+                                decoration: ShapeDecoration(
+                                  color: Colors.black,
+                                  shape: CircleBorder(),
+                                ),
+                                child: IconButton(
+                                    tooltip: 'Discard',
+                                    color: Colors.white,
+                                    icon: Icon(Icons.close),
+                                    onPressed: () => {
+                                          setState(() {
+                                            _attachment = null;
+                                          })
+                                        }),
+                              ),
+                            )
+                          ],
+                        )
+                      : Container())),
+              FlatButton(
+                  onPressed: handlePress,
+                textColor: Colors.white,
+                color: Colors.transparent,
+                padding: const EdgeInsets.all(0.0),
+                splashColor: Colors.lightBlue,
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    color: Colors.lightBlue,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  padding: const EdgeInsets.all(10.0),
+                    child:
+                    const Text('Publish Post', style: TextStyle(fontSize: 16, fontFamily: 'Montserrat')),
+                  ),
 //                  color: Color(0xFF000050),
 //                  child: Text('Publish Post', style: TextStyle(color: Color(0xFFFC2542)),),
-//                  shape: RoundedRectangleBorder(
-//                      borderRadius: BorderRadius.circular(30)))
-                ),
-              ],
-            ),
-          ]),
-          floatingActionButton: SpeedDial(
-            animatedIcon: AnimatedIcons.menu_close,
-            animatedIconTheme: IconThemeData(size: 22),
-            backgroundColor: Color(0xFFFC2542),
-            visible: true,
-            curve: Curves.bounceIn,
-            children: [
-              // FAB 1
-              SpeedDialChild(
-                  child: Icon(Icons.image),
-                  backgroundColor: Color(0xFFFC2542),
-                  onTap: _displayOptionsDialog,
-                  label: 'Add Image',
-                  labelStyle: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                      fontSize: 16.0),
-                  labelBackgroundColor: Color(0xFF000050)),
-              // FAB 2
-              SpeedDialChild(
-                  child: Icon(Icons.video_call),
-                  backgroundColor: Color(0xFFFC2542),
-                  onTap: () => {
-                        setState(() {
-                          isVideo = true;
-                        }),
-                        _displayOptionsDialog()
-                      },
-                  label: 'Add Video',
-                  labelStyle: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                      fontSize: 16.0),
-                  labelBackgroundColor: Color(0xFF000050))
+              ),
             ],
-          )),
-    );
+          ),
+        ]),
+        floatingActionButton: SpeedDial(
+          animatedIcon: AnimatedIcons.menu_close,
+          animatedIconTheme: IconThemeData(size: 22),
+          backgroundColor: Colors.lightBlue,
+          visible: true,
+          curve: Curves.bounceIn,
+          children: [
+            // FAB 1
+            SpeedDialChild(
+                child: Icon(Icons.image),
+                backgroundColor: Colors.lightBlue,
+                onTap: _displayOptionsDialog,
+                label: 'Add Image',
+                labelStyle: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    fontSize: 16.0),
+                labelBackgroundColor: Colors.black87),
+            // FAB 2
+            SpeedDialChild(
+                child: Icon(Icons.video_call),
+                backgroundColor: Colors.lightBlue,
+                onTap: () => {
+                      setState(() {
+                        isVideo = true;
+                      }),
+                      _displayOptionsDialog()
+                    },
+                label: 'Add Video',
+                labelStyle: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    fontSize: 16.0),
+                labelBackgroundColor: Colors.black87)
+          ],
+        ));
   }
 }
