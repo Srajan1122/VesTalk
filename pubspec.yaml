@@ -34,6 +34,7 @@ dependencies:
   image_picker: ^0.6.7+4
   video_player: ^0.10.11+2
   chewie: ^0.9.10
+  flutter_focus_watcher: ^0.0.1
 
   flutter:
     sdk: flutter
