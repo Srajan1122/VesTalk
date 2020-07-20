@@ -30,10 +30,12 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search'),
+        title: Text('Search', style: TextStyle(color: Colors.black),),
+        backgroundColor: Colors.white,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
+            color: Colors.black,
             onPressed: () {
               showSearch(
                   context: context,
@@ -68,6 +70,7 @@ class _SearchPageState extends State<SearchPage> {
               }),
           onRefresh: _refreshPage,
         ),
+
       ),
     );
   }

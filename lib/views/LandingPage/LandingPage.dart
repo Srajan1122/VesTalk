@@ -89,7 +89,24 @@ class _LandingPageState extends State<LandingPage> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-//          appBar: getAppBar(),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
+          title: Center(
+            child: const Text.rich(
+              TextSpan(
+                text: 'Ves',
+                style: TextStyle(fontSize: 30, color: Colors.black),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: 'Talk',
+                      style: TextStyle(color: Colors.lightBlue)),
+                ],
+              ),
+            ),
+
+          ),
+        ),
           body: listOfPage(_currentIndex, uid),
           bottomNavigationBar: CurvedNavigationBar(
             color: Colors.lightBlue,
@@ -126,7 +143,7 @@ class _LandingPageState extends State<LandingPage> {
                       backgroundImage: NetworkImage(Constants.photoUrl),
                     ),
                   ),
-                  decoration: BoxDecoration(color: Color(0xFF000050)),
+                  decoration: BoxDecoration(color: Colors.lightBlue),
                 ),
                 ListTile(
                   title: Text('Profile'),
