@@ -10,6 +10,15 @@ class DatabaseMethods {
     return qn.documents;
   }
 
+  Future getPostsById(id) async {
+    print(id);
+    QuerySnapshot qn = await Firestore.instance
+        .collection('posts')
+        .where('id', isEqualTo: id)
+        .getDocuments();
+    return qn.documents;
+  }
+
   Future getComments(postId) async {
     QuerySnapshot qn = await Firestore.instance
         .collection('posts/' + postId + '/comments')

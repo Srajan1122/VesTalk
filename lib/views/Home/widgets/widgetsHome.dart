@@ -77,7 +77,7 @@ Container buildUserVideo(snapshot, int index) {
                 aspectRatio: VideoPlayerController.network(
                     snapshot.data[index].data['fileUrl'])
                     .value
-                    .aspectRatio),
+                    .aspectRatio),  
         )
       : Container());
 }
