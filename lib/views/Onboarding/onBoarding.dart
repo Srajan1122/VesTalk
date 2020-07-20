@@ -23,7 +23,6 @@ class _OnBoardingState extends State<OnBoarding> {
           child: Container(
             width: 450,
             height: 800,
-
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -34,11 +33,10 @@ class _OnBoardingState extends State<OnBoarding> {
                       TextSpan(
                         text: 'Welcome To Ves',
                         style: TextStyle(fontSize: 30),
-                        children: <TextSpan> [
+                        children: <TextSpan>[
                           TextSpan(
                               text: 'Talk',
-                              style: TextStyle(color: Colors.lightBlue)
-                          ),
+                              style: TextStyle(color: Colors.lightBlue)),
                         ],
                       ),
                     ),
@@ -62,7 +60,11 @@ class _OnBoardingState extends State<OnBoarding> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(40, 90, 40, 0),
                   child: Center(
-                    child: Text('A place where each student is connected with each teacher irrespective of their branch.', style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,),
+                    child: Text(
+                      'A place where each student is connected with each teacher irrespective of their branch.',
+                      style: TextStyle(fontSize: 20.0),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
               ],
@@ -71,19 +73,17 @@ class _OnBoardingState extends State<OnBoarding> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () async{
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Designation(),
-              ),
-            );
-          },
-          child: FaIcon(FontAwesomeIcons.arrowRight),
-          backgroundColor: Colors.lightBlue,
+        onPressed: () async {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Designation(),
+            ),
+          );
+        },
+        child: FaIcon(FontAwesomeIcons.arrowRight),
+        backgroundColor: Colors.lightBlue,
       ),
     );
   }
 }
-
-

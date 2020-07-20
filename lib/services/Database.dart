@@ -2,6 +2,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class DatabaseMethods {
+  Future getPosts() async {
+    QuerySnapshot qn = await Firestore.instance
+        .collection('posts')
+        .orderBy('created', descending: true)
+        .getDocuments();
+    return qn.documents;
+  }
+
+  Future getComments(postId) async {
+    QuerySnapshot qn = await Firestore.instance
+        .collection('posts/' + postId + '/comments')
+        .orderBy('created', descending: true)
+        .getDocuments();
+    return qn.documents;
+  }
+
   getAllUserData() async {
     final QuerySnapshot _data =
         await Firestore.instance.collection('user').getDocuments();
@@ -62,9 +78,10 @@ class DatabaseMethods {
         .snapshots();
   }
 
-  getsearch(String id) async{
-    return await Firestore.instance.collection("ChatRoom")
-        .where("users",arrayContains: id)
+  getsearch(String id) async {
+    return await Firestore.instance
+        .collection("ChatRoom")
+        .where("users", arrayContains: id)
         .getDocuments();
   }
 

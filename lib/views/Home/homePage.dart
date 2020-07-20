@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/services/constant.dart';
-import 'package:socail_network_flutter/views/newPost/chewie_list_itme.dart';
-import 'package:video_player/video_player.dart';
-import 'package:socail_network_flutter/views/Home/postDetails.dart';
+import 'package:socail_network_flutter/views/Home/widgets/widgetsHome.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,19 +10,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future getPosts() async {
-    print('i got called');
-    QuerySnapshot qn = await Firestore.instance
-        .collection('posts')
-        .orderBy('created', descending: true)
-        .getDocuments();
-    return qn.documents;
-  }
-
+  DatabaseMethods _databaseMethods = DatabaseMethods();
   Future<void> _refresh() async {
     if (!mounted) return;
     setState(() {
-      Constants.data = getPosts();
+      Constants.data = _databaseMethods.getPosts();
     });
   }
 
@@ -32,214 +22,36 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     if (Constants.data == null) {
-      print('heelo');
-      Constants.data = getPosts();
+      Constants.data = _databaseMethods.getPosts();
     }
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
-//        backgroundColor: Colors.black,
-//        appBar: getAppBar(),
         body: Container(
-      child: RefreshIndicator(
-        child: FutureBuilder(
-          future: Constants.data,
-          builder: (_, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: Text('Loading....'));
-            } else if (snapshot.hasData) {
-              return ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (_, index) {
-                    return Container(
-                      width: double.maxFinite,
-                      child: Card(
-                        elevation: 5,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => PostDetails(
-                                        postId: snapshot.data[index].documentID,
-                                        userId:
-                                            snapshot.data[index].data['id'])));
-                          },
-                          child: Container(
-//                            decoration: BoxDecoration(
-//                              border: Border(
-//                                bottom: BorderSide(
-//                                    width: 2.0, color: Colors.redAccent),
-//                              ),
-//                            ),
-                            child: Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.all(7),
-                                  child: Stack(children: <Widget>[
-                                    Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Stack(
-                                        children: <Widget>[
-                                          Column(
-                                            children: <Widget>[
-                                              Row(
-                                                children: <Widget>[
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 1.0,top: 0),
-                                                    child: Align(
-                                                      child: Row(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        children: <Widget>[
-                                                          Card(
-                                                            child: CircleAvatar(
-                                                              backgroundColor:
-                                                                  Colors.white,
-                                                              radius: 25,
-                                                              backgroundImage:
-                                                                  NetworkImage(snapshot
-                                                                          .data[
-                                                                              index]
-                                                                          .data[
-                                                                      'photoUrl']),
-                                                            ),
-                                                            elevation: 1.0,
-                                                            shape:
-                                                                CircleBorder(),
-                                                            clipBehavior:
-                                                                Clip.antiAlias,
-                                                          ),
-                                                          Container(
-                                                                padding: const EdgeInsets.only(left: 1,top: 6),
-                                                                child: Column(
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  mainAxisAlignment:MainAxisAlignment.start,
-                                                                  children: <Widget>[
-                                                                    Text(
-                                                                        snapshot.data[index].data['displayName'],
-                                                                        style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12),
-                                                                      ),
-
-                                                                    Row(
-                                                                      children: <Widget>[
-                                                                        Text(
-                                                                            snapshot.data[index]
-                                                                                .data[
-                                                                            'designation'],
-                                                                            style:TextStyle(fontWeight: FontWeight.bold,fontSize: 10 ,
-                                                                                color: Colors.grey.shade600
-                                                                            )
-                                                                        ),
-                                                                        SizedBox(width: 3,),
-                                                                      ],
-                                                                    ),
-                                                                    Text( DateTime.fromMicrosecondsSinceEpoch(snapshot.data[index].data['created'].microsecondsSinceEpoch).toString(),
-                                                                        style:TextStyle(fontSize: 9 ,
-                                                                            color: Colors.grey.shade600
-                                                                        ))
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ]),
-                                ),
-                                FittedBox(fit: BoxFit.fill,
-                                    child: Container(
-                                      alignment: Alignment.topLeft,
-                                      width: 400,
-                                      padding: EdgeInsets.only(left: 16,right: 16),
-                                      child:
-                                      Text(
-                                        snapshot.data[index].data['description'],
-                                        overflow: TextOverflow.fade,
-                                      ),
-                                    )
-                                ),
-                                (((snapshot.data[index].data['fileUrl'] !=
-                                            null) &&
-                                        (!snapshot.data[index].data['isVideo']))
-                                    ? Card(
-                                        semanticContainer: true,
-                                        clipBehavior:
-                                            Clip.antiAliasWithSaveLayer,
-                                        child: Padding(
-                                          padding: EdgeInsets.all(2),
-                                          child: FittedBox(fit: BoxFit.fill,
-                                              child: Container(
-                                                alignment: Alignment.center,
-                                                width: 400,
-                                                height: 300,
-                                                  child: Image.network(
-                                                      snapshot.data[index]
-                                                          .data['fileUrl'],
-                                                      fit: BoxFit.fitWidth))
-                                              )
-                                          ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
-                                        elevation: 10,
-                                        margin: EdgeInsets.all(20),
-                                      )
-                                    : Container()),
-                                (((snapshot.data[index].data['fileUrl'] !=
-                                            null) &&
-                                        (snapshot.data[index].data['isVideo']))
-                                    ?  Card(
-                                  semanticContainer: true,
-                                  clipBehavior:
-                                  Clip.antiAliasWithSaveLayer,
-                                  child: Padding(
-                                      padding: EdgeInsets.all(2),
-                                      child: FittedBox(fit: BoxFit.fill,
-                                          child:Container(
-                                            alignment: Alignment.center,
-                                            height: 300,
-                                            child: ChewieListItem(
-                                                videoPlayerController:
-                                                VideoPlayerController.network(
-                                                    snapshot.data[index]
-                                                        .data['fileUrl'])),
-                                          )
-                                      )
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.circular(10.0),
-                                  ),
-                                  elevation: 10,
-                                  margin: EdgeInsets.all(20),
-                                )
-                                    : Container()),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  });
-            } else {
-              return Center(child: Text('No Posts Available'));
-            }
-          },
-        ),
-        onRefresh: _refresh,
-      ),
+      child: buildRefreshIndicator(context),
     ));
+  }
+
+  RefreshIndicator buildRefreshIndicator(BuildContext context) {
+    return RefreshIndicator(
+      child: buildFutureBuilder(context),
+      onRefresh: _refresh,
+    );
+  }
+
+  FutureBuilder buildFutureBuilder(BuildContext context) {
+    return FutureBuilder(
+      future: Constants.data,
+      builder: (_, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: Text('Loading....'));
+        } else if (snapshot.hasData) {
+          return listbuidler(context, snapshot);
+        } else {
+          return Center(child: Text('No Posts Available'));
+        }
+      },
+    );
   }
 }

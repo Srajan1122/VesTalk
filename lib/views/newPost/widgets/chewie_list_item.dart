@@ -4,10 +4,12 @@ import 'package:video_player/video_player.dart';
 
 class ChewieListItem extends StatefulWidget {
   final VideoPlayerController videoPlayerController;
+  final double aspectRatio;
   final bool looping;
 
   ChewieListItem({
     @required this.videoPlayerController,
+    @required this.aspectRatio,
     this.looping,
     Key key,
   }) : super(key: key);
@@ -25,7 +27,7 @@ class _ChewieListItemState extends State<ChewieListItem> {
     // Wrapper on top of the videoPlayerController
     _chewieController = ChewieController(
       videoPlayerController: widget.videoPlayerController,
-      aspectRatio: 16 / 9,
+      aspectRatio: widget.aspectRatio,
       // Prepare the video to be played and display the first frame
       autoInitialize: true,
       looping: widget.looping,
