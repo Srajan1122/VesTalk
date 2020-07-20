@@ -66,35 +66,25 @@ class _PostDetailsState extends State<PostDetails> {
 
   Column buildDetailStream(BuildContext context, post) {
     return Column(children: <Widget>[
+      buildUserInfo(context, post),
+      buildUserDesc(post),
+      buildUserImage(post),
+      buildUserVideo(post),
       Column(
         children: <Widget>[
-          buildUserInfo(context, post),
+
           SizedBox(height: 10),
           likeAndShare(),
         ],
       ),
-      buildUserImage(post),
-      buildUserVideo(post),
-      buildUserDesc(post),
-      Divider(
-        color: Colors.black,
-        thickness: 1,
-        indent: 20,
-        endIndent: 20,
-      ),
       Container(
-          padding: EdgeInsets.only(top: 5),
+//          padding: EdgeInsets.only(top: ),
+      alignment: Alignment(-0.9, -0.2),
           child: Text(
             'Comments',
             style: TextStyle(
                 letterSpacing: 1.5, fontWeight: FontWeight.w700, fontSize: 16),
           )),
-      Divider(
-        color: Colors.black,
-        thickness: 1,
-        indent: 20,
-        endIndent: 20,
-      ),
       buildCommentInput(),
     ]);
   }
@@ -103,7 +93,7 @@ class _PostDetailsState extends State<PostDetails> {
     return Row(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
           child: Container(
             width: 300,
             color: Colors.white,
