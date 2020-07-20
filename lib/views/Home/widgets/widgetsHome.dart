@@ -8,6 +8,7 @@ Widget listbuidler(BuildContext context, snapshot) {
   {
     return ListView.builder(
         itemCount: snapshot.data.length,
+        cacheExtent: 10000,
         itemBuilder: (_, index) {
           return buildPost(context, snapshot, index);
         });
