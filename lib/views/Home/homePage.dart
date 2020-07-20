@@ -7,6 +7,7 @@ import 'package:socail_network_flutter/views/Home/widgets/widgetsHome.dart';
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
+
 }
 
 class _HomePageState extends State<HomePage> {
@@ -17,7 +18,6 @@ class _HomePageState extends State<HomePage> {
       Constants.data = _databaseMethods.getPosts();
     });
   }
-
   @override
   void initState() {
     super.initState();
@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      child: buildRefreshIndicator(context),
+          child: buildRefreshIndicator(context),
     ));
   }
 

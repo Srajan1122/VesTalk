@@ -1,40 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:socail_network_flutter/services/Database.dart';
+import 'package:socail_network_flutter/services/constant.dart';
 import 'package:socail_network_flutter/views/newPost/widgets/chewie_list_item.dart';
 import 'package:video_player/video_player.dart';
 
-Row likeAndShare() {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: <Widget>[
-      ButtonTheme(
-        minWidth: 150,
-        child: RaisedButton.icon(
-          icon: FaIcon(FontAwesomeIcons.solidHeart, color: Colors.redAccent),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-          onPressed: () {},
-          color: Colors.grey.shade200,
-          label: Text('Like'),
-        ),
-      ),
-      SizedBox(
-        width: 50,
-      ),
-      ButtonTheme(
-        minWidth: 150,
-        child: RaisedButton.icon(
-          icon: FaIcon(
-            FontAwesomeIcons.share,
-          ),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-          onPressed: () {},
-          color: Colors.grey.shade200,
-          label: Text('Share'),
-        ),
-      ),
-    ],
-  );
+class likeAndShare extends StatefulWidget {
+  final String postId;
+  likeAndShare({@required this.postId});
+  @override
+  _likeAndShareState createState() => _likeAndShareState();
 }
+
+class _likeAndShareState extends State<likeAndShare> {
+  bool like = false;
+  liked(){
+    setState(() {
+      like=!like;
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          ButtonTheme(
+            minWidth: 150,
+            child: RaisedButton.icon(
+              icon: FaIcon(FontAwesomeIcons.solidHeart, color: Colors.redAccent),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+              onPressed: () async {
+                DatabaseMethods _databaseMethods = DatabaseMethods();
+                await _databaseMethods.updateLike(widget.postId, Constants.uid);
+               print(like.toString()+"  gbghbheh");
+               liked();
+              },
+              color: like? Colors.blue : Colors.grey.shade200,
+              label: Text('Like'),
+            ),
+          ),
+          SizedBox(
+            width: 50,
+          ),
+          ButtonTheme(
+            minWidth: 150,
+            child: RaisedButton.icon(
+              icon: FaIcon(
+                FontAwesomeIcons.share,
+              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+              onPressed: () {},
+              color: Colors.grey.shade200,
+              label: Text('Share'),
+            ),
+          ),
+        ],
+      ) ,
+    );
+  }
+}
+
 
 Container buildUserVideo(post) {
   return (((post['fileUrl'] != null) && (post['isVideo']))

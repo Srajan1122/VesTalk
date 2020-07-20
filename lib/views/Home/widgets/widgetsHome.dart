@@ -54,7 +54,7 @@ Container buildPost(BuildContext context, snapshot, int index) {
               buildUserDesc(snapshot, index),
               buildUserImage(snapshot, index),
               buildUserVideo(snapshot, index),
-              buildBottomLikeAndCommentUi()
+              buildBottomLikeAndCommentUi(snapshot.data[index].documentID,snapshot.data[index].data['liked'])
 
             ],
           ),
@@ -111,11 +111,22 @@ FittedBox buildUserDesc(snapshot, int index) {
         ),
       ));
 }
-Column buildBottomLikeAndCommentUi(){
+Column buildBottomLikeAndCommentUi(postId,liked){
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: <Widget>[
+      Container(
+        margin: EdgeInsets.only(top: 2,left: 8),
+        width: double.infinity,
+        child: Row(
+          children: <Widget>[
+            Text(liked.toString()),
+            SizedBox(width: 6,),
+            Icon(Icons.thumb_up,color: Colors.blue,)
+          ],
+        ),
+      ),
       Container(
         margin: EdgeInsets.only(top: 2,left: 8,right: 8),
         width: double.infinity,
@@ -126,7 +137,7 @@ Column buildBottomLikeAndCommentUi(){
         padding: EdgeInsets.all(5),
         width: double.infinity,
         height: 50,
-        child: likeAndShare(),
+        child: likeAndShare(postId : postId),
       )
     ],
   );
