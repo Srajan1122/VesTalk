@@ -10,6 +10,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/LandingPage/LandingPage.dart';
 import 'package:socail_network_flutter/views/Onboarding/onBoarding.dart';
+import 'Widgets/BottomHelperText.dart';
+import 'Widgets/HeadingText.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -34,9 +36,11 @@ class _SignInState extends State<SignIn> {
 
   getUserId() async {
     await SharedPreferences.getInstance().then((value) => {
-          this.setState(() {
-            id = value.getString('id');
-          })
+          if(mounted){
+            this.setState(() {
+              id = value.getString('id');
+            })
+          }
         });
   }
 
@@ -156,18 +160,7 @@ class _SignInState extends State<SignIn> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                Text('Welcome!',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 50,
-                        fontWeight: FontWeight.bold)),
-                SizedBox(height: 10),
-                Text('Nice to see you!',
-                    style: TextStyle(
-                        color: Colors.white54,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.right),
+                HeadingText(),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
                   child: RaisedButton.icon(
@@ -183,27 +176,7 @@ class _SignInState extends State<SignIn> {
                     color: Colors.redAccent,
                   ),
                 ),
-                Expanded(
-                  child: Align(
-                    alignment: FractionalOffset.bottomCenter,
-                    child: Padding(
-                        padding: EdgeInsets.only(bottom: 10.0),
-                        child: Text.rich(
-                          TextSpan(
-                            text: 'Login with',
-                            style: TextStyle(fontSize: 15),
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: ' VES ',
-                                  style: TextStyle(
-                                      color: Colors.redAccent,
-                                      fontWeight: FontWeight.bold)),
-                              TextSpan(text: "ID's only", style: TextStyle()),
-                            ],
-                          ),
-                        )),
-                  ),
-                ),
+                BottomHelperText(),
               ],
             ),
           ),
@@ -212,3 +185,4 @@ class _SignInState extends State<SignIn> {
     );
   }
 }
+
