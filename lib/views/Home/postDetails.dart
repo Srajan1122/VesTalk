@@ -70,7 +70,7 @@ class _PostDetailsState extends State<PostDetails> {
         children: <Widget>[
           buildUserInfo(context, post),
           SizedBox(height: 10),
-          likeAndShare(),
+          likeAndShare(post),
         ],
       ),
       buildUserImage(post),

@@ -54,8 +54,7 @@ Container buildPost(BuildContext context, snapshot, int index) {
               buildUserDesc(snapshot, index),
               buildUserImage(snapshot, index),
               buildUserVideo(snapshot, index),
-              buildBottomLikeAndCommentUi()
-
+              buildBottomLikeAndCommentUi(snapshot, index)
             ],
           ),
         ),
@@ -71,13 +70,13 @@ Container buildUserVideo(snapshot, int index) {
           height: 450.0,
           margin: EdgeInsets.only(bottom: 10),
           width: double.infinity,
-            child:  ChewieListItem(
-                videoPlayerController: VideoPlayerController.network(
-                    snapshot.data[index].data['fileUrl']),
-                aspectRatio: VideoPlayerController.network(
-                    snapshot.data[index].data['fileUrl'])
-                    .value
-                    .aspectRatio),  
+          child: ChewieListItem(
+              videoPlayerController: VideoPlayerController.network(
+                  snapshot.data[index].data['fileUrl']),
+              aspectRatio: VideoPlayerController.network(
+                      snapshot.data[index].data['fileUrl'])
+                  .value
+                  .aspectRatio),
         )
       : Container());
 }
@@ -91,8 +90,7 @@ StatelessWidget buildUserImage(snapshot, int index) {
               width: double.infinity,
               child: Image.network(snapshot.data[index].data['fileUrl'],
                   fit: BoxFit.fitHeight)),
-
-          margin: EdgeInsets.only(top: 10,bottom: 10),
+          margin: EdgeInsets.only(top: 10, bottom: 10),
         )
       : Container());
 }
@@ -111,22 +109,23 @@ FittedBox buildUserDesc(snapshot, int index) {
         ),
       ));
 }
-Column buildBottomLikeAndCommentUi(){
+
+Column buildBottomLikeAndCommentUi(snapshot, int index) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: <Widget>[
       Container(
-        margin: EdgeInsets.only(top: 2,left: 8,right: 8),
+        margin: EdgeInsets.only(top: 2, left: 8, right: 8),
         width: double.infinity,
         height: 2,
         color: Colors.grey.shade300,
-        ),
+      ),
       Container(
         padding: EdgeInsets.all(5),
         width: double.infinity,
         height: 50,
-        child: likeAndShare(),
+        child: likeAndShare(snapshot.data[index]),
       )
     ],
   );
