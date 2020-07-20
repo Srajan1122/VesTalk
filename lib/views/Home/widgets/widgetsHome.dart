@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:socail_network_flutter/views/Home/postDetails.dart';
 import 'package:socail_network_flutter/views/Home/widgets/userInfoHome.dart';
+import 'package:socail_network_flutter/views/Home/widgets/widgetsDetail.dart';
 import 'package:socail_network_flutter/views/newPost/widgets/chewie_list_item.dart';
 import 'package:video_player/video_player.dart';
 
@@ -52,16 +54,8 @@ Container buildPost(BuildContext context, snapshot, int index) {
               buildUserDesc(snapshot, index),
               buildUserImage(snapshot, index),
               buildUserVideo(snapshot, index),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
-                child: Container(
-                  height: 50,
-                  child: Text(
-                    snapshot.data[index].data['description'],
-                    overflow: TextOverflow.fade,
-                  ),
-                ),
-              )
+              buildBottomLikeAndCommentUi()
+
             ],
           ),
         ),
@@ -74,15 +68,16 @@ Container buildUserVideo(snapshot, int index) {
   return (((snapshot.data[index].data['fileUrl'] != null) &&
           (snapshot.data[index].data['isVideo']))
       ? Container(
-          height: 250.0,
-          width: 8100.0,
-          child: ChewieListItem(
-              videoPlayerController: VideoPlayerController.network(
-                  snapshot.data[index].data['fileUrl']),
-              aspectRatio: VideoPlayerController.network(
-                      snapshot.data[index].data['fileUrl'])
-                  .value
-                  .aspectRatio),
+          height: 450.0,
+          margin: EdgeInsets.only(bottom: 10),
+          width: double.infinity,
+            child:  ChewieListItem(
+                videoPlayerController: VideoPlayerController.network(
+                    snapshot.data[index].data['fileUrl']),
+                aspectRatio: VideoPlayerController.network(
+                    snapshot.data[index].data['fileUrl'])
+                    .value
+                    .aspectRatio),
         )
       : Container());
 }
@@ -90,18 +85,14 @@ Container buildUserVideo(snapshot, int index) {
 StatelessWidget buildUserImage(snapshot, int index) {
   return (((snapshot.data[index].data['fileUrl'] != null) &&
           (!snapshot.data[index].data['isVideo']))
-      ? Card(
-          semanticContainer: true,
-          clipBehavior: Clip.antiAliasWithSaveLayer,
+      ? Container(
           child: SizedBox(
-              height: 200,
+              height: 450.0,
+              width: double.infinity,
               child: Image.network(snapshot.data[index].data['fileUrl'],
                   fit: BoxFit.fitHeight)),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          elevation: 10,
-          margin: EdgeInsets.all(20),
+
+          margin: EdgeInsets.only(top: 10,bottom: 10),
         )
       : Container());
 }
@@ -113,9 +104,30 @@ FittedBox buildUserDesc(snapshot, int index) {
         alignment: Alignment.topLeft,
         width: 400,
         padding: EdgeInsets.only(left: 16, right: 16),
+        margin: EdgeInsets.only(bottom: 2),
         child: Text(
           snapshot.data[index].data['description'],
           overflow: TextOverflow.fade,
         ),
       ));
+}
+Column buildBottomLikeAndCommentUi(){
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: <Widget>[
+      Container(
+        margin: EdgeInsets.only(top: 2,left: 8,right: 8),
+        width: double.infinity,
+        height: 2,
+        color: Colors.grey.shade300,
+        ),
+      Container(
+        padding: EdgeInsets.all(5),
+        width: double.infinity,
+        height: 50,
+        child: likeAndShare(),
+      )
+    ],
+  );
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 Row buildUserInfo(snapshot, int index) {
   return Row(
@@ -22,19 +23,16 @@ Row buildUserInfo(snapshot, int index) {
                 clipBehavior: Clip.antiAlias,
               ),
               Container(
-                padding: const EdgeInsets.fromLTRB(40, 0, 0, 10),
+                padding: const EdgeInsets.only(left: 1,top: 6),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(left: 2),
-                      child: Text(
+                    Text(
                         snapshot.data[index].data['displayName'],
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 12),
                       ),
-                    ),
                     Row(
                       children: <Widget>[
                         Text(snapshot.data[index].data['designation'],
@@ -53,8 +51,8 @@ Row buildUserInfo(snapshot, int index) {
                       ],
                     ),
                     Text(
-                        DateTime.fromMicrosecondsSinceEpoch(snapshot.data[index]
-                                .data['created'].microsecondsSinceEpoch)
+                        timeago.format(snapshot.data[index]
+                                .data['created'].toDate())
                             .toString(),
                         style:
                             TextStyle(fontSize: 9, color: Colors.grey.shade600))
