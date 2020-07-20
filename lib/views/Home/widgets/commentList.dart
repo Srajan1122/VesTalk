@@ -35,7 +35,7 @@ class CommentList extends StatelessWidget {
                             children: <Widget>[
                               Card(
                                 child: Align(
-                                  alignment: Alignment.topLeft,
+                                  alignment: Alignment(-1,1),
                                   child: CircleAvatar(
                                     backgroundColor: Colors.black,
                                     radius: 25,
@@ -43,7 +43,7 @@ class CommentList extends StatelessWidget {
                                         NetworkImage(comment['photoUrl']),
                                   ),
                                 ),
-                                elevation: 9.0,
+                                elevation: 2.0,
                                 shape: CircleBorder(),
                                 clipBehavior: Clip.antiAlias,
                               ),
@@ -54,7 +54,7 @@ class CommentList extends StatelessWidget {
                             children: <Widget>[
                               Container(
                                   padding: EdgeInsets.fromLTRB(0, 5, 50, 0),
-                                  width: 250,
+                                  width: 300,
 //                                  color: Colors.black,
                                   child: Text.rich(
                                     TextSpan(
@@ -84,13 +84,14 @@ class CommentList extends StatelessWidget {
                                   ),
                               ),
                               Container(
-                                width: 250,
-                                color: Colors.black,
+                                width: 300,
+                                padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
                                 child: Text(comment['comment'],
                                     style: TextStyle(
                                         fontSize: 12,
-                                        fontWeight: FontWeight.w300,
-                                        letterSpacing: 1)
+                                        fontWeight: FontWeight.w400,
+                                        letterSpacing: 1,
+                                    color: Color(0xFF000000))
                                 ),
                               ),
                             ],

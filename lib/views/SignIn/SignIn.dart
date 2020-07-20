@@ -173,7 +173,7 @@ class _SignInState extends State<SignIn> {
                     },
                     icon: FaIcon(FontAwesomeIcons.google),
                     label: Text('Sign in with Google'),
-                    color: Colors.blue,
+                    color: Colors.lightBlue,
                   ),
                 ),
                 BottomHelperText(),

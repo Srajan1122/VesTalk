@@ -22,7 +22,7 @@ class ChatUserContent extends StatelessWidget {
               padding: EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
               decoration: BoxDecoration(
                 borderRadius: BorderRadiusDirectional.circular(30),
-                color: Colors.pink[50],
+                color: Colors.lightBlue.shade50,
               ),
               height: 30,
               child: GestureDetector(
