@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/services/constant.dart';
@@ -24,6 +26,7 @@ class _MassagePageState extends State<MassagePage> {
   TextEditingController messageController = new TextEditingController();
 
   Stream chatMessagesStream;
+  ScrollController _scrollController = ScrollController();
 
   sendMessage() {
     if (messageController.text.isNotEmpty) {
@@ -58,10 +61,10 @@ class _MassagePageState extends State<MassagePage> {
             builder: (context, snapshot) {
               return snapshot.hasData
                   ? ListView.builder(
+                      controller: _scrollController,
                       itemCount: snapshot.data.documents.length,
-                      padding: EdgeInsets.only(top: 10, bottom: 10),
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.only(top: 10, bottom: 70),
+                      physics: ScrollPhysics(),
                       itemBuilder: (context, index) {
                         return ChatBubble(
                           chatMessage: ChatMessage(
@@ -74,26 +77,24 @@ class _MassagePageState extends State<MassagePage> {
                   : Container();
             },
           ),
-          buildAlign(messageController),
+          buildTextField(messageController),
           Align(
               alignment: Alignment.bottomRight,
-              child: GestureDetector(
-                onTap: () {
-                  sendMessage();
-                },
-                child: Container(
-                  padding: EdgeInsets.only(right: 20, bottom: 12),
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      sendMessage();
-                    },
-                    child: Icon(
-                      Icons.send,
-                      color: Colors.white,
-                    ),
-                    backgroundColor: Colors.pink,
-                    elevation: 0,
+              child: Container(
+                padding: EdgeInsets.only(right: 20, bottom: 12),
+                child: FloatingActionButton(
+                  onPressed: () {
+                    Timer(
+                        Duration(milliseconds: 300),
+                        () => _scrollController.jumpTo(
+                            _scrollController.position.maxScrollExtent));
+                    sendMessage();
+                  },
+                  child: Icon(
+                    Icons.send,
+                    color: Colors.white,
                   ),
+                  backgroundColor: Colors.pink,
                 ),
               ))
         ],

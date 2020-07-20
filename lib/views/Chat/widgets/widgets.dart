@@ -18,12 +18,11 @@ InputDecoration inputDecoration() {
           borderSide: BorderSide(color: Colors.grey.shade400)));
 }
 
-Align buildAlign(fieldController) {
+Align buildTextField(fieldController) {
   return Align(
     alignment: Alignment.bottomLeft,
     child: Container(
       padding: EdgeInsets.only(left: 16, bottom: 10),
-      height: 80,
       width: double.infinity,
       color: Colors.white,
       child: Row(
@@ -47,13 +46,17 @@ Align buildAlign(fieldController) {
           SizedBox(
             width: 16,
           ),
-          Expanded(
+          Container(
+            width: 250,
             child: TextField(
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
               controller: fieldController,
               decoration: InputDecoration(
                   hintStyle: TextStyle(color: Colors.grey.shade500),
                   hintText: "Type message...",
                   border: InputBorder.none),
+              textCapitalization: TextCapitalization.sentences,
             ),
           )
         ],
