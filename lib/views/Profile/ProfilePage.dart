@@ -16,6 +16,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePagestate extends State<ProfilePage> {
   static DatabaseMethods databaseMethods = new DatabaseMethods();
   String designation;
+
   getUserData() async {
     print('User id in profile: ${widget.uid}');
     List<DocumentSnapshot> documents =
@@ -26,25 +27,16 @@ class _ProfilePagestate extends State<ProfilePage> {
     });
   }
 
-  handleFields(desig) {
-    switch (desig) {
+  handleFields(designation) {
+    switch (designation) {
       case 'Student':
-        {
           return StudentProfile(uid: widget.uid);
-        }
       case 'Teacher':
-        {
           return TeacherProfile(uid: widget.uid);
-        }
       case 'Council':
-        {
           return CouncilProfile(uid: widget.uid);
-        }
-        break;
       default:
-        {
           return Center(child: Container());
-        }
     }
   }
 
@@ -54,6 +46,7 @@ class _ProfilePagestate extends State<ProfilePage> {
     getUserData();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: handleFields(designation),

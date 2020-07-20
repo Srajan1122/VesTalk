@@ -27,10 +27,10 @@ class _DesignationState extends State<Designation> {
       _showDialog();
       Fluttertoast.showToast(msg: "Please enter the fields" );
       return false;
-    }else{
-      return true;
     }
+    return true;
   }
+
   void _showDialog() {
     showDialog(
       context: context,
@@ -55,10 +55,9 @@ class _DesignationState extends State<Designation> {
   onSubmit(context) async {
     await getUserId();
     databaseMethods.uploadUserDesignation(id, dropdownValue);
-    print(id);
-    print(dropdownValue);
     if(!checkValidation()){
       print('not good');
+      return;
     }
 
     Navigator.of(context).push(MaterialPageRoute(
