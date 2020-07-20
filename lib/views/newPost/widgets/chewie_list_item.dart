@@ -20,6 +20,7 @@ class ChewieListItem extends StatefulWidget {
 
 class _ChewieListItemState extends State<ChewieListItem> {
   ChewieController _chewieController;
+  String name;
 
   @override
   void initState() {
@@ -50,5 +51,22 @@ class _ChewieListItemState extends State<ChewieListItem> {
         controller: _chewieController,
       );
 
+  }
+
+  @override
+  void setState(fn) {
+    dispose();
+    super.setState(fn);
+  }
+
+  @override
+  void dispose() {
+    debugPrint(
+        "------------------------------------------------------------------------------------------------------>_controller");
+    // Ensure disposing of the VideoPlayerController to free up resources.
+    //_initializeVideoPlayerFuture = null;
+    widget.videoPlayerController.dispose();
+    _chewieController.dispose();
+    super.dispose();
   }
 }
