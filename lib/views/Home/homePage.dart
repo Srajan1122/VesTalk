@@ -114,19 +114,16 @@ class _HomePageState extends State<HomePage> {
                                                                 Clip.antiAlias,
                                                           ),
                                                           Container(
-                                                                padding: const EdgeInsets.fromLTRB(40, 0, 0, 10),
+                                                                padding: const EdgeInsets.only(left: 1,top: 6),
                                                                 child: Column(
                                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                                   mainAxisAlignment:MainAxisAlignment.start,
                                                                   children: <Widget>[
-                                                                    Padding(
-                                                                      padding:
-                                                                      const EdgeInsets.only(left: 2),
-                                                                      child: Text(
+                                                                    Text(
                                                                         snapshot.data[index].data['displayName'],
                                                                         style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12),
                                                                       ),
-                                                                    ),
+
                                                                     Row(
                                                                       children: <Widget>[
                                                                         Text(
@@ -137,9 +134,6 @@ class _HomePageState extends State<HomePage> {
                                                                                 color: Colors.grey.shade600
                                                                             )
                                                                         ),
-                                                                        Text(':-',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 10 ,
-                                                                            color: Colors.grey.shade600
-                                                                        )),
                                                                         SizedBox(width: 3,),
                                                                       ],
                                                                     ),
@@ -182,12 +176,19 @@ class _HomePageState extends State<HomePage> {
                                         semanticContainer: true,
                                         clipBehavior:
                                             Clip.antiAliasWithSaveLayer,
-                                        child: SizedBox(
-                                            height: 200,
-                                            child: Image.network(
-                                                snapshot.data[index]
-                                                    .data['fileUrl'],
-                                                fit: BoxFit.fitHeight)),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(2),
+                                          child: FittedBox(fit: BoxFit.fill,
+                                              child: Container(
+                                                alignment: Alignment.center,
+                                                width: 400,
+                                                height: 300,
+                                                  child: Image.network(
+                                                      snapshot.data[index]
+                                                          .data['fileUrl'],
+                                                      fit: BoxFit.fitWidth))
+                                              )
+                                          ),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(10.0),
@@ -199,27 +200,32 @@ class _HomePageState extends State<HomePage> {
                                 (((snapshot.data[index].data['fileUrl'] !=
                                             null) &&
                                         (snapshot.data[index].data['isVideo']))
-                                    ? Container(
-                                        height: 250.0,
-                                        width: 8100.0,
-                                        child: ChewieListItem(
-                                            videoPlayerController:
+                                    ?  Card(
+                                  semanticContainer: true,
+                                  clipBehavior:
+                                  Clip.antiAliasWithSaveLayer,
+                                  child: Padding(
+                                      padding: EdgeInsets.all(2),
+                                      child: FittedBox(fit: BoxFit.fill,
+                                          child:Container(
+                                            alignment: Alignment.center,
+                                            height: 300,
+                                            child: ChewieListItem(
+                                                videoPlayerController:
                                                 VideoPlayerController.network(
                                                     snapshot.data[index]
                                                         .data['fileUrl'])),
+                                          )
                                       )
-                                    : Container()),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(20, 5, 20, 0),
-                                  child: Container(
-                                    height: 50,
-                                    child: Text(
-                                      snapshot.data[index].data['description'],
-                                      overflow: TextOverflow.fade,
-                                    ),
                                   ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(10.0),
+                                  ),
+                                  elevation: 10,
+                                  margin: EdgeInsets.all(20),
                                 )
+                                    : Container()),
                               ],
                             ),
                           ),
