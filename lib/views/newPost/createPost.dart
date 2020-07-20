@@ -6,7 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/services/Database.dart';
-import 'package:socail_network_flutter/views/newPost/chewie_list_itme.dart';
+import 'package:socail_network_flutter/views/newPost/widgets/chewie_list_item.dart';
 import 'package:video_player/video_player.dart';
 
 class CreatePost extends StatefulWidget {
@@ -34,11 +34,9 @@ class _CreatePostState extends State<CreatePost> {
   void handlePress() async {
     await getUserId();
     if (description == null) {
-      // TODO : Add alert
       _showDialog();
       Fluttertoast.showToast(msg: "Please fill post content");
     } else {
-      // TODO : UI Customise alert and change buttons if needed
       await databaseMethods.uploadFile(id, description, _attachment, isVideo);
       setState(() {
         _attachment = null;
@@ -116,7 +114,10 @@ class _CreatePostState extends State<CreatePost> {
                             Center(
                               // width: 320.0,
                               child: FlatButton(
-                                onPressed: openCamera,
+                                onPressed: () {
+                                  openCamera();
+                                  Navigator.of(context).pop();
+                                },
                                 textColor: Colors.white,
                                 color: Colors.transparent,
                                 padding:
@@ -137,11 +138,14 @@ class _CreatePostState extends State<CreatePost> {
                             Center(
                               // width: 320.0,
                               child: FlatButton(
-                                onPressed: openGallery,
+                                onPressed: () {
+                                  openGallery();
+                                  Navigator.of(context).pop();
+                                },
                                 textColor: Colors.white,
                                 color: Colors.transparent,
                                 padding:
-                                    const EdgeInsets.fromLTRB(40, 20, 30, 0),
+                                    const EdgeInsets.fromLTRB(40, 20, 40, 0),
                                 splashColor: Colors.lightBlue,
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -248,7 +252,11 @@ class _CreatePostState extends State<CreatePost> {
                                     ChewieListItem(
                                         videoPlayerController:
                                             VideoPlayerController.file(
-                                                _attachment)),
+                                                _attachment),
+                                        aspectRatio: VideoPlayerController.file(
+                                                _attachment)
+                                            .value
+                                            .aspectRatio),
                                     Padding(
                                       padding: const EdgeInsets.fromLTRB(
                                           0, 20, 0, 30),
