@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:socail_network_flutter/Widgets/widgets.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/services/constant.dart';
 import 'package:socail_network_flutter/views/Chat/widgets/chat_bubble.dart';
