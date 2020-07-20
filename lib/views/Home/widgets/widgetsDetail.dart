@@ -13,9 +13,12 @@ Row likeAndShare() {
           icon: FaIcon(FontAwesomeIcons.solidHeart, color: Colors.redAccent),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           onPressed: () {},
-          color: Colors.lightBlue,
+          color: Colors.grey.shade200,
           label: Text('Like'),
         ),
+      ),
+      SizedBox(
+        width: 50,
       ),
       ButtonTheme(
         minWidth: 150,
@@ -25,7 +28,7 @@ Row likeAndShare() {
           ),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           onPressed: () {},
-          color: Colors.lightBlue,
+          color: Colors.grey.shade200,
           label: Text('Share'),
         ),
       ),
