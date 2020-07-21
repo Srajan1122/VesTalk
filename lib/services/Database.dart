@@ -9,7 +9,12 @@ class DatabaseMethods {
         .getDocuments();
     return qn.documents;
   }
-
+  getLikedInfo(postId){
+    return Firestore.instance
+        .collection('posts')
+        .document(postId)
+        .get();
+  }
   Future getPostsById(id) async {
     print(id);
     QuerySnapshot qn = await Firestore.instance
