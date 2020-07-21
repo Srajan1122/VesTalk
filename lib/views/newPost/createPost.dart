@@ -121,7 +121,7 @@ class _CreatePostState extends State<CreatePost> {
                                 textColor: Colors.white,
                                 color: Colors.transparent,
                                 padding:
-                                    const EdgeInsets.fromLTRB(30, 20, 0, 0),
+                                    const EdgeInsets.fromLTRB(30, 10, 0, 0),
                                 splashColor: Colors.lightBlue,
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -145,7 +145,7 @@ class _CreatePostState extends State<CreatePost> {
                                 textColor: Colors.white,
                                 color: Colors.transparent,
                                 padding:
-                                    const EdgeInsets.fromLTRB(40, 20, 40, 0),
+                                    const EdgeInsets.fromLTRB(20, 10, 0, 0),
                                 splashColor: Colors.lightBlue,
                                 child: Container(
                                   decoration: BoxDecoration(
