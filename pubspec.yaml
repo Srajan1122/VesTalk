@@ -39,10 +39,10 @@ flutter:
     - images/LoginPage/
     - images/ProfilePage/
     - images/ProfileComp/
-  fonts:
-    - family: OpenSans
-      fonts:
-        - asset: fonts/OpenSans/OpenSans-Regular.ttf
-    - family: Montserrat
-      fonts:
-        - asset: fonts/Monsterrat-Regular.ttf
+  # fonts:
+  #   - family: OpenSans
+  #     fonts:
+  #       - asset: fonts/OpenSans/OpenSans-Regular.ttf
+  #   - family: Montserrat
+  #     fonts:
+  #       - asset: fonts/Monsterrat-Regular.ttf
