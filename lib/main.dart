@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:socail_network_flutter/views/SignIn/SignIn.dart';
-import 'package:socail_network_flutter/views/Home/postDetails.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,6 +9,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Login',
+      theme: ThemeData(fontFamily: 'Montserrat'),
       home: SignIn(),
     );
   }

@@ -5,6 +5,7 @@ import 'DesignationProfilePage/Teacher.dart';
 import 'DesignationProfilePage/Council.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:socail_network_flutter/services/Database.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProfilePage extends StatefulWidget {
   final String uid;
@@ -30,13 +31,13 @@ class _ProfilePagestate extends State<ProfilePage> {
   handleFields(designation) {
     switch (designation) {
       case 'Student':
-          return StudentProfile(uid: widget.uid);
+        return StudentProfile(uid: widget.uid);
       case 'Teacher':
-          return TeacherProfile(uid: widget.uid);
+        return TeacherProfile(uid: widget.uid);
       case 'Council':
-          return CouncilProfile(uid: widget.uid);
+        return CouncilProfile(uid: widget.uid);
       default:
-          return Center(child: Container());
+        return Center(child: Container());
     }
   }
 
@@ -48,7 +49,12 @@ class _ProfilePagestate extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return new Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Colors.white,
+        title: Text('Profile', style: TextStyle(color: Colors.black)),
+      ),
       body: handleFields(designation),
     );
   }

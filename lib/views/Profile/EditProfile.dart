@@ -4,6 +4,7 @@ import 'package:flutter_focus_watcher/flutter_focus_watcher.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/services/constant.dart';
+import 'package:socail_network_flutter/views/Profile/ProfilePage.dart';
 
 import 'DesignationProfilePage/Widgets/EditProfileTopImage.dart';
 
@@ -123,17 +124,15 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  check(){
-    if(phoneController.text.length != 10)
-      return false;
+  check() {
+    if (phoneController.text.length != 10) return false;
     return true;
   }
 
   onSubmit() async {
-    if(!check()){
+    if (!check()) {
       Fluttertoast.showToast(msg: "Please enter all the fields correctly");
-    }
-    else{
+    } else {
       await databaseMethods.updateStudentInfo(
           Constants.uid, phoneController.text, newBranch, newBatch, newYear);
       Navigator.pop(context);
@@ -167,7 +166,10 @@ class _EditProfileState extends State<EditProfile> {
           ),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.check, color: Colors.black,),
+              icon: Icon(
+                Icons.check,
+                color: Colors.black,
+              ),
               onPressed: onSubmit,
             )
           ],
@@ -182,7 +184,8 @@ class _EditProfileState extends State<EditProfile> {
                   customDropDown('Year', 'Select Year', newYear, listOfYear),
                   customDropDown(
                       'Branch', 'Select Branch', newBranch, listOfBranch),
-                  customDropDown('Batch', 'Select Batch', newBatch, listOfBatch),
+                  customDropDown(
+                      'Batch', 'Select Batch', newBatch, listOfBatch),
                   customInputField('Phone Number'),
                 ],
               ),

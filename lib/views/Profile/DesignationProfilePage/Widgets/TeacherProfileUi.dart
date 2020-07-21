@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:socail_network_flutter/views/ProfileCompletion/details.dart';
 
 class TeacherProfileUi extends StatelessWidget {
   const TeacherProfileUi({
@@ -94,16 +93,6 @@ class TeacherProfileUi extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                    margin: new EdgeInsets.fromLTRB(350.0, 20.0, 10.0, 10.0),
-                    child: IconButton(
-                      icon: Icon(Icons.edit),
-                      onPressed: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) =>
-                                Details(designation: "Teacher")));
-                      },
-                    ))
               ],
             ),
           ),

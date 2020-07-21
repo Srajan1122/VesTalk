@@ -1,20 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:socail_network_flutter/services/constant.dart';
 import 'package:socail_network_flutter/views/Profile/EditProfile.dart';
-import 'package:socail_network_flutter/views/ProfileCompletion/details.dart';
 
 class StudentProfileUi extends StatelessWidget {
-  const StudentProfileUi({
-    Key key,
-    @required this.photoUrl,
-    @required this.name,
-    @required this.email,
-    @required this.designation,
-    @required this.branch,
-    @required this.year,
-    @required this.phoneNumber,
-    @required this.batch,
-  }) : super(key: key);
+  const StudentProfileUi(
+      {Key key,
+      @required this.photoUrl,
+      @required this.name,
+      @required this.email,
+      @required this.designation,
+      @required this.branch,
+      @required this.year,
+      @required this.phoneNumber,
+      @required this.batch,
+      @required this.uid})
+      : super(key: key);
 
   final String photoUrl;
   final String name;
@@ -24,6 +25,7 @@ class StudentProfileUi extends StatelessWidget {
   final String batch;
   final String year;
   final String phoneNumber;
+  final String uid;
 
   @override
   Widget build(BuildContext context) {
@@ -87,19 +89,19 @@ class StudentProfileUi extends StatelessWidget {
             ],
           ),
         ),
-        GestureDetector(
+        uid==Constants.uid ? GestureDetector(
           onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => EditProfile(
-                  photoUrl: photoUrl,
-                  name: name,
-                  email: email,
-                  designation: designation,
-                  branch: branch,
-                  batch: batch,
-                  year: year,
-                  phoneNumber: phoneNumber,
-                )));
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => EditProfile(
+                    photoUrl: photoUrl,
+                    name: name,
+                    email: email,
+                    designation: designation,
+                    branch: branch,
+                    batch: batch,
+                    year: year,
+                    phoneNumber: phoneNumber,
+                  )));
           },
           child: Container(
             alignment: Alignment.center,
@@ -114,7 +116,7 @@ class StudentProfileUi extends StatelessWidget {
                 style: TextStyle(
                     fontFamily: 'Montserrat', fontWeight: FontWeight.w600)),
           ),
-        ),
+        ):Container(),
         Divider(
           height: 50.0,
         ),

@@ -17,45 +17,51 @@ Widget listbuidler(BuildContext context, snapshot) {
   }
 }
 
-Container buildPost(BuildContext context, snapshot, int index) {
-  return Container(
-    width: double.maxFinite,
-    child: Card(
-      elevation: 5,
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => PostDetails(
-                      postId: snapshot.data[index].documentID,
-                      userId: snapshot.data[index].data['id'])));
-        },
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(7),
-                child: Stack(children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Stack(
-                      children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            buildUserInfo(snapshot, index),
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ]),
-              ),
-              buildUserDesc(snapshot, index),
-              buildUserImage(snapshot, index),
-              buildUserVideo(snapshot, index),
-              buildBottomLikeAndCommentUi(snapshot, index)
-            ],
+Padding buildPost(BuildContext context, snapshot, int index) {
+  return Padding(
+    // padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+    child: Container(
+      width: double.maxFinite,
+      child: Card(
+        // shape:
+        //     RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+        elevation: 5,
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PostDetails(
+                        postId: snapshot.data[index].documentID,
+                        userId: snapshot.data[index].data['id'])));
+          },
+          child: Container(
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(7),
+                  child: Stack(children: <Widget>[
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Stack(
+                        children: <Widget>[
+                          Column(
+                            children: <Widget>[
+                              buildUserInfo(snapshot, index),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  ]),
+                ),
+                buildUserDesc(snapshot, index),
+                buildUserImage(snapshot, index),
+                buildUserVideo(snapshot, index),
+                buildBottomLikeAndCommentUi(snapshot, index)
+              ],
+            ),
           ),
         ),
       ),
