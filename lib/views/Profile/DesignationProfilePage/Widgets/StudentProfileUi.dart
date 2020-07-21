@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:socail_network_flutter/views/ProfileCompletion/details.dart';
 
 class StudentProfileUi extends StatelessWidget {
   const StudentProfileUi({
@@ -84,27 +83,8 @@ class StudentProfileUi extends StatelessWidget {
             ],
           ),
         ),
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) =>
-                    Details(designation: designation)));
-          },
-          child: Container(
-            alignment: Alignment.center,
-            margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-            width: double.infinity,
-            height: 30.0,
-            decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                border: Border.all(color: Colors.grey[400]),
-                borderRadius: BorderRadius.circular(4.0)),
-            child: Text('Edit Profile',
-                style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w600)),
-          ),
-        ),
         Divider(
-         height: 50.0,
+          height: 50.0,
         ),
       ]),
     );

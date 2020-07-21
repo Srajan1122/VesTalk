@@ -87,40 +87,23 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        theme: ThemeData(fontFamily: 'Montserrat'),
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.white,
-          title: Center(
-            child: const Text.rich(
-              TextSpan(
-                text: 'Ves',
-                style: TextStyle(fontSize: 30, color: Colors.black),
-                children: <TextSpan>[
-                  TextSpan(
-                      text: 'Talk',
-                      style: TextStyle(color: Colors.lightBlue)),
-                ],
-              ),
-            ),
-
-          ),
-        ),
           body: listOfPage(_currentIndex, uid),
           bottomNavigationBar: CurvedNavigationBar(
             color: Colors.lightBlue,
             buttonBackgroundColor: Colors.black87,
             backgroundColor: Colors.white,
-            height: 50,
+            height: 60,
             items: <Widget>[
-              Icon(Icons.home, size: 20, color: Colors.white),
-              Icon(Icons.search, size: 20, color: Colors.white),
-              Icon(Icons.add, size: 20, color: Colors.white),
-              Icon(Icons.chat, size: 20, color: Colors.white),
-              Icon(Icons.person, size: 20, color: Colors.white),
+              Icon(Icons.home, size: 25, color: Colors.white),
+              Icon(Icons.search, size: 25, color: Colors.white),
+              Icon(Icons.add, size: 25, color: Colors.white),
+              Icon(Icons.chat, size: 25, color: Colors.white),
+              Icon(Icons.person, size: 25, color: Colors.white),
             ],
-            animationDuration: Duration(milliseconds: 200),
+            animationDuration: Duration(milliseconds: 300),
             animationCurve: Curves.bounceInOut,
             onTap: (index) async {
               if (uid == null) {

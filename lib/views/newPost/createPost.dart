@@ -211,6 +211,24 @@ class _CreatePostState extends State<CreatePost> {
   Widget build(BuildContext context) {
     return FocusWatcher(
       child: Scaffold(
+          appBar: AppBar(
+            leading: Icon(Icons.search),
+            centerTitle: true,
+            backgroundColor: Colors.white,
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.check),
+                color: Colors.black,
+                onPressed: () {},
+              )
+            ],
+            title: Center(
+              child: Text(
+                'New Story',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ),
           resizeToAvoidBottomInset: false,
           body: ListView(children: <Widget>[
             Column(

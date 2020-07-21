@@ -28,9 +28,26 @@ class _HomePageState extends State<HomePage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+        // backgroundColor: Colors.grey.shade100,
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          title: Center(
+            child: Text.rich(
+              TextSpan(
+                text: 'Ves',
+                style: TextStyle(fontSize: 30, color: Colors.black),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: 'Talk', style: TextStyle(color: Colors.lightBlue)),
+                ],
+              ),
+            ),
+          ),
+        ),
         body: Container(
-      child: buildRefreshIndicator(context),
-    ));
+          child: buildRefreshIndicator(context),
+        ));
   }
 
   RefreshIndicator buildRefreshIndicator(BuildContext context) {

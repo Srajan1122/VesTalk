@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:socail_network_flutter/views/ProfileCompletion/details.dart';
 
 class CouncilProfileUi extends StatelessWidget {
   const CouncilProfileUi({
@@ -94,18 +93,6 @@ class CouncilProfileUi extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                    margin: new EdgeInsets.fromLTRB(350.0, 20.0, 10.0, 10.0),
-                    child: IconButton(
-                      icon: Icon(Icons.edit),
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    Details(designation: "Council")));
-                      },
-                    ))
               ],
             ),
           ),
