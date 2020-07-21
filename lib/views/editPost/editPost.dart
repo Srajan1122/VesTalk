@@ -3,22 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_focus_watcher/flutter_focus_watcher.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/newPost/widgets/chewie_list_item.dart';
 import 'package:video_player/video_player.dart';
 
-class CreatePost extends StatefulWidget {
+class EditPost extends StatefulWidget {
+  final String postId;
+  EditPost({@required this.postId});
   @override
-  _CreatePostState createState() => _CreatePostState();
+  _EditPostState createState() => _EditPostState();
 }
 
-class _CreatePostState extends State<CreatePost> {
+class _EditPostState extends State<EditPost> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
   ImagePicker _picker = ImagePicker();
   final postController = TextEditingController();
-
+  Future postObject;
   String description, id;
   File _attachment;
   bool isVideo = false;
@@ -77,6 +80,8 @@ class _CreatePostState extends State<CreatePost> {
 
   @override
   void initState() {
+    postObject = databaseMethods.getPostsById(widget.postId);
+    print(postObject);
     super.initState();
   }
 
@@ -121,7 +126,7 @@ class _CreatePostState extends State<CreatePost> {
                                 textColor: Colors.white,
                                 color: Colors.transparent,
                                 padding:
-                                    const EdgeInsets.fromLTRB(30, 10, 0, 0),
+                                    const EdgeInsets.fromLTRB(30, 20, 0, 0),
                                 splashColor: Colors.lightBlue,
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -145,7 +150,7 @@ class _CreatePostState extends State<CreatePost> {
                                 textColor: Colors.white,
                                 color: Colors.transparent,
                                 padding:
-                                    const EdgeInsets.fromLTRB(20, 10, 0, 0),
+                                    const EdgeInsets.fromLTRB(40, 20, 40, 0),
                                 splashColor: Colors.lightBlue,
                                 child: Container(
                                   decoration: BoxDecoration(

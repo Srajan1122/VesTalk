@@ -9,7 +9,12 @@ class DatabaseMethods {
         .getDocuments();
     return qn.documents;
   }
-
+  getLikedInfo(postId){
+    return Firestore.instance
+        .collection('posts')
+        .document(postId)
+        .get();
+  }
   Future getPostsById(id) async {
     print(id);
     QuerySnapshot qn = await Firestore.instance
@@ -92,6 +97,30 @@ class DatabaseMethods {
         .collection("ChatRoom")
         .where("users", arrayContains: id)
         .getDocuments();
+  }
+
+  updateLike(postId,userId) async{
+    DocumentReference docRef = Firestore.instance.collection("posts").document(postId);
+    DocumentSnapshot doc = await docRef.get();
+    List userLikedList = doc.data['userLikedList'];
+    int liked = doc.data['liked'];
+    if(userLikedList.contains(userId)==true){
+      docRef.updateData(
+        {
+          'userLikedList' : FieldValue.arrayRemove([userId]),
+          'liked' : liked - 1
+        }
+      );
+    }
+    else{
+      docRef.updateData(
+          {
+            'userLikedList' : FieldValue.arrayUnion([userId]),
+            'liked' : liked + 1
+
+          }
+      );
+    }
   }
 
   uploadUserData(id, displayName, photoUrl, email) async {
@@ -331,7 +360,9 @@ class DatabaseMethods {
         'displayName': userData.documents[0].data['displayName'],
         'photoUrl': userData.documents[0].data['photoUrl'],
         'designation': userData.documents[0].data['designation'],
-        'created': FieldValue.serverTimestamp()
+        'created': FieldValue.serverTimestamp(),
+        'userLikedList': [],
+        'liked':0
       });
     } catch (e) {
       print('id--> $id');

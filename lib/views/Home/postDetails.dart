@@ -72,14 +72,16 @@ class _PostDetailsState extends State<PostDetails> {
       buildUserVideo(post),
       Column(
         children: <Widget>[
-
           SizedBox(height: 10),
-          likeAndShare(post),
+          likeAndShare(
+              postId: widget.postId,
+              desc: post['description'],
+              name: post['displayName']),
         ],
       ),
       Container(
 //          padding: EdgeInsets.only(top: ),
-      alignment: Alignment(-0.9, -0.2),
+          alignment: Alignment(-0.9, -0.2),
           child: Text(
             'Comments',
             style: TextStyle(
