@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:socail_network_flutter/views/Profile/EditProfile.dart';
 import 'package:socail_network_flutter/views/ProfileCompletion/details.dart';
 
 class StudentProfileUi extends StatelessWidget {
@@ -12,6 +13,7 @@ class StudentProfileUi extends StatelessWidget {
     @required this.branch,
     @required this.year,
     @required this.phoneNumber,
+    @required this.batch,
   }) : super(key: key);
 
   final String photoUrl;
@@ -19,6 +21,7 @@ class StudentProfileUi extends StatelessWidget {
   final String email;
   final String designation;
   final String branch;
+  final String batch;
   final String year;
   final String phoneNumber;
 
@@ -86,9 +89,17 @@ class StudentProfileUi extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) =>
-                    Details(designation: designation)));
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => EditProfile(
+                  photoUrl: photoUrl,
+                  name: name,
+                  email: email,
+                  designation: designation,
+                  branch: branch,
+                  batch: batch,
+                  year: year,
+                  phoneNumber: phoneNumber,
+                )));
           },
           child: Container(
             alignment: Alignment.center,
@@ -100,11 +111,12 @@ class StudentProfileUi extends StatelessWidget {
                 border: Border.all(color: Colors.grey[400]),
                 borderRadius: BorderRadius.circular(4.0)),
             child: Text('Edit Profile',
-                style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w600)),
+                style: TextStyle(
+                    fontFamily: 'Montserrat', fontWeight: FontWeight.w600)),
           ),
         ),
         Divider(
-         height: 50.0,
+          height: 50.0,
         ),
       ]),
     );

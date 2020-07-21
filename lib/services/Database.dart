@@ -162,6 +162,15 @@ class DatabaseMethods {
     });
   }
 
+  updateStudentInfo(id, phoneNumber, branch, batch, year) async {
+    await Firestore.instance.collection('student').document(id).updateData({
+      'phoneNumber': phoneNumber,
+      'branch': branch,
+      'batch': batch,
+      'year': year
+    });
+  }
+
   getStudentInfo(id) async {
     print("Id for getting student info is $id");
     Map<String, String> studentInfo = {};
