@@ -42,6 +42,7 @@ class _PostDetailsState extends State<PostDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: buildListView(),
+
     );
   }
 
@@ -74,7 +75,7 @@ class _PostDetailsState extends State<PostDetails> {
         children: <Widget>[
 
           SizedBox(height: 10),
-          likeAndShare(post),
+          likeAndShare(postId :widget.postId),
         ],
       ),
       Container(

@@ -1,46 +1,119 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:socail_network_flutter/services/Database.dart';
+import 'package:socail_network_flutter/services/constant.dart';
 import 'package:socail_network_flutter/views/newPost/widgets/chewie_list_item.dart';
 import 'package:video_player/video_player.dart';
-import 'package:flutter_share_me/flutter_share_me.dart';
 
-Row likeAndShare(post) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: <Widget>[
-      ButtonTheme(
-        minWidth: 150,
-        child: RaisedButton.icon(
-          icon: FaIcon(FontAwesomeIcons.solidHeart, color: Colors.redAccent),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-          onPressed: () {},
-          color: Colors.grey.shade200,
-          label: Text('Like'),
-        ),
-      ),
-      SizedBox(
-        width: 50,
-      ),
-      ButtonTheme(
-        minWidth: 150,
-        child: RaisedButton.icon(
-          icon: FaIcon(
-            FontAwesomeIcons.share,
+class likeAndShare extends StatefulWidget {
+  final String postId;
+  likeAndShare({@required this.postId});
+  @override
+  _likeAndShareState createState() => _likeAndShareState();
+}
+
+class _likeAndShareState extends State<likeAndShare> {
+  int liked;
+  List userLiked;
+  bool like = false;
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+  pressedLike(){
+    databaseMethods.getLikedInfo(widget.postId).then((value){
+      setState(() {
+        liked = value.data['liked'];
+        userLiked = value.data['userLikedList'];
+        if(userLiked.contains(Constants.uid)==true){
+          like=true;
+        }
+        else{
+          like=false;
+        }
+      });
+    });
+  }
+  @override
+  void initState() {
+  databaseMethods.getLikedInfo(widget.postId).then((val){
+    setState(() {
+      liked = val.data['liked'];
+      userLiked = val.data['userLikedList'];
+      if(userLiked.contains(Constants.uid)==true){
+        like=true;
+      }
+      else{
+        like=false;
+      }
+    });
+
+  });
+
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: 2,left: 8),
+            width: double.infinity,
+            child: Row(
+              children: <Widget>[
+                Text(liked.toString()),
+                SizedBox(width: 6,),
+                Icon(Icons.thumb_up,color: Colors.blue,)
+              ],
+            ),
           ),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-          onPressed: () {
-            FlutterShareMe().shareToWhatsApp(
-                msg: post['description'] +
-                    '\nPosted By -\n' +
-                    post['displayName'] +
-                    '\nRead more on VesTalk');
-          },
-          color: Colors.grey.shade200,
-          label: Text('Share'),
-        ),
-      ),
-    ],
-  );
+          Container(
+            margin: EdgeInsets.only(top: 2,left: 8,right: 8),
+            width: double.infinity,
+            height: 2,
+            color: Colors.grey.shade300,
+          ),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              ButtonTheme(
+                minWidth: 150,
+                child: RaisedButton.icon(
+                  icon: FaIcon(FontAwesomeIcons.solidHeart, color: Colors.redAccent),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                  onPressed: () async {
+                    DatabaseMethods _databaseMethods = DatabaseMethods();
+                    await _databaseMethods.updateLike(widget.postId, Constants.uid);
+                    print(like.toString()+"  gbghbheh");
+                    pressedLike();
+                  },
+                  color: like? Colors.blue : Colors.grey.shade200,
+                  label: Text('Like'),
+                ),
+              ),
+              SizedBox(
+                width: 50,
+              ),
+              ButtonTheme(
+                minWidth: 150,
+                child: RaisedButton.icon(
+                  icon: FaIcon(
+                    FontAwesomeIcons.share,
+                  ),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                  onPressed: () {},
+                  color: Colors.grey.shade200,
+                  label: Text('Share'),
+                ),
+              ),
+            ],
+          ) ,
+
+
+        ],
+      )
+    );
+  }
 }
 
 Container buildUserVideo(post) {

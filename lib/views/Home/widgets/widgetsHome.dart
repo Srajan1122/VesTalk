@@ -17,51 +17,46 @@ Widget listbuidler(BuildContext context, snapshot) {
   }
 }
 
-Padding buildPost(BuildContext context, snapshot, int index) {
-  return Padding(
-    // padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-    child: Container(
-      width: double.maxFinite,
-      child: Card(
-        // shape:
-        //     RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-        elevation: 5,
-        child: InkWell(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PostDetails(
-                        postId: snapshot.data[index].documentID,
-                        userId: snapshot.data[index].data['id'])));
-          },
-          child: Container(
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(7),
-                  child: Stack(children: <Widget>[
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Stack(
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              buildUserInfo(snapshot, index),
-                            ],
-                          )
-                        ],
-                      ),
-                    )
-                  ]),
-                ),
-                buildUserDesc(snapshot, index),
-                buildUserImage(snapshot, index),
-                buildUserVideo(snapshot, index),
-                buildBottomLikeAndCommentUi(snapshot, index)
-              ],
-            ),
+Container buildPost(BuildContext context, snapshot, int index) {
+  return Container(
+    width: double.maxFinite,
+    child: Card(
+      elevation: 5,
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PostDetails(
+                      postId: snapshot.data[index].documentID,
+                      userId: snapshot.data[index].data['id'])));
+        },
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(7),
+                child: Stack(children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Stack(
+                      children: <Widget>[
+                        Column(
+                          children: <Widget>[
+                            buildUserInfo(snapshot, index),
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+                ]),
+              ),
+              buildUserDesc(snapshot, index),
+              buildUserImage(snapshot, index),
+              buildUserVideo(snapshot, index),
+              buildBottomLikeAndCommentUi(snapshot.data[index].documentID)
+
+            ],
           ),
         ),
       ),
@@ -76,13 +71,13 @@ Container buildUserVideo(snapshot, int index) {
           height: 450.0,
           margin: EdgeInsets.only(bottom: 10),
           width: double.infinity,
-          child: ChewieListItem(
-              videoPlayerController: VideoPlayerController.network(
-                  snapshot.data[index].data['fileUrl']),
-              aspectRatio: VideoPlayerController.network(
-                      snapshot.data[index].data['fileUrl'])
-                  .value
-                  .aspectRatio),
+            child:  ChewieListItem(
+                videoPlayerController: VideoPlayerController.network(
+                    snapshot.data[index].data['fileUrl']),
+                aspectRatio: VideoPlayerController.network(
+                    snapshot.data[index].data['fileUrl'])
+                    .value
+                    .aspectRatio),  
         )
       : Container());
 }
@@ -96,7 +91,8 @@ StatelessWidget buildUserImage(snapshot, int index) {
               width: double.infinity,
               child: Image.network(snapshot.data[index].data['fileUrl'],
                   fit: BoxFit.fitHeight)),
-          margin: EdgeInsets.only(top: 10, bottom: 10),
+
+          margin: EdgeInsets.only(top: 10,bottom: 10),
         )
       : Container());
 }
@@ -115,24 +111,11 @@ FittedBox buildUserDesc(snapshot, int index) {
         ),
       ));
 }
-
-Column buildBottomLikeAndCommentUi(snapshot, int index) {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: <Widget>[
-      Container(
-        margin: EdgeInsets.only(top: 2, left: 8, right: 8),
-        width: double.infinity,
-        height: 2,
-        color: Colors.grey.shade300,
-      ),
-      Container(
-        padding: EdgeInsets.all(5),
-        width: double.infinity,
-        height: 50,
-        child: likeAndShare(snapshot.data[index]),
-      )
-    ],
+Container buildBottomLikeAndCommentUi(postId){
+  return Container(
+    padding: EdgeInsets.all(5),
+    width: double.infinity,
+    height: 90,
+    child: likeAndShare(postId : postId),
   );
 }
