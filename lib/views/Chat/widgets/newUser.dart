@@ -29,10 +29,13 @@ class _ChatSearchPageState extends State<ChatSearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search'),
+        leading: Icon(Icons.search),
+        centerTitle: true,
+        backgroundColor: Colors.white,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
+            color: Colors.black,
             onPressed: () {
               showSearch(
                   context: context,
@@ -41,6 +44,12 @@ class _ChatSearchPageState extends State<ChatSearchPage> {
             },
           )
         ],
+        title: Center(
+          child: Text(
+            'Search',
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
       ),
       body: Container(
         child: RefreshIndicator(
