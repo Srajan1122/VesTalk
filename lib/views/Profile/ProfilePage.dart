@@ -5,7 +5,6 @@ import 'DesignationProfilePage/Teacher.dart';
 import 'DesignationProfilePage/Council.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:socail_network_flutter/services/Database.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProfilePage extends StatefulWidget {
   final String uid;

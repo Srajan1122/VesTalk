@@ -4,21 +4,17 @@ import 'package:flutter_focus_watcher/flutter_focus_watcher.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/services/constant.dart';
-import 'package:socail_network_flutter/views/Profile/ProfilePage.dart';
+import 'package:socail_network_flutter/views/Profile/DesignationProfilePage/Widgets/TeacherEditProfileTopImage.dart';
 
-import 'DesignationProfilePage/Widgets/EditProfileTopImage.dart';
-
-class EditProfile extends StatefulWidget {
-  const EditProfile({
+class TeacherEditProfile extends StatefulWidget {
+  const TeacherEditProfile({
     Key key,
     @required this.photoUrl,
     @required this.name,
     @required this.email,
     @required this.designation,
     @required this.branch,
-    @required this.year,
-    @required this.phoneNumber,
-    @required this.batch,
+    @required this.post,
   }) : super(key: key);
 
   final String photoUrl;
@@ -26,21 +22,17 @@ class EditProfile extends StatefulWidget {
   final String email;
   final String designation;
   final String branch;
-  final String batch;
-  final String year;
-  final String phoneNumber;
+  final String post;
 
   @override
-  _EditProfileState createState() => _EditProfileState();
+  _TeacherEditProfileState createState() => _TeacherEditProfileState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _TeacherEditProfileState extends State<TeacherEditProfile> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
-  TextEditingController phoneController = new TextEditingController();
-  String newBranch, newYear, newBatch, newPhone;
+  TextEditingController postController = new TextEditingController();
+  String newBranch, newPost;
   List<String> listOfBranch = ['INFT', 'ETRX', 'MCA', 'CS'];
-  List<String> listOfYear = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
-  List<String> listOfBatch = ['D10', 'D5', 'D15', 'D20'];
 
   Widget customDropDown(title, hint, variable, list) {
     return Column(
@@ -72,11 +64,7 @@ class _EditProfileState extends State<EditProfile> {
               ),
               onChanged: (String newValue) {
                 setState(() {
-                  if (title == 'Branch')
-                    newBranch = newValue;
-                  else if (title == 'Year')
-                    newYear = newValue;
-                  else if (title == 'Batch') newBatch = newValue;
+                  if (title == 'Branch') newBranch = newValue;
                 });
               },
               items: list.map<DropdownMenuItem<String>>((String value) {
@@ -112,10 +100,9 @@ class _EditProfileState extends State<EditProfile> {
             ),
             Expanded(
               child: TextField(
-                maxLength: 10,
                 maxLengthEnforced: true,
-                controller: phoneController,
-                keyboardType: TextInputType.number,
+                controller: postController,
+                keyboardType: TextInputType.text,
               ),
             ),
           ],
@@ -125,7 +112,7 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   check() {
-    if (phoneController.text.length != 10) return false;
+    if (postController.text.length == 0) return false;
     return true;
   }
 
@@ -133,8 +120,8 @@ class _EditProfileState extends State<EditProfile> {
     if (!check()) {
       Fluttertoast.showToast(msg: "Please enter all the fields correctly");
     } else {
-      await databaseMethods.updateStudentInfo(
-          Constants.uid, phoneController.text, newBranch, newBatch, newYear);
+      await databaseMethods.updateTeacherInfo(
+          Constants.uid, postController.text, newBranch);
       Navigator.pop(context);
     }
   }
@@ -143,10 +130,7 @@ class _EditProfileState extends State<EditProfile> {
   void initState() {
     super.initState();
     newBranch = widget.branch;
-    newYear = widget.year;
-    newBatch = widget.batch;
-    newPhone = widget.phoneNumber;
-    phoneController..text = newPhone;
+    postController..text = widget.post;
   }
 
   @override
@@ -180,13 +164,10 @@ class _EditProfileState extends State<EditProfile> {
             children: <Widget>[
               Column(
                 children: <Widget>[
-                  EditProfileTopImage(widget: widget),
-                  customDropDown('Year', 'Select Year', newYear, listOfYear),
+                  TeacherEditProfileTopImage(widget: widget),
                   customDropDown(
                       'Branch', 'Select Branch', newBranch, listOfBranch),
-                  customDropDown(
-                      'Batch', 'Select Batch', newBatch, listOfBatch),
-                  customInputField('Phone Number'),
+                  customInputField('Post'),
                 ],
               ),
             ],

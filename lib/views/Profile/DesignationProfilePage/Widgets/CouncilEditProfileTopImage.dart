@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../StudentEditProfile.dart';
+import '../CouncilEditProfile.dart';
 
-class EditProfileTopImage extends StatelessWidget {
-  const EditProfileTopImage({
+class CouncilEditProfileTopImage extends StatelessWidget {
+  const CouncilEditProfileTopImage({
     Key key,
     @required this.widget,
   }) : super(key: key);
 
-  final StudentEditProfile widget;
+  final CouncilEditProfile widget;
 
   @override
   Widget build(BuildContext context) {

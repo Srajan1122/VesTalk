@@ -71,7 +71,7 @@ class _StudentProfilePage extends State<StudentProfile> {
   void initState() {
     super.initState();
     getUserData();
-    if (Constants.userPost == null || uid != Constants.uid) {
+    if (Constants.userPost == null || widget.uid != Constants.uid) {
       Constants.userPost = databaseMethods.getPostsById(widget.uid);
     }
   }

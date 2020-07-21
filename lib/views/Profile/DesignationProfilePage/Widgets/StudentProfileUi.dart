@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:socail_network_flutter/services/constant.dart';
-import 'package:socail_network_flutter/views/Profile/EditProfile.dart';
+import 'package:socail_network_flutter/views/Profile/StudentEditProfile.dart';
 
 class StudentProfileUi extends StatelessWidget {
   const StudentProfileUi(
@@ -92,7 +92,7 @@ class StudentProfileUi extends StatelessWidget {
         uid==Constants.uid ? GestureDetector(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => EditProfile(
+              builder: (context) => StudentEditProfile(
                     photoUrl: photoUrl,
                     name: name,
                     email: email,
