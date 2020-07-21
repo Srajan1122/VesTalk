@@ -67,22 +67,22 @@ class _ChatState extends State<Chat> {
     return Scaffold(
         // appBar: getAppBar(),
         body: SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          ChatUserContent(),
-          ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: tempSearchStore.length + 1,
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return index == 0 ? _searchBar() : _listItem(index - 1);
-            },
+           physics: BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ChatUserContent(),
+              ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: tempSearchStore.length + 1,
+                physics: ScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return index == 0 ? _searchBar() : _listItem(index - 1);
+                },
+              ),
+            ],
           ),
-        ],
-      ),
     ));
   }
 }

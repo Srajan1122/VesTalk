@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:socail_network_flutter/services/constant.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 Row buildUserInfo(snapshot, int index) {
   return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: <Widget>[
       Padding(
         padding: const EdgeInsets.only(left: 1.0, top: 0),
@@ -62,7 +64,23 @@ Row buildUserInfo(snapshot, int index) {
             ],
           ),
         ),
-      )
+      ),
+      if(snapshot.data[index].data['id']==Constants.uid) _simplePopup(snapshot.data[index].documentID)
+
+
+
     ],
   );
 }
+Widget _simplePopup(postId) => PopupMenuButton<int>(
+  itemBuilder: (context) => [
+    PopupMenuItem(
+      value: 1,
+      child: Text("Edit"),
+    ),
+    PopupMenuItem(
+      value: 2,
+      child: Text("Delete"),
+    ),
+  ],
+);
