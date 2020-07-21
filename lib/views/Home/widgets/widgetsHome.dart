@@ -54,8 +54,10 @@ Container buildPost(BuildContext context, snapshot, int index) {
               buildUserDesc(snapshot, index),
               buildUserImage(snapshot, index),
               buildUserVideo(snapshot, index),
-              buildBottomLikeAndCommentUi(snapshot.data[index].documentID)
-
+              buildBottomLikeAndCommentUi(
+                  snapshot.data[index].documentID,
+                  snapshot.data[index].data['description'],
+                  snapshot.data[index].data['displayName'])
             ],
           ),
         ),
@@ -71,13 +73,13 @@ Container buildUserVideo(snapshot, int index) {
           height: 450.0,
           margin: EdgeInsets.only(bottom: 10),
           width: double.infinity,
-            child:  ChewieListItem(
-                videoPlayerController: VideoPlayerController.network(
-                    snapshot.data[index].data['fileUrl']),
-                aspectRatio: VideoPlayerController.network(
-                    snapshot.data[index].data['fileUrl'])
-                    .value
-                    .aspectRatio),  
+          child: ChewieListItem(
+              videoPlayerController: VideoPlayerController.network(
+                  snapshot.data[index].data['fileUrl']),
+              aspectRatio: VideoPlayerController.network(
+                      snapshot.data[index].data['fileUrl'])
+                  .value
+                  .aspectRatio),
         )
       : Container());
 }
@@ -91,8 +93,7 @@ StatelessWidget buildUserImage(snapshot, int index) {
               width: double.infinity,
               child: Image.network(snapshot.data[index].data['fileUrl'],
                   fit: BoxFit.fitHeight)),
-
-          margin: EdgeInsets.only(top: 10,bottom: 10),
+          margin: EdgeInsets.only(top: 10, bottom: 10),
         )
       : Container());
 }
@@ -111,11 +112,12 @@ FittedBox buildUserDesc(snapshot, int index) {
         ),
       ));
 }
-Container buildBottomLikeAndCommentUi(postId){
+
+Container buildBottomLikeAndCommentUi(postId, desc, displayName) {
   return Container(
     padding: EdgeInsets.all(5),
     width: double.infinity,
     height: 90,
-    child: likeAndShare(postId : postId),
+    child: likeAndShare(postId: postId, desc: desc, name: displayName),
   );
 }
