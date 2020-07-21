@@ -211,6 +211,24 @@ class _CreatePostState extends State<CreatePost> {
   Widget build(BuildContext context) {
     return FocusWatcher(
       child: Scaffold(
+          appBar: AppBar(
+            leading: Icon(Icons.search),
+            centerTitle: true,
+            backgroundColor: Colors.white,
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.check),
+                color: Colors.black,
+                onPressed: handlePress,
+              )
+            ],
+            title: Center(
+              child: Text(
+                'New Story',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ),
           resizeToAvoidBottomInset: false,
           body: ListView(children: <Widget>[
             Column(
@@ -323,26 +341,26 @@ class _CreatePostState extends State<CreatePost> {
                             ],
                           )
                         : Container())),
-                FlatButton(
-                  onPressed: handlePress,
-                  textColor: Colors.white,
-                  color: Colors.transparent,
-                  padding: const EdgeInsets.all(0.0),
-                  splashColor: Colors.lightBlue,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      color: Colors.lightBlue,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    padding: const EdgeInsets.all(10.0),
-                    child: const Text('Publish Post',
-                        style:
-                            TextStyle(fontSize: 16, fontFamily: 'Montserrat')),
-                  ),
-//                  color: Color(0xFF000050),
-//                  child: Text('Publish Post', style: TextStyle(color: Color(0xFFFC2542)),),
-                ),
+//                 FlatButton(
+//                   onPressed: handlePress,
+//                   textColor: Colors.white,
+//                   color: Colors.transparent,
+//                   padding: const EdgeInsets.all(0.0),
+//                   splashColor: Colors.lightBlue,
+//                   child: Container(
+//                     decoration: BoxDecoration(
+//                       shape: BoxShape.rectangle,
+//                       color: Colors.lightBlue,
+//                       borderRadius: BorderRadius.circular(30),
+//                     ),
+//                     padding: const EdgeInsets.all(10.0),
+//                     child: const Text('Publish Post',
+//                         style:
+//                             TextStyle(fontSize: 16, fontFamily: 'Montserrat')),
+//                   ),
+// //                  color: Color(0xFF000050),
+// //                  child: Text('Publish Post', style: TextStyle(color: Color(0xFFFC2542)),),
+//                 ),
               ],
             ),
           ]),

@@ -24,6 +24,7 @@ dependencies:
   timeago: ^2.0.26
   flutter_focus_watcher: ^0.0.1
   keyboard_attachable: ^1.0.3
+  flutter_share_me: ^0.9.1
 
   flutter:
     sdk: flutter
@@ -38,10 +39,10 @@ flutter:
     - images/LoginPage/
     - images/ProfilePage/
     - images/ProfileComp/
-  # fonts:
-  #   - family: OpenSans
-  #     fonts:
-  #       - asset: fonts/OpenSans/OpenSans-Regular.ttf
-  #   - family: Montserrat
-  #     fonts:
-  #       - asset: fonts/Monsterrat-Regular.ttf
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: fonts/OpenSans/OpenSans-Regular.ttf
+    - family: Montserrat
+      fonts:
+        - asset: fonts/Monsterrat-Regular.ttf

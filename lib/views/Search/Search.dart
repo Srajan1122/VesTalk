@@ -30,7 +30,8 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search', style: TextStyle(color: Colors.black),),
+        leading: Icon(Icons.search),
+        centerTitle: true,
         backgroundColor: Colors.white,
         actions: <Widget>[
           IconButton(
@@ -44,6 +45,12 @@ class _SearchPageState extends State<SearchPage> {
             },
           )
         ],
+        title: Center(
+          child: Text(
+            'Search',
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
       ),
       body: Container(
         child: RefreshIndicator(
@@ -70,7 +77,6 @@ class _SearchPageState extends State<SearchPage> {
               }),
           onRefresh: _refreshPage,
         ),
-
       ),
     );
   }

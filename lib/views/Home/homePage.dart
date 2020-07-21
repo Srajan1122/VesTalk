@@ -7,7 +7,6 @@ import 'package:socail_network_flutter/views/Home/widgets/widgetsHome.dart';
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
-
 }
 
 class _HomePageState extends State<HomePage> {
@@ -18,6 +17,7 @@ class _HomePageState extends State<HomePage> {
       Constants.data = _databaseMethods.getPosts();
     });
   }
+
   @override
   void initState() {
     super.initState();
@@ -28,9 +28,26 @@ class _HomePageState extends State<HomePage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+        // backgroundColor: Colors.grey.shade100,
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          title: Center(
+            child: Text.rich(
+              TextSpan(
+                text: 'Ves',
+                style: TextStyle(fontSize: 30, color: Colors.black),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: 'Talk', style: TextStyle(color: Colors.lightBlue)),
+                ],
+              ),
+            ),
+          ),
+        ),
         body: Container(
           child: buildRefreshIndicator(context),
-    ));
+        ));
   }
 
   RefreshIndicator buildRefreshIndicator(BuildContext context) {
