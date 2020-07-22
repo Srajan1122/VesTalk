@@ -25,6 +25,8 @@ dependencies:
   flutter_focus_watcher: ^0.0.1
   keyboard_attachable: ^1.0.3
   flutter_share_me: ^0.9.1
+  firebase_messaging: ^6.0.16
+  firebase_core: ^0.4.5
 
   flutter:
     sdk: flutter
