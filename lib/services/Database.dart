@@ -165,6 +165,13 @@ class DatabaseMethods {
         .setData({'branch': branch, 'post': post});
   }
 
+  updateTeacherInfo(id, post, branch) async {
+    await Firestore.instance
+        .collection('teacher')
+        .document(id)
+        .updateData({'branch': branch, 'post': post});
+  }
+
   getTeacherInfo(id) async {
     print("Id for getting teacher info is $id");
     Map<String, String> teacherInfo = {};
@@ -195,6 +202,15 @@ class DatabaseMethods {
 
   uploadStudentInfo(id, phoneNumber, branch, batch, year) async {
     await Firestore.instance.collection('student').document(id).setData({
+      'phoneNumber': phoneNumber,
+      'branch': branch,
+      'batch': batch,
+      'year': year
+    });
+  }
+
+  updateStudentInfo(id, phoneNumber, branch, batch, year) async {
+    await Firestore.instance.collection('student').document(id).updateData({
       'phoneNumber': phoneNumber,
       'branch': branch,
       'batch': batch,
@@ -233,6 +249,14 @@ class DatabaseMethods {
 
   uploadCouncilInfo(id, displayName, description, members) async {
     await Firestore.instance.collection('council').document(id).setData({
+      'displayName': displayName,
+      'description': description,
+      'members': members,
+    });
+  }
+
+  updateCouncilInfo(id, displayName, description, members) async {
+    await Firestore.instance.collection('council').document(id).updateData({
       'displayName': displayName,
       'description': description,
       'members': members,

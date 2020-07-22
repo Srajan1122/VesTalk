@@ -16,11 +16,20 @@ class StudentProfile extends StatefulWidget {
 
 class _StudentProfilePage extends State<StudentProfile> {
   static DatabaseMethods databaseMethods = new DatabaseMethods();
-  String name, photoUrl, designation, branch, year, email, phoneNumber;
+  String name,
+      photoUrl,
+      designation,
+      branch,
+      year,
+      email,
+      phoneNumber,
+      batch,
+      uid;
 
   Future<void> _refresh() async {
     if (!mounted) return;
     setState(() {
+      getUserData();
       Constants.userPost = databaseMethods.getPostsById(widget.uid);
     });
   }
@@ -32,7 +41,9 @@ class _StudentProfilePage extends State<StudentProfile> {
         designation == null ||
         branch == null ||
         phoneNumber == null ||
-        year == null) {
+        year == null ||
+        batch == null ||
+        uid == null) {
       return false;
     }
     return true;
@@ -51,6 +62,8 @@ class _StudentProfilePage extends State<StudentProfile> {
       year = studentInfo['year'];
       email = studentInfo['email'];
       phoneNumber = studentInfo['phoneNumber'];
+      batch = studentInfo['batch'];
+      uid = widget.uid;
     });
   }
 
@@ -58,7 +71,7 @@ class _StudentProfilePage extends State<StudentProfile> {
   void initState() {
     super.initState();
     getUserData();
-    if (Constants.userPost == null) {
+    if (Constants.userPost == null || widget.uid != Constants.uid) {
       Constants.userPost = databaseMethods.getPostsById(widget.uid);
     }
   }
@@ -66,8 +79,8 @@ class _StudentProfilePage extends State<StudentProfile> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      child: Scaffold(
-          body: !checkIfNull()
+      child: Container(
+          child: !checkIfNull()
               ? Center(
                   child: CircularProgressIndicator(),
                 )
@@ -78,10 +91,10 @@ class _StudentProfilePage extends State<StudentProfile> {
                       return Center(child: Text('Loading....'));
                     } else if (snapshot.hasData) {
                       return ListView.builder(
-                          itemCount: snapshot.data.length,
+                          itemCount: snapshot.data.length + 1,
                           itemBuilder: (_, index) {
-                            if(index == 0)
-                              return  StudentProfileUi(
+                            if (index == 0)
+                              return StudentProfileUi(
                                 photoUrl: photoUrl,
                                 name: name,
                                 email: email,
@@ -89,8 +102,10 @@ class _StudentProfilePage extends State<StudentProfile> {
                                 branch: branch,
                                 year: year,
                                 phoneNumber: phoneNumber,
+                                batch: batch,
+                                uid: uid,
                               );
-                            return buildPost(context, snapshot, index);
+                            return buildPost(context, snapshot, index-1);
                           });
                     } else {
                       return Center(child: Text('No Posts Available'));

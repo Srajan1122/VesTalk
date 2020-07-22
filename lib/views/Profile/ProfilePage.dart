@@ -5,7 +5,6 @@ import 'DesignationProfilePage/Teacher.dart';
 import 'DesignationProfilePage/Council.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:socail_network_flutter/services/Database.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProfilePage extends StatefulWidget {
   final String uid;
@@ -49,21 +48,11 @@ class _ProfilePagestate extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return new Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.search),
-        centerTitle: true,
+        iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
-        actions: <Widget>[
-          IconButton(
-            icon: FaIcon(FontAwesomeIcons.edit),
-            color: Colors.black,
-            onPressed: () {},
-          )
-        ],
-        title: Center(
-          child: Text('Profile', style: TextStyle(color: Colors.black)),
-        ),
+        title: Text('Profile', style: TextStyle(color: Colors.black)),
       ),
       body: handleFields(designation),
     );

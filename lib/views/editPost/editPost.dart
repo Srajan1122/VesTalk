@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_focus_watcher/flutter_focus_watcher.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/services/Database.dart';
