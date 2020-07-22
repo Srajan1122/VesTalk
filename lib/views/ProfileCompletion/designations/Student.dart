@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,6 +14,51 @@ class Student extends StatefulWidget {
 class _StudentState extends State<Student> {
   String id, phoneNumber, branch, batch, year;
   DatabaseMethods databaseMethods = new DatabaseMethods();
+  List<String> listOfBranch = ['ETRX', 'CMPN', 'INST', 'EXTC', 'INFT', 'MCA'];
+  List<String> listOfYear = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
+  List<String> listOfBatch = [
+    'D1A',
+    'D1B',
+    'D2A',
+    'D2B',
+    'D2C',
+    'D3',
+    'D4A',
+    'D4B',
+    'D5A',
+    'D5B',
+    'D6A',
+    'D6B',
+    'D7A',
+    'D7B',
+    'D7C',
+    'D8',
+    'D9A',
+    'D9B',
+    'D10',
+    'D11A',
+    'D11B',
+    'D12A',
+    'D12B',
+    'D12C',
+    'D13',
+    'D14A',
+    'D14B',
+    'D15',
+    'D16A',
+    'D16B',
+    'D17A',
+    'D17B',
+    'D17C',
+    'D18',
+    'D19A',
+    'D19B',
+    'D20',
+    'MCA 1A',
+    'MCA 1B',
+    'MCA 2A',
+    'MCA 2B'
+  ];
 
   getUserId() async {
     await SharedPreferences.getInstance().then((value) => {
@@ -46,12 +92,18 @@ class _StudentState extends State<Student> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text("Warning !", textAlign: TextAlign.center,),
+          title: new Text(
+            "Warning !",
+            textAlign: TextAlign.center,
+          ),
           content: new Text("Please enter a valid number"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
-              child: new Text("Close", style: TextStyle(color: Color(0xFFFC2542)),),
+              child: new Text(
+                "Close",
+                style: TextStyle(color: Color(0xFFFC2542)),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -67,12 +119,18 @@ class _StudentState extends State<Student> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text("Warning !", textAlign: TextAlign.center,),
+          title: new Text(
+            "Warning !",
+            textAlign: TextAlign.center,
+          ),
           content: new Text("Please enter all the fields"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
-              child: new Text("Close", style: TextStyle(color: Color(0xFFFC2542)),),
+              child: new Text(
+                "Close",
+                style: TextStyle(color: Color(0xFFFC2542)),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -83,6 +141,158 @@ class _StudentState extends State<Student> {
     );
   }
 
+  Widget customDropdown(hint, variable, list) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: DropdownButton<String>(
+        hint: Text(hint.padRight(25)),
+        icon: Icon(Icons.arrow_downward),
+        value: variable,
+        iconSize: 24,
+        elevation: 16,
+        underline: Container(
+          height: 2,
+          color: Colors.lightBlue,
+        ),
+        onChanged: (String newValue) {
+          setState(() {
+            if (hint == "Select Branch")
+              branch = newValue;
+            else if (hint == "Select Year")
+              year = newValue;
+            else if (hint == "Select Division") {
+              batch = newValue;
+            }
+
+            if (branch == 'INFT') {
+              print('ya i am inft');
+              listOfYear = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
+              if (year == '1st Year') {
+                listOfBatch = ['D5A', 'D5B'];
+              } else if (year == '2nd Year') {
+                listOfBatch = ['D10A', 'D10B'];
+              } else if (year == '3rd Year') {
+                batch = 'D15';
+                listOfBatch = ['D15'];
+              } else if (year == '4th Year') {
+                batch = 'D20';
+                listOfBatch = ['D20'];
+              } else
+                listOfBatch = ['D5A', 'D5B', 'D10A', 'D10B', 'D15', 'D20'];
+            } else if (branch == 'CMPN') {
+              print('ya i am cs');
+              listOfYear = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
+              if (year == '1st Year')
+                listOfBatch = ['D2A', 'D2B', 'D2C'];
+              else if (year == '2nd Year')
+                listOfBatch = ['D7A', 'D7B', 'D7C'];
+              else if (year == '3rd Year') {
+                listOfBatch = ['D12A', 'D12B', 'D12C'];
+              } else if (year == '4th Year') {
+                listOfBatch = ['D17A', 'D17B', 'D17C'];
+              } else
+                listOfBatch = [
+                  'D2A',
+                  'D2B',
+                  'D2C',
+                  'D7A',
+                  'D7B',
+                  'D7C',
+                  'D12A',
+                  'D12B',
+                  'D12C',
+                  'D17A',
+                  'D17B',
+                  'D17C'
+                ];
+            } else if (branch == 'ETRX') {
+              print('ya i am etrx');
+              listOfYear = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
+              if (year == '1st Year') {
+                listOfBatch = ['D1A', 'D1B'];
+              } else if (year == '2nd Year') {
+                listOfBatch = ['D6A', 'D6B'];
+              } else if (year == '3rd Year') {
+                listOfBatch = ['D11A', 'D11B'];
+              } else if (year == '4th Year') {
+                listOfBatch = ['D16A', 'D16B'];
+              } else
+                listOfBatch = [
+                  'D1A',
+                  'D1B',
+                  'D6A',
+                  'D6B',
+                  'D11A',
+                  'D11B',
+                  'D16A',
+                  'D16B'
+                ];
+            } else if (branch == 'INST') {
+              print('ya i am inst');
+              listOfYear = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
+              if (year == '1st Year') {
+                listOfBatch = ['D3'];
+                batch = 'D3';
+              } else if (year == '2nd Year') {
+                listOfBatch = ['D8'];
+                batch = 'D8';
+              } else if (year == '3rd Year') {
+                listOfBatch = ['D13'];
+                batch = 'D13';
+              } else if (year == '4th Year') {
+                listOfBatch = ['D18'];
+                batch = 'D18';
+              } else
+                listOfBatch = [
+                  'D3',
+                  'D8',
+                  'D13',
+                  'D18',
+                ];
+            } else if (branch == 'EXTC') {
+              print('ya i am inst');
+              listOfYear = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
+              if (year == '1st Year') {
+                listOfBatch = ['D4A', 'D4B'];
+              } else if (year == '2nd Year') {
+                listOfBatch = ['D9A', 'D9B'];
+              } else if (year == '3rd Year') {
+                listOfBatch = ['D14A', 'D14B'];
+              } else if (year == '4th Year') {
+                listOfBatch = ['D19A', 'D19B'];
+              } else
+                listOfBatch = [
+                  'D4A',
+                  'D4B',
+                  'D9A',
+                  'D9B',
+                  'D14A',
+                  'D14B',
+                  'D19A',
+                  'D19B'
+                ];
+            } else if (branch == 'MCA') {
+              listOfYear = ['1st Year', '2nd Year'];
+              if (year == '1st Year') {
+                listOfBatch = ['MCA 1A', 'MCA 1B'];
+              } else if (year == '2nd Year') {
+                listOfBatch = ['MCA 2A', 'MCA 2B'];
+              }
+            }
+            if (!listOfBatch.contains(batch)) batch = null;
+            if (!listOfYear.contains(year)) year = null;
+          });
+        },
+        items: list.map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
   onSubmit(context) async {
     if (!checkValidation()) {
       print('not good');
@@ -90,174 +300,91 @@ class _StudentState extends State<Student> {
       print('good to go');
       await getUserId();
       databaseMethods.uploadStudentInfo(id, phoneNumber, branch, batch, year);
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-          LandingPage()), (Route<dynamic> route) => false);
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => LandingPage()),
+          (Route<dynamic> route) => false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('images/ProfileComp/OnBoarding.png'),
-            fit: BoxFit.fill,
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('images/ProfileComp/OnBoarding.png'),
+              fit: BoxFit.fill,
+            ),
           ),
-        ),
-        child: Center(
-          child: Container(
-            width: 450,
-            height: 800,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 30, 40, 40),
-                  child: Center(
-                    child: Text(
-                      'Student Details :',
-                      style: TextStyle(fontSize: 30),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: DropdownButton<String>(
-                    hint: Text('Select Branch       '),
-                    icon: Icon(Icons.arrow_downward),
-                    value: branch,
-                    iconSize: 24,
-                    elevation: 16,
-                    underline: Container(
-                      height: 2,
-                      color: Colors.lightBlue,
-                    ),
-                    onChanged: (String newValue) {
-                      setState(() {
-                        branch = newValue;
-                      });
-                    },
-                    items: <String>['INFT', 'ETRX', 'MCA', 'CS']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: DropdownButton<String>(
-                    hint: Text('Select Year        '),
-                    icon: Icon(Icons.arrow_downward),
-                    value: year,
-                    iconSize: 24,
-                    elevation: 16,
-                    underline: Container(
-                      height: 2,
-                      color: Colors.lightBlue,
-                    ),
-                    onChanged: (String newValue) {
-                      setState(() {
-                        year = newValue;
-                      });
-                    },
-                    items: <String>[
-                      '1st Year',
-                      '2nd Year',
-                      '3rd Year',
-                      '4th Year'
-                    ].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: DropdownButton<String>(
-                    hint: Text('Select Divison    '),
-                    icon: Icon(Icons.arrow_downward),
-                    value: batch,
-                    iconSize: 24,
-                    elevation: 16,
-                    underline: Container(
-                      height: 2,
-                      color: Colors.lightBlue,
-                    ),
-                    onChanged: (String newValue) {
-                      setState(() {
-                        batch = newValue;
-                      });
-                    },
-                    items: <String>['D10', 'D5', 'D15', 'D20']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
-                  child: Container(
-                    width: 210,
-                    height: 70,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Enter Your Phone Number',
+          child: Center(
+            child: Container(
+              width: 450,
+              height: 800,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(40, 30, 40, 40),
+                    child: Center(
+                      child: Text(
+                        'Student Details :',
+                        style: TextStyle(fontSize: 30),
                       ),
-                      keyboardType: TextInputType.number,
-                      onChanged: (value) {
-                        setState(() {
-                          phoneNumber = value;
-                        });
-                      },
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 5, 40, 40),
-                  child: Center(
-                    child: Text(
-                      'Note: After you pass out, you can change your designation to Alumni',
-                      style: TextStyle(fontSize: 10, color: Color(0xFFFC2542)),
+                  customDropdown("Select Branch", branch, listOfBranch),
+                  customDropdown("Select Year", year, listOfYear),
+                  customDropdown("Select Division", batch, listOfBatch),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
+                    child: Container(
+                      width: 210,
+                      height: 70,
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Enter Your Phone Number',
+                        ),
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) {
+                          setState(() {
+                            phoneNumber = value;
+                          });
+                        },
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(40, 5, 40, 40),
+                    child: Center(
+                      child: Text(
+                        'Note: After you pass out, you can change your designation to Alumni',
+                        style:
+                            TextStyle(fontSize: 10, color: Color(0xFFFC2542)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
         floatingActionButton: Stack(
           children: <Widget>[
-            Padding(padding: EdgeInsets.only(left:31),
+            Padding(
+              padding: EdgeInsets.only(left: 31),
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: FloatingActionButton(
                   heroTag: "btn1",
-                  onPressed: () async{
+                  onPressed: () async {
                     Navigator.pop(context);
-//                    Navigator.push(
-//                      context,
-//                      MaterialPageRoute(
-//                        builder: (context) => Designation(),
-//                      ),
-//                    );
                   },
                   child: FaIcon(FontAwesomeIcons.arrowLeft),
                   backgroundColor: Colors.lightBlue,
                 ),
               ),
             ),
-
             Align(
               alignment: Alignment.bottomRight,
               child: FloatingActionButton(
@@ -270,7 +397,6 @@ class _StudentState extends State<Student> {
               ),
             ),
           ],
-        )
-    );
+        ));
   }
 }
