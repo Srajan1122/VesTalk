@@ -245,7 +245,13 @@ class _EditPostState extends State<EditPost> {
     return FocusWatcher(
       child: Scaffold(
           appBar: AppBar(
-            leading: Icon(Icons.search),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              color: Colors.black,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
             centerTitle: true,
             backgroundColor: Colors.white,
             actions: <Widget>[
