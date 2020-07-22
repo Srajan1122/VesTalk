@@ -2,6 +2,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class DatabaseMethods {
+  deletePost(postId) async {
+    // print(postId);
+    DocumentSnapshot qn =
+        await Firestore.instance.collection('posts').document(postId).get();
+    String uri = qn.data['fileUrl'];
+    if (uri != null) {
+      StorageReference storageReference =
+          await FirebaseStorage.instance.getReferenceFromUrl(uri);
+      await storageReference.delete();
+    }
+    await Firestore.instance.collection('posts').document(postId).delete();
+  }
+
   Future getPosts() async {
     QuerySnapshot qn = await Firestore.instance
         .collection('posts')
@@ -9,12 +22,15 @@ class DatabaseMethods {
         .getDocuments();
     return qn.documents;
   }
-  getLikedInfo(postId){
-    return Firestore.instance
-        .collection('posts')
-        .document(postId)
-        .get();
+
+  getPostInfo(postId) async {
+    return await Firestore.instance.collection('posts').document(postId).get();
   }
+
+  getLikedInfo(postId) {
+    return Firestore.instance.collection('posts').document(postId).get();
+  }
+
   Future getPostsById(id) async {
     print(id);
     QuerySnapshot qn = await Firestore.instance
@@ -99,27 +115,22 @@ class DatabaseMethods {
         .getDocuments();
   }
 
-  updateLike(postId,userId) async{
-    DocumentReference docRef = Firestore.instance.collection("posts").document(postId);
+  updateLike(postId, userId) async {
+    DocumentReference docRef =
+        Firestore.instance.collection("posts").document(postId);
     DocumentSnapshot doc = await docRef.get();
     List userLikedList = doc.data['userLikedList'];
     int liked = doc.data['liked'];
-    if(userLikedList.contains(userId)==true){
-      docRef.updateData(
-        {
-          'userLikedList' : FieldValue.arrayRemove([userId]),
-          'liked' : liked - 1
-        }
-      );
-    }
-    else{
-      docRef.updateData(
-          {
-            'userLikedList' : FieldValue.arrayUnion([userId]),
-            'liked' : liked + 1
-
-          }
-      );
+    if (userLikedList.contains(userId) == true) {
+      docRef.updateData({
+        'userLikedList': FieldValue.arrayRemove([userId]),
+        'liked': liked - 1
+      });
+    } else {
+      docRef.updateData({
+        'userLikedList': FieldValue.arrayUnion([userId]),
+        'liked': liked + 1
+      });
     }
   }
 
@@ -353,7 +364,7 @@ class DatabaseMethods {
         'designation': userData.documents[0].data['designation'],
         'created': FieldValue.serverTimestamp(),
         'userLikedList': [],
-        'liked':0
+        'liked': 0
       });
     } catch (e) {
       print('id--> $id');
@@ -362,6 +373,107 @@ class DatabaseMethods {
       print('isVideo--> $isVideo');
       print('something went wrong while uploading file');
     }
+  }
+
+  editFile(id, description, file, isVideo, post, postId) async {
+    final DateTime now = DateTime.now();
+    final int hour = now.hour;
+    final int minute = now.minute;
+    final int millSeconds = now.millisecondsSinceEpoch;
+    final String date = now.day.toString();
+    final String month = now.month.toString();
+    final int year = now.year;
+    final int weekday = now.weekday;
+
+    final String today = ('$date-$month');
+    final String dateFormat = ('$date-$month-$year');
+    final String timeFormat = ('$hour:$minute');
+    final String storageId = (millSeconds.toString() + id);
+
+    String fileUrl;
+    StorageUploadTask storageUploadTask;
+
+    try {
+      if (file != null) {
+        StorageReference storageReference = FirebaseStorage.instance
+            .ref()
+            .child('posts')
+            .child(today)
+            .child(storageId);
+
+        if (isVideo) {
+          storageUploadTask = storageReference.putFile(
+              file, StorageMetadata(contentType: 'video/mp4'));
+        } else {
+          storageUploadTask = storageReference.putFile(file);
+        }
+
+        await storageUploadTask.onComplete;
+        print('File uploaded');
+
+        await storageReference.getDownloadURL().then((value) {
+          fileUrl = value;
+        });
+      }
+
+      await Firestore.instance.collection('posts').document(postId).setData({
+        'id': id,
+        'isVideo': isVideo,
+        'date': dateFormat,
+        'time': timeFormat,
+        'weekday': weekday,
+        'description': description,
+        'fileUrl': fileUrl,
+        'displayName': post.data['displayName'],
+        'photoUrl': post.data['photoUrl'],
+        'designation': post.data['designation'],
+        'created': FieldValue.serverTimestamp(),
+        'userLikedList': post.data['userLikedList'],
+        'liked': post.data['liked']
+      });
+    } catch (e) {
+      print('id--> $id');
+      print('description--> $description');
+      print('file--> $file');
+      print('isVideo--> $isVideo');
+      print('something went wrong while uploading file');
+    }
+  }
+
+  editPost(post, postId, description) async {
+    final DateTime now = DateTime.now();
+    final int hour = now.hour;
+    final int minute = now.minute;
+
+    final String date = now.day.toString();
+    final String month = now.month.toString();
+    final int year = now.year;
+    final int weekday = now.weekday;
+
+    final String dateFormat = ('$date-$month-$year');
+    final String timeFormat = ('$hour:$minute');
+    var postObject = getPostInfo(postId);
+    if (postObject.data['fileUrl'] != null && post.data['fileUrl'] == null) {
+      StorageReference storageReference = await FirebaseStorage.instance
+          .getReferenceFromUrl(postObject.data['fileUrl']);
+      await storageReference.delete();
+    }
+
+    await Firestore.instance.collection('posts').document(postId).setData({
+      'id': post.data['id'],
+      'isVideo': post.data['isVideo'],
+      'date': dateFormat,
+      'time': timeFormat,
+      'weekday': weekday,
+      'description': description,
+      'fileUrl': post.data['fileUrl'],
+      'displayName': post.data['displayName'],
+      'photoUrl': post.data['photoUrl'],
+      'designation': post.data['designation'],
+      'created': FieldValue.serverTimestamp(),
+      'userLikedList': post.data['userLikedList'],
+      'liked': post.data['liked']
+    });
   }
 
   Future getAllUserDocumentSnapshot() async {

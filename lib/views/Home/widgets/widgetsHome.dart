@@ -43,7 +43,7 @@ Container buildPost(BuildContext context, snapshot, int index) {
                       children: <Widget>[
                         Column(
                           children: <Widget>[
-                            buildUserInfo(snapshot, index),
+                            buildUserInfo(snapshot, index, context),
                           ],
                         )
                       ],

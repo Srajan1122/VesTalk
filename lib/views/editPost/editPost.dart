@@ -20,12 +20,13 @@ class EditPost extends StatefulWidget {
 class _EditPostState extends State<EditPost> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
   ImagePicker _picker = ImagePicker();
-  final postController = TextEditingController();
-  Future postObject;
+  TextEditingController postController = new TextEditingController();
+  DocumentSnapshot post;
   String description, id;
   File _attachment;
+  int count = 0;
   bool isVideo = false;
-
+  bool islocal = false;
   getUserId() async {
     await SharedPreferences.getInstance().then((value) => {
           this.setState(() {
@@ -39,15 +40,16 @@ class _EditPostState extends State<EditPost> {
     if (description == null) {
       _showDialog();
       Fluttertoast.showToast(msg: "Please fill post content");
-    } else {
-      await databaseMethods.uploadFile(id, description, _attachment, isVideo);
-      setState(() {
-        _attachment = null;
-        description = null;
-        isVideo = false;
-      });
+    } else if (islocal = true) {
+      await databaseMethods.editFile(
+          id, description, _attachment, isVideo, post, widget.postId);
+      Fluttertoast.showToast(msg: "Post Published");
+      Navigator.pop(context);
+    } else if (islocal == false) {
+      await databaseMethods.editPost(post, widget.postId, description);
       postController.clear();
       Fluttertoast.showToast(msg: "Post Published");
+      Navigator.pop(context);
     }
   }
 
@@ -78,10 +80,24 @@ class _EditPostState extends State<EditPost> {
     );
   }
 
+  void getpost() async {
+    await databaseMethods.getPostInfo(widget.postId).then((val) {
+      print(val.data['description']);
+      this.setState(() {
+        post = val;
+        description = val.data['description'];
+      });
+    });
+  }
+
   @override
   void initState() {
-    postObject = databaseMethods.getPostsById(widget.postId);
-    print(postObject);
+    getpost();
+    print(description);
+    if (description != null) {
+      print(description);
+      postController.text = description;
+    }
     super.initState();
   }
 
@@ -121,6 +137,9 @@ class _EditPostState extends State<EditPost> {
                               child: FlatButton(
                                 onPressed: () {
                                   openCamera();
+                                  setState(() {
+                                    islocal = true;
+                                  });
                                   Navigator.of(context).pop();
                                 },
                                 textColor: Colors.white,
@@ -145,6 +164,10 @@ class _EditPostState extends State<EditPost> {
                               child: FlatButton(
                                 onPressed: () {
                                   openGallery();
+                                  setState(() {
+                                    islocal = true;
+                                  });
+
                                   Navigator.of(context).pop();
                                 },
                                 textColor: Colors.white,
@@ -185,12 +208,14 @@ class _EditPostState extends State<EditPost> {
 
       setState(() {
         _attachment = File(pickedfile.path);
+        post.data['fileUrl'] = null;
       });
     } else {
       PickedFile pickedfile =
           await _picker.getImage(source: ImageSource.camera);
       setState(() {
         _attachment = File(pickedfile.path);
+        post.data['fileUrl'] = null;
       });
     }
   }
@@ -202,12 +227,15 @@ class _EditPostState extends State<EditPost> {
 
       setState(() {
         _attachment = File(pickedfile.path);
+        post.data['fileUrl'] = null;
       });
     } else {
       PickedFile pickedfile =
           await _picker.getImage(source: ImageSource.gallery);
+
       setState(() {
         _attachment = File(pickedfile.path);
+        post.data['fileUrl'] = null;
       });
     }
   }
@@ -246,22 +274,25 @@ class _EditPostState extends State<EditPost> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: ConstrainedBox(
-                        constraints: BoxConstraints(maxHeight: 400),
-                        child: TextField(
-                          controller: postController,
-                          maxLines: null,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: ("What do you want to talk about?"),
-                            hintText: ('Enjoy Posting!'),
-                          ),
-                          onChanged: (val) => {
-                            setState(() {
-                              description = val;
-                            })
-                          },
-                        ),
-                      ),
+                          constraints: BoxConstraints(maxHeight: 400),
+                          child: (description != null
+                              ? TextFormField(
+                                  initialValue: description,
+                                  // controller: postController,
+                                  maxLines: null,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText:
+                                        ("What do you want to talk about?"),
+                                    hintText: ('Enjoy Posting!'),
+                                  ),
+                                  onChanged: (val) => {
+                                    setState(() {
+                                      description = val;
+                                    })
+                                  },
+                                )
+                              : Container())),
                     )),
                 Container(
                   child: Column(
@@ -298,6 +329,54 @@ class _EditPostState extends State<EditPost> {
                                                     _attachment = null;
                                                   })
                                                 }),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
+                            : Container()),
+                      ),
+                      Container(
+                        child: ((post != null &&
+                                (post.data['fileUrl'] != null &&
+                                    post.data['isVideo'] == true))
+                            ? Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Column(
+                                  children: <Widget>[
+                                    ChewieListItem(
+                                        videoPlayerController:
+                                            VideoPlayerController.network(
+                                                post.data['fileUrl']),
+                                        aspectRatio:
+                                            VideoPlayerController.network(
+                                                    post.data['fileUrl'])
+                                                .value
+                                                .aspectRatio),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 20, 0, 30),
+                                      child: Ink(
+                                        decoration: ShapeDecoration(
+                                          color: Colors.black,
+                                          shape: CircleBorder(),
+                                        ),
+                                        child: GestureDetector(
+                                          child: IconButton(
+                                              tooltip: 'Discard',
+                                              color: Colors.white,
+                                              icon: Icon(Icons.close),
+                                              onPressed: () {
+                                                setState(() {
+                                                  post.data['fileUrl'] = null;
+                                                  post.data['isVideo'] = null;
+                                                });
+                                              }),
+                                          onTap: () {
+                                            post.data['fileUrl'] = null;
+                                            post.data['isVideo'] = null;
+                                          },
+                                        ),
                                       ),
                                     )
                                   ],
@@ -342,10 +421,52 @@ class _EditPostState extends State<EditPost> {
                                             })
                                           }),
                                 ),
-                              )
+                              ),
                             ],
                           )
                         : Container())),
+                Container(
+                    child: ((post != null &&
+                            (post.data['fileUrl'] != null &&
+                                post.data['isVideo'] == false))
+                        ? Column(
+                            children: <Widget>[
+                              Card(
+                                semanticContainer: true,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                child: SizedBox(
+                                    height: 200,
+                                    child: Image.network(post.data['fileUrl'],
+                                        fit: BoxFit.fitHeight)),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                elevation: 10,
+                                margin: EdgeInsets.all(20),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+                                child: Ink(
+                                  decoration: ShapeDecoration(
+                                    color: Colors.black,
+                                    shape: CircleBorder(),
+                                  ),
+                                  child: IconButton(
+                                      tooltip: 'Discard',
+                                      color: Colors.white,
+                                      icon: Icon(Icons.close),
+                                      onPressed: () => {
+                                            setState(() {
+                                              post.data['fileUrl'] = null;
+                                              count = count + 1;
+                                            })
+                                          }),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Container())),
+
 //                 FlatButton(
 //                   onPressed: handlePress,
 //                   textColor: Colors.white,
