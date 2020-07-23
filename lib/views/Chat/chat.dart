@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/services/constant.dart';
@@ -14,6 +15,7 @@ class Chat extends StatefulWidget {
 class _ChatState extends State<Chat> {
   var queryResultSet = [];
   var tempSearchStore = [];
+  DocumentSnapshot Documents;
   DatabaseMethods databaseMethods = new DatabaseMethods();
   Stream chatRoomList;
 
@@ -38,13 +40,16 @@ class _ChatState extends State<Chat> {
     );
   }
 
-  _listItem(index) {
+  _listItem(index)  {
+    List user =  tempSearchStore[index]["users"];
+    user.remove(Constants.uid);
+    print(user[0]);
     return ChatUserList(
-      uid: tempSearchStore[index]["id"],
-      displayName: tempSearchStore[index]["userName"],
-      email: tempSearchStore[index]["email"],
-      photoUrl: tempSearchStore[index]["photoUrl"],
-      designation: tempSearchStore[index]["designation"],
+      lasttime: tempSearchStore[index]['seentime'],
+      uid: tempSearchStore[index]['userInfo'][user[0]]["id"],
+      displayName: tempSearchStore[index]['userInfo'][user[0]]["userName"],
+      email: tempSearchStore[index]['userInfo'][user[0]]["email"],
+      photoUrl: tempSearchStore[index]['userInfo'][user[0]]["photoUrl"],
     );
   }
 
@@ -55,15 +60,19 @@ class _ChatState extends State<Chat> {
     databaseMethods.getsearch(Constants.uid).then((value) {
       for (int i = 0; i < value.documents.length; i++) {
         setState(() {
+//          print(value.documents[i].data.toString()+"  heheheheheheeeheheh");
           queryResultSet.add(value.documents[i].data);
           tempSearchStore = queryResultSet;
+//          print(tempSearchStore[i]);
         });
       }
     });
+
   }
 
   @override
   Widget build(BuildContext context) {
+    print("  "+ tempSearchStore.length.toString()+" mememememeeme");
     return Scaffold(
         // appBar: getAppBar(),
         body: SingleChildScrollView(

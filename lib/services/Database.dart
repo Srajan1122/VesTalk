@@ -100,6 +100,14 @@ class DatabaseMethods {
         .orderBy("time", descending: false)
         .snapshots();
   }
+  getLatestTime(String chatRoomId) async{
+    return Firestore.instance
+        .collection("ChatRoom")
+        .document(chatRoomId)
+        .collection('chats')
+        .orderBy('time',descending: true)
+        .getDocuments();
+  }
 
   getChaRooms(String id) async {
     return Firestore.instance
@@ -110,7 +118,7 @@ class DatabaseMethods {
 
   getsearch(String id) async {
     return await Firestore.instance
-        .collection("ChatRoom")
+        .collection("ChatRoom").orderBy('time',descending: true)
         .where("users", arrayContains: id)
         .getDocuments();
   }
@@ -132,6 +140,15 @@ class DatabaseMethods {
         'liked': liked + 1
       });
     }
+  }
+
+  updatetime(roomId) async {
+    DocumentReference docRef =
+    Firestore.instance.collection("ChatRoom").document(roomId);
+    DocumentSnapshot doc = await docRef.get();
+      docRef.updateData({
+        'time':  DateTime.now().millisecondsSinceEpoch
+      });
   }
 
   uploadUserData(id, displayName, photoUrl, email) async {

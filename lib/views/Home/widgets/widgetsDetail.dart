@@ -93,7 +93,6 @@ class _likeAndShareState extends State<likeAndShare> {
                     DatabaseMethods _databaseMethods = DatabaseMethods();
                     await _databaseMethods.updateLike(
                         widget.postId, Constants.uid);
-                    print(like.toString() + "  gbghbheh");
                     pressedLike();
                   },
                   color: like ? Colors.blue : Colors.grey.shade200,
