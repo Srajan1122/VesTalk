@@ -62,10 +62,22 @@ class _HomePageState extends State<HomePage> {
       future: Constants.data,
       builder: (_, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: Text('Loading....'));
+          return Center(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset(
+                'images/double_ring_loading_io.gif',
+              ),
+              SizedBox(height: 50),
+            ],
+          ));
         } else if (snapshot.hasData) {
           return listbuidler(context, snapshot);
-        } else {
+        }
+        // else if (snapshot.data.length == 0) {
+        // return Center(child: Text('No Posts Available'));}
+        else {
           return Center(child: Text('No Posts Available'));
         }
       },

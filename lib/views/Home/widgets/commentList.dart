@@ -35,7 +35,7 @@ class CommentList extends StatelessWidget {
                             children: <Widget>[
                               Card(
                                 child: Align(
-                                  alignment: Alignment(-1,1),
+                                  alignment: Alignment(-1, 1),
                                   child: CircleAvatar(
                                     backgroundColor: Colors.black,
                                     radius: 25,
@@ -47,56 +47,56 @@ class CommentList extends StatelessWidget {
                                 shape: CircleBorder(),
                                 clipBehavior: Clip.antiAlias,
                               ),
-
                             ],
                           ),
-                          Column(
-                            children: <Widget>[
-                              Container(
-                                  padding: EdgeInsets.fromLTRB(0, 5, 50, 0),
-                                  width: 300,
+                          ((comment['created'] == null || comment['comment'] == null)
+                              ? Container()
+                              : Column(
+                                  children: <Widget>[
+                                    Container(
+                                      padding: EdgeInsets.fromLTRB(0, 5, 50, 0),
+                                      width: 300,
 //                                  color: Colors.black,
-                                  child: Text.rich(
-                                    TextSpan(
-                                      text: comment['displayName'] + '\n',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          letterSpacing: 1.2,
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold),
-                                      children: <TextSpan>[
+                                      child: Text.rich(
                                         TextSpan(
-                                            text:
-                                            comment['designation'] + '\n',
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w300,
-                                                letterSpacing: 1)),
-                                        TextSpan(
-                                            text: timeago.format(
-                                                comment['created'].toDate()),
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w300,
-                                                letterSpacing: 1)),
-                                      ],
+                                          text: comment['displayName'] + '\n',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              letterSpacing: 1.2,
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.bold),
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                                text: comment['designation'] +
+                                                    '\n',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w300,
+                                                    letterSpacing: 1)),
+                                            TextSpan(
+                                                text: timeago.format(
+                                                    comment['created']
+                                                        .toDate()),
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w300,
+                                                    letterSpacing: 1)),
+                                          ],
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                              ),
-                              Container(
-                                width: 300,
-                                padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                child: Text(comment['comment'],
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        letterSpacing: 1,
-                                    color: Color(0xFF000000))
-                                ),
-                              ),
-                            ],
-
-                          ),
+                                    Container(
+                                      width: 300,
+                                      padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                      child: Text(comment['comment'],
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                              letterSpacing: 1,
+                                              color: Color(0xFF000000))),
+                                    ),
+                                  ],
+                                )),
                         ],
                       ),
                     ),

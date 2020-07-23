@@ -27,6 +27,7 @@ dependencies:
   flutter_share_me: ^0.9.1
   firebase_messaging: ^6.0.16
   firebase_core: ^0.4.5
+  progress_dialog: ^1.2.4
 
   flutter:
     sdk: flutter
@@ -41,6 +42,7 @@ flutter:
     - images/LoginPage/
     - images/ProfilePage/
     - images/ProfileComp/
+    - images/double_ring_loading_io.gif
   # fonts:
   #   - family: OpenSans
   #     fonts:
