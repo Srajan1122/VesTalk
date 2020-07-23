@@ -37,6 +37,7 @@ class DatabaseMethods {
     QuerySnapshot qn = await Firestore.instance
         .collection('posts')
         .where('id', isEqualTo: id)
+        .orderBy('created', descending: true)
         .getDocuments();
     return qn.documents;
   }

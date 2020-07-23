@@ -104,7 +104,29 @@ class TeacherProfileUi extends StatelessWidget {
           ),
         ):Container(),
         Divider(
-          height: 50.0,
+            height: 30.0,
+            thickness: 10,
+            color: Color(0xFFF5F5F5)
+        ),
+        Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                child: Icon(
+                    Icons.photo_library
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 0, 10),
+                child: Text(
+                  "Posts",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+            ],
+          ),
         ),
       ]),
     );
