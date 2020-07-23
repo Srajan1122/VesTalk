@@ -29,7 +29,8 @@ class _ChatSearchPageState extends State<ChatSearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.search),
+        iconTheme: IconThemeData(color: Colors.black),
+        automaticallyImplyLeading: true,
         centerTitle: true,
         backgroundColor: Colors.white,
         actions: <Widget>[

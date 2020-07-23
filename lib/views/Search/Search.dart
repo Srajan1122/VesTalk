@@ -30,7 +30,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.search),
+        iconTheme: IconThemeData(color: Colors.black),
         centerTitle: true,
         backgroundColor: Colors.white,
         actions: <Widget>[
