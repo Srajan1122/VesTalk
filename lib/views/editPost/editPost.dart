@@ -10,6 +10,7 @@ import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/services/constant.dart';
 import 'package:socail_network_flutter/views/newPost/widgets/chewie_list_item.dart';
 import 'package:video_player/video_player.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditPost extends StatefulWidget {
   final String postId;

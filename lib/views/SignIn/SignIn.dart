@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,6 +20,7 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  final FirebaseMessaging _fcm = FirebaseMessaging();
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final DatabaseMethods databaseMethods = new DatabaseMethods();
@@ -28,6 +30,20 @@ class _SignInState extends State<SignIn> {
   SharedPreferences prefs;
   FirebaseUser currentUser;
   String id;
+
+  Future initialise() async {
+    _fcm.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+    );
+  }
 
   check() async {
     await getUserId();
@@ -120,10 +136,12 @@ class _SignInState extends State<SignIn> {
       });
 
       if (await check()) {
+        _fcm.subscribeToTopic('posts');
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => LandingPage()),
             (Route<dynamic> route) => false);
       } else {
+        _fcm.subscribeToTopic('posts');
         Navigator.pop(context);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => OnBoarding()));
@@ -139,6 +157,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   void initState() {
+    initialise();
     super.initState();
     isSignIn();
   }
