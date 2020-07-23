@@ -15,6 +15,7 @@ class Chat extends StatefulWidget {
 class _ChatState extends State<Chat> {
   var queryResultSet = [];
   var tempSearchStore = [];
+  int seenTime,messageTime,indexAt;
   DocumentSnapshot Documents;
   DatabaseMethods databaseMethods = new DatabaseMethods();
   Stream chatRoomList;
@@ -42,10 +43,15 @@ class _ChatState extends State<Chat> {
 
   _listItem(index)  {
     List user =  tempSearchStore[index]["users"];
+    indexAt=user.indexOf(Constants.uid);
+    seenTime=tempSearchStore[index]['userInfo'][user[indexAt]]["seenTime"];
+    messageTime=tempSearchStore[index]['userInfo'][user[indexAt]]["messageTime"];
     user.remove(Constants.uid);
     print(user[0]);
     return ChatUserList(
-      lasttime: tempSearchStore[index]['seentime'],
+      isUserList: true,
+      seenTime: seenTime==null?0:seenTime,
+      messageTime: messageTime,
       uid: tempSearchStore[index]['userInfo'][user[0]]["id"],
       displayName: tempSearchStore[index]['userInfo'][user[0]]["userName"],
       email: tempSearchStore[index]['userInfo'][user[0]]["email"],
@@ -60,14 +66,30 @@ class _ChatState extends State<Chat> {
     databaseMethods.getsearch(Constants.uid).then((value) {
       for (int i = 0; i < value.documents.length; i++) {
         setState(() {
+          print('helloooooooooooo');
 //          print(value.documents[i].data.toString()+"  heheheheheheeeheheh");
           queryResultSet.add(value.documents[i].data);
           tempSearchStore = queryResultSet;
-//          print(tempSearchStore[i]);
+          print(tempSearchStore[i]);
         });
       }
     });
 
+  }
+  Future<void> _refreshPage() async {
+    setState(() {
+      databaseMethods.getsearch(Constants.uid).then((value) {
+        for (int i = 0; i < value.documents.length; i++) {
+          setState(() {
+            print('helloooooooooooo');
+//          print(value.documents[i].data.toString()+"  heheheheheheeeheheh");
+            queryResultSet.add(value.documents[i].data);
+            tempSearchStore = queryResultSet;
+            print(tempSearchStore[i]);
+          });
+        }
+      });
+    });
   }
 
   @override
@@ -81,15 +103,18 @@ class _ChatState extends State<Chat> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ChatUserContent(),
-              ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: tempSearchStore.length + 1,
-                physics: ScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return index == 0 ? _searchBar() : _listItem(index - 1);
-                },
-              ),
+              RefreshIndicator(
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: tempSearchStore.length + 1,
+                  physics: ScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return index == 0 ? _searchBar() : _listItem(index - 1);
+                  },
+                ),
+                onRefresh: _refreshPage,
+              )
             ],
           ),
     ));

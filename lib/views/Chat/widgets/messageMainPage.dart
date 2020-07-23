@@ -11,7 +11,8 @@ class MassagePage extends StatefulWidget {
   final String chatRoomId;
   final String name;
   final String photourl;
-  MassagePage(this.chatRoomId, this.name, this.photourl);
+  final String uid;
+  MassagePage(this.chatRoomId, this.name, this.photourl,this.uid);
   @override
   _MassagePageState createState() => _MassagePageState();
 }
@@ -22,6 +23,8 @@ enum MessageType {
 }
 
 class _MassagePageState extends State<MassagePage> {
+
+  int seenTime;
   DatabaseMethods databaseMethods = new DatabaseMethods();
   TextEditingController messageController = new TextEditingController();
 
@@ -33,9 +36,10 @@ class _MassagePageState extends State<MassagePage> {
       Map<String, dynamic> messageMap = {
         "message": messageController.text,
         "messagedBy": Constants.myName,
-        "time": DateTime.now().millisecondsSinceEpoch
+        "time": DateTime.now()
       };
       databaseMethods.updatetime(widget.chatRoomId);
+      databaseMethods.udateMessageTime(widget.chatRoomId,widget.uid);
       databaseMethods.addConversationMessages(widget.chatRoomId, messageMap);
       messageController.text = "";
     }
@@ -46,6 +50,12 @@ class _MassagePageState extends State<MassagePage> {
     databaseMethods.getConversationMessages(widget.chatRoomId).then((value) {
       setState(() {
         chatMessagesStream = value;
+      });
+    });
+    databaseMethods.getSeenTime(widget.chatRoomId).then((value) {
+//      print(value.data['userInfo'][widget.uid]['seenTime'].toString()+"anianaianaiananai");
+      setState(() {
+        seenTime=value.data['userInfo'][widget.uid]['seenTime'];
       });
     });
     super.initState();
@@ -60,6 +70,7 @@ class _MassagePageState extends State<MassagePage> {
           StreamBuilder(
             stream: chatMessagesStream,
             builder: (context, snapshot) {
+              databaseMethods.udateSeenTime(widget.chatRoomId);
               return snapshot.hasData
                   ? ListView.builder(
                       controller: _scrollController,
@@ -67,7 +78,11 @@ class _MassagePageState extends State<MassagePage> {
                       padding: EdgeInsets.only(top: 10, bottom: 70),
                       physics: ScrollPhysics(),
                       itemBuilder: (context, index) {
+//                        print("zzzzzzzzz"+index.toString());
                         return ChatBubble(
+                          seenTime:seenTime==null?0:seenTime,
+                          chatTime:snapshot
+                              .data.documents[index].data["time"],
                           chatMessage: ChatMessage(
                               message: snapshot
                                   .data.documents[index].data["message"],
