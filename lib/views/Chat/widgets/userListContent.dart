@@ -1,12 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:socail_network_flutter/views/Chat/widgets/chatlist.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserListContent extends StatefulWidget {
   final ChatUserList widget;
+  final int time;
   const UserListContent({
     Key key,
     @required this.widget,
+    this.time
   }) : super(key: key);
 
   @override
@@ -38,9 +41,24 @@ class _UserListContentState extends State<UserListContent> {
         leading: CircleAvatar(
           backgroundImage: NetworkImage(widget.widget.photoUrl),
         ),
-        title: Text(widget.widget.displayName),
-        subtitle: Text(widget.widget.email),
-        trailing: Text(widget.widget.designation),
+        title:Text(widget.widget.displayName),
+        subtitle:Text(widget.widget.email),
+        trailing: (widget.time!=null && widget.widget.lasttime!=null)?widget.time-widget.widget.lasttime!=0?SizedBox(
+          height: 30,
+          width: 60,
+          child: Container(
+            decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.blue,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(20))
+            ),
+            alignment: Alignment.center,
+            height: 10,
+            width: 40,
+            child: Text('New',style: TextStyle(color: Colors.blue,fontSize: 10),),
+          ),
+        ):SizedBox():SizedBox()
       );
     }
   }
