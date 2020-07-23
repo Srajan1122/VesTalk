@@ -35,6 +35,7 @@ class _MassagePageState extends State<MassagePage> {
         "messagedBy": Constants.myName,
         "time": DateTime.now().millisecondsSinceEpoch
       };
+      databaseMethods.updatetime(widget.chatRoomId);
       databaseMethods.addConversationMessages(widget.chatRoomId, messageMap);
       messageController.text = "";
     }

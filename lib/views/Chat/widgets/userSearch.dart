@@ -62,7 +62,6 @@ class UserSearch extends SearchDelegate<String> {
             uid: suggestion.toList()[index]['id'],
             displayName: suggestion.toList()[index]['displayName'],
             photoUrl: suggestion.toList()[index]['photoUrl'],
-            designation: suggestion.toList()[index]['designation'],
             email: suggestion.toList()[index]['email'],
           );
         });

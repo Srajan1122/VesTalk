@@ -73,7 +73,6 @@ ListView buildListView(AsyncSnapshot snapshot) {
           uid: snapshot.data[index].data['id'],
           displayName: snapshot.data[index].data['displayName'],
           photoUrl: snapshot.data[index].data['photoUrl'],
-          designation: snapshot.data[index].data['designation'],
           email: snapshot.data[index].data['email'],
         );
       });

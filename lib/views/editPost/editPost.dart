@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/services/Database.dart';
+import 'package:socail_network_flutter/services/constant.dart';
 import 'package:socail_network_flutter/views/newPost/widgets/chewie_list_item.dart';
 import 'package:video_player/video_player.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,22 +24,15 @@ class _EditPostState extends State<EditPost> {
   ImagePicker _picker = ImagePicker();
   TextEditingController postController = new TextEditingController();
   DocumentSnapshot post;
-  String description, id;
+  String description,fileUrl, id=Constants.uid;
   File _attachment;
   int count = 0;
   bool isVideo = false;
   bool islocal = false;
-  getUserId() async {
-    await SharedPreferences.getInstance().then((value) => {
-          this.setState(() {
-            id = value.getString('id');
-          })
-        });
-  }
-
+  bool isVideodata=false;
   void handlePress() async {
-    await getUserId();
-    if (description == null) {
+
+    if (description == "") {
       _showDialog();
       Fluttertoast.showToast(msg: "Please fill post content");
     } else if (islocal = true) {
@@ -81,24 +75,21 @@ class _EditPostState extends State<EditPost> {
     );
   }
 
-  void getpost() async {
-    await databaseMethods.getPostInfo(widget.postId).then((val) {
+  @override
+  void initState() {
+    databaseMethods.getPostInfo(widget.postId).then((val) {
       print(val.data['description']);
       this.setState(() {
         post = val;
         description = val.data['description'];
+        if (description != null) {
+          print(description.toString()+"in");
+          postController.text = description;
+        }
+        fileUrl = val.data["fileUrl"];
+        isVideodata=val.data['isVideo'];
       });
     });
-  }
-
-  @override
-  void initState() {
-    getpost();
-    print(description);
-    if (description != null) {
-      print(description);
-      postController.text = description;
-    }
     super.initState();
   }
 
@@ -264,7 +255,7 @@ class _EditPostState extends State<EditPost> {
             ],
             title: Center(
               child: Text(
-                'New Story',
+                'Edit Story',
                 style: TextStyle(color: Colors.black),
               ),
             ),
@@ -345,8 +336,8 @@ class _EditPostState extends State<EditPost> {
                       ),
                       Container(
                         child: ((post != null &&
-                                (post.data['fileUrl'] != null &&
-                                    post.data['isVideo'] == true))
+                                (fileUrl != null &&
+                                    isVideodata == true))
                             ? Padding(
                                 padding: const EdgeInsets.all(15.0),
                                 child: Column(
@@ -375,13 +366,13 @@ class _EditPostState extends State<EditPost> {
                                               icon: Icon(Icons.close),
                                               onPressed: () {
                                                 setState(() {
-                                                  post.data['fileUrl'] = null;
-                                                  post.data['isVideo'] = null;
+                                                  fileUrl = null;
+                                                  isVideodata = null;
                                                 });
                                               }),
                                           onTap: () {
-                                            post.data['fileUrl'] = null;
-                                            post.data['isVideo'] = null;
+                                            fileUrl = null;
+                                            isVideodata = null;
                                           },
                                         ),
                                       ),
@@ -434,8 +425,8 @@ class _EditPostState extends State<EditPost> {
                         : Container())),
                 Container(
                     child: ((post != null &&
-                            (post.data['fileUrl'] != null &&
-                                post.data['isVideo'] == false))
+                            (fileUrl != null &&
+                               isVideodata == false))
                         ? Column(
                             children: <Widget>[
                               Card(
@@ -464,7 +455,7 @@ class _EditPostState extends State<EditPost> {
                                       icon: Icon(Icons.close),
                                       onPressed: () => {
                                             setState(() {
-                                              post.data['fileUrl'] = null;
+                                             fileUrl = null;
                                               count = count + 1;
                                             })
                                           }),
