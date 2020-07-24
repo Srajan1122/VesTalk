@@ -51,7 +51,11 @@ class _ChatState extends State<Chat> {
     catch(e){
       seenTime=0;
     };
-    messageTime=tempSearchStore[index]['userInfo'][user[indexAt]]["messageTime"];
+    try{
+    messageTime=tempSearchStore[index]['userInfo'][user[indexAt]]["messageTime"];}
+    catch(e){
+      messageTime=0;
+    };
     user.remove(Constants.uid);
     print(user[0]);
     return ChatUserList(
@@ -68,7 +72,8 @@ class _ChatState extends State<Chat> {
   @override
   void initState() {
     super.initState();
-
+    queryResultSet.clear();
+    tempSearchStore.clear();
     databaseMethods.getsearch(Constants.uid).then((value) {
       for (int i = 0; i < value.documents.length; i++) {
         setState(() {
