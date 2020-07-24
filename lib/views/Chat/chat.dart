@@ -5,7 +5,6 @@ import 'package:socail_network_flutter/services/constant.dart';
 import 'package:socail_network_flutter/views/Chat/widgets/chatlist.dart';
 import 'package:socail_network_flutter/views/Chat/widgets/chatUserContent.dart';
 import 'package:socail_network_flutter/views/Chat/widgets/widgets.dart';
-import 'package:socail_network_flutter/Widgets/widgets.dart';
 
 class Chat extends StatefulWidget {
   @override
@@ -40,8 +39,8 @@ class _ChatState extends State<Chat> {
     );
   }
 
-  _listItem(index)  {
-    List user =  tempSearchStore[index]["users"];
+  _listItem(index) {
+    List user = tempSearchStore[index]["users"];
     user.remove(Constants.uid);
     print(user[0]);
     return ChatUserList(
@@ -67,31 +66,30 @@ class _ChatState extends State<Chat> {
         });
       }
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
-    print("  "+ tempSearchStore.length.toString()+" mememememeeme");
+    print("  " + tempSearchStore.length.toString() + " mememememeeme");
     return Scaffold(
         // appBar: getAppBar(),
         body: SingleChildScrollView(
-           physics: BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ChatUserContent(),
-              ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: tempSearchStore.length + 1,
-                physics: ScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return index == 0 ? _searchBar() : _listItem(index - 1);
-                },
-              ),
-            ],
+      physics: BouncingScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          ChatUserContent(),
+          ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: tempSearchStore.length + 1,
+            physics: ScrollPhysics(),
+            itemBuilder: (context, index) {
+              return index == 0 ? _searchBar() : _listItem(index - 1);
+            },
           ),
+        ],
+      ),
     ));
   }
 }
