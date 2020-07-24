@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:socail_network_flutter/services/constant.dart';
 
 class DatabaseMethods {
   deletePost(postId) async {
@@ -36,6 +37,7 @@ class DatabaseMethods {
     QuerySnapshot qn = await Firestore.instance
         .collection('posts')
         .where('id', isEqualTo: id)
+        .orderBy('created', descending: true)
         .getDocuments();
     return qn.documents;
   }
@@ -109,6 +111,14 @@ class DatabaseMethods {
         .getDocuments();
   }
 
+  getSeenTime(chatRoomId){
+    return Firestore.instance
+        .collection("ChatRoom")
+        .document(chatRoomId)
+        .get();
+  }
+
+
   getChaRooms(String id) async {
     return Firestore.instance
         .collection("ChatRoom")
@@ -145,10 +155,29 @@ class DatabaseMethods {
   updatetime(roomId) async {
     DocumentReference docRef =
     Firestore.instance.collection("ChatRoom").document(roomId);
-    DocumentSnapshot doc = await docRef.get();
       docRef.updateData({
         'time':  DateTime.now().millisecondsSinceEpoch
       });
+  }
+  udateMessageTime(roomId,id) async {
+    DocumentReference docRef =
+    Firestore.instance.collection("ChatRoom").document(roomId);
+    DocumentSnapshot doc = await docRef.get();
+    print(doc.data['userInfo'][Constants.uid]);
+    docRef.updateData({
+      'userInfo.${Constants.uid}.messageTime':  DateTime.now().millisecondsSinceEpoch,
+      'userInfo.${id}.messageTime':  DateTime.now().millisecondsSinceEpoch
+    });
+  }
+
+  udateSeenTime(roomId) async {
+    DocumentReference docRef =
+    Firestore.instance.collection("ChatRoom").document(roomId);
+    DocumentSnapshot doc = await docRef.get();
+    print(doc.data['userInfo'][Constants.uid]);
+    docRef.updateData({
+      'userInfo.${Constants.uid}.seenTime':  DateTime.now().millisecondsSinceEpoch,
+    });
   }
 
   uploadUserData(id, displayName, photoUrl, email) async {

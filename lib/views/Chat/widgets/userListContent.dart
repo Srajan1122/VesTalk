@@ -43,7 +43,7 @@ class _UserListContentState extends State<UserListContent> {
         ),
         title:Text(widget.widget.displayName),
         subtitle:Text(widget.widget.email),
-        trailing: (widget.time!=null && widget.widget.lasttime!=null)?widget.time-widget.widget.lasttime!=0?SizedBox(
+        trailing: (widget.widget.seenTime!=null && widget.widget.messageTime!=null)?(widget.widget.messageTime>widget.widget.seenTime)?SizedBox(
           height: 30,
           width: 60,
           child: Container(
