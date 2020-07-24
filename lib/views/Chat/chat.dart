@@ -15,7 +15,7 @@ class Chat extends StatefulWidget {
 class _ChatState extends State<Chat> {
   var queryResultSet = [];
   var tempSearchStore = [];
-  int seenTime,messageTime,indexAt;
+  int seenTime, messageTime, indexAt;
   DocumentSnapshot Documents;
   DatabaseMethods databaseMethods = new DatabaseMethods();
   Stream chatRoomList;
@@ -41,11 +41,11 @@ class _ChatState extends State<Chat> {
     );
   }
 
-  _listItem(index)  {
-    List user =  tempSearchStore[index]["users"];
+  _listItem(index) {
+    List user = tempSearchStore[index]["users"];
     print(tempSearchStore[index]["users"]);
-    indexAt=user.indexOf(Constants.uid);
-    print(indexAt.toString()+"erroerroerroerro");
+    indexAt = user.indexOf(Constants.uid);
+    print(indexAt.toString() + "erroerroerroerro");
     print(tempSearchStore[index]['userInfo']);
     try{seenTime= tempSearchStore[index]['userInfo'][user[indexAt]]["seenTime"];}
     catch(e){
@@ -72,8 +72,7 @@ class _ChatState extends State<Chat> {
   @override
   void initState() {
     super.initState();
-    queryResultSet.clear();
-    tempSearchStore.clear();
+
     databaseMethods.getsearch(Constants.uid).then((value) {
       for (int i = 0; i < value.documents.length; i++) {
         setState(() {

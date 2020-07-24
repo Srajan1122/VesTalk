@@ -13,19 +13,19 @@ class Designation extends StatefulWidget {
 class _DesignationState extends State<Designation> {
   String dropdownValue, id;
   DatabaseMethods databaseMethods = new DatabaseMethods();
-
+  MaterialColor color;
   getUserId() async {
     await SharedPreferences.getInstance().then((value) => {
-      this.setState(() {
-        id = value.getString('id');
-      })
-    });
+          this.setState(() {
+            id = value.getString('id');
+          })
+        });
   }
 
   bool checkValidation() {
     if (dropdownValue == null) {
       _showDialog();
-      Fluttertoast.showToast(msg: "Please enter the fields" );
+      Fluttertoast.showToast(msg: "Please enter the fields");
       return false;
     }
     return true;
@@ -36,12 +36,18 @@ class _DesignationState extends State<Designation> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text("Warning !", textAlign: TextAlign.center,),
+          title: new Text(
+            "Warning !",
+            textAlign: TextAlign.center,
+          ),
           content: new Text("Please enter your role."),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
-              child: new Text("Close", style: TextStyle(color: Color(0xFFFC2542)),),
+              child: new Text(
+                "Close",
+                style: TextStyle(color: Color(0xFFFC2542)),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -52,33 +58,39 @@ class _DesignationState extends State<Designation> {
     );
   }
 
+  @override
+  initState() {
+    color = Colors.grey;
+    super.initState();
+  }
+
   onSubmit(context) async {
     await getUserId();
     databaseMethods.uploadUserDesignation(id, dropdownValue);
-    if(!checkValidation()){
+    if (!checkValidation()) {
       print('not good');
       return;
     }
 
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => Details(designation: dropdownValue)));
-    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('images/ProfileComp/OnBoarding.png'),
-            fit: BoxFit.fill,
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('images/ProfileComp/OnBoarding.png'),
+              fit: BoxFit.fill,
+            ),
           ),
-        ),
-        child: Center(
-          child: Container(
+          child: Center(
+            child: Container(
               width: 450,
               height: 800,
-              child : Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
@@ -88,15 +100,13 @@ class _DesignationState extends State<Designation> {
                         TextSpan(
                           text: 'Please select a ',
                           style: TextStyle(fontSize: 30),
-                          children: <TextSpan> [
+                          children: <TextSpan>[
                             TextSpan(
                                 text: 'Role',
-                                style: TextStyle(color: Colors.lightBlue)
-                            ),
+                                style: TextStyle(color: Colors.lightBlue)),
                             TextSpan(
-                              text: " :",
-                                style: TextStyle(color: Colors.black)
-                            ),
+                                text: " :",
+                                style: TextStyle(color: Colors.black)),
                           ],
                         ),
                       ),
@@ -131,6 +141,7 @@ class _DesignationState extends State<Designation> {
                       ),
                       onChanged: (String newValue) {
                         setState(() {
+                          color = Colors.lightBlue;
                           dropdownValue = newValue;
                         });
                       },
@@ -148,23 +159,25 @@ class _DesignationState extends State<Designation> {
                     child: Center(
                       child: Text(
                         'Note: You cannot change your role later',
-                        style: TextStyle(fontSize: 11, color: Color(0xFFFC2542)),
+                        style:
+                            TextStyle(fontSize: 11, color: Color(0xFFFC2542)),
                       ),
                     ),
                   ),
                 ],
               ),
+            ),
           ),
         ),
-      ),
         floatingActionButton: Stack(
           children: <Widget>[
-            Padding(padding: EdgeInsets.only(left:31),
+            Padding(
+              padding: EdgeInsets.only(left: 31),
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: FloatingActionButton(
                   heroTag: "btn1",
-                  onPressed: () async{
+                  onPressed: () async {
                     Navigator.pop(context);
 //                    Navigator.push(
 //                      context,
@@ -178,7 +191,6 @@ class _DesignationState extends State<Designation> {
                 ),
               ),
             ),
-
             Align(
               alignment: Alignment.bottomRight,
               child: FloatingActionButton(
@@ -187,12 +199,10 @@ class _DesignationState extends State<Designation> {
                   onSubmit(context);
                 },
                 child: FaIcon(FontAwesomeIcons.arrowRight),
-                backgroundColor: Colors.lightBlue,
+                backgroundColor: color,
               ),
             ),
           ],
-        )
-    );
-
+        ));
   }
 }

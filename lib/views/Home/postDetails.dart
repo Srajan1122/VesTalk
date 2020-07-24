@@ -73,20 +73,37 @@ class _PostDetailsState extends State<PostDetails> {
       Column(
         children: <Widget>[
           SizedBox(height: 10),
-          likeAndShare(
+          LikeAndShare(
               postId: widget.postId,
               desc: post['description'],
               name: post['displayName']),
         ],
       ),
-      Container(
-//          padding: EdgeInsets.only(top: ),
-          alignment: Alignment(-0.9, -0.2),
-          child: Text(
-            'Comments',
-            style: TextStyle(
-                letterSpacing: 1.5, fontWeight: FontWeight.w700, fontSize: 16),
-          )),
+      Column(
+        children: <Widget>[
+          Divider(
+              thickness: 1,
+              color: Colors.grey.shade500,
+              indent: 15,
+              endIndent: 15),
+          Container(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: Center(
+                child: Text(
+                  'Comments',
+                  style: TextStyle(
+                      letterSpacing: 1.5,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16),
+                ),
+              )),
+          Divider(
+              thickness: 1,
+              color: Colors.grey.shade500,
+              indent: 15,
+              endIndent: 15),
+        ],
+      ),
       buildCommentInput(),
     ]);
   }
@@ -100,13 +117,27 @@ class _PostDetailsState extends State<PostDetails> {
             width: 300,
             color: Colors.white,
             child: Container(
+              color: Colors.grey.shade50,
+              // decoration: BoxDecoration(),
               child: TextField(
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 controller: commentController,
                 decoration: InputDecoration(
-                  hintStyle: TextStyle(color: Colors.grey.shade500),
                   hintText: "Add Comment",
+                  hintStyle: TextStyle(color: Colors.grey.shade500),
+                  fillColor: Colors.grey.shade100,
+                  contentPadding: EdgeInsets.all(8),
+                  border: UnderlineInputBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide(color: Colors.grey.shade400),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                    borderSide: BorderSide(color: Colors.grey.shade400),
+                  ),
                 ),
                 onChanged: (value) {
                   if (value == null) {

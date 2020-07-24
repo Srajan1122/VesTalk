@@ -11,6 +11,7 @@ class CommentList extends StatelessWidget {
     return FutureBuilder(
         future: comments,
         builder: (context, snapshot) {
+          if (snapshot.data == null) Text('Be the first one to post.');
           if (!snapshot.hasData) {
             return Text('Loading...');
           }
@@ -30,29 +31,21 @@ class CommentList extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Card(
-                                child: Align(
-                                  alignment: Alignment(-1,1),
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.black,
-                                    radius: 25,
-                                    backgroundImage:
-                                        NetworkImage(comment['photoUrl']),
-                                  ),
-                                ),
-                                elevation: 2.0,
-                                shape: CircleBorder(),
-                                clipBehavior: Clip.antiAlias,
-                              ),
-
-                            ],
+                          Card(
+                            child: CircleAvatar(
+                              backgroundColor: Colors.black,
+                              radius: 25,
+                              backgroundImage:
+                                  NetworkImage(comment['photoUrl']),
+                            ),
+                            elevation: 2.0,
+                            shape: CircleBorder(),
+                            clipBehavior: Clip.antiAlias,
                           ),
-                          Column(
-                            children: <Widget>[
-                              Container(
+                          ((comment['created'] == null ||
+                                  comment['comment'] == null)
+                              ? Container()
+                              : Container(
                                   padding: EdgeInsets.fromLTRB(0, 5, 50, 0),
                                   width: 300,
 //                                  color: Colors.black,
@@ -66,8 +59,7 @@ class CommentList extends StatelessWidget {
                                           fontWeight: FontWeight.bold),
                                       children: <TextSpan>[
                                         TextSpan(
-                                            text:
-                                            comment['designation'] + '\n',
+                                            text: comment['designation'] + '\n',
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.w300,
@@ -82,22 +74,20 @@ class CommentList extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                              ),
-                              Container(
-                                width: 300,
-                                padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                child: Text(comment['comment'],
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        letterSpacing: 1,
-                                    color: Color(0xFF000000))
-                                ),
-                              ),
-                            ],
-
-                          ),
+                                )),
                         ],
+                      ),
+                    ),
+                    Container(
+                      // width: 300,d
+                      padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                      child: Center(
+                        child: Text(comment['comment'],
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: 1,
+                                color: Color(0xFF000000))),
                       ),
                     ),
                     Divider(
