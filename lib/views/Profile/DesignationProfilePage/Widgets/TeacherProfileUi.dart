@@ -13,6 +13,7 @@ class TeacherProfileUi extends StatelessWidget {
     @required this.email,
     @required this.post,
     @required this.uid,
+    @required this.refreshAction
   }) : super(key: key);
 
   final String photoUrl;
@@ -22,6 +23,7 @@ class TeacherProfileUi extends StatelessWidget {
   final String email;
   final String post;
   final String uid;
+  final VoidCallback refreshAction;
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +89,9 @@ class TeacherProfileUi extends StatelessWidget {
                   designation: designation,
                   branch: branch,
                   post: post,
-                )));
+                ))).then((value){
+                  refreshAction();
+            });
           },
           child: Container(
             alignment: Alignment.center,

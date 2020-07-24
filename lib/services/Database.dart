@@ -3,7 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:socail_network_flutter/services/constant.dart';
 
 class DatabaseMethods {
-  deletePost(postId) async {
+  Future<void> deletePost(postId) async {
     // print(postId);
     DocumentSnapshot qn =
         await Firestore.instance.collection('posts').document(postId).get();

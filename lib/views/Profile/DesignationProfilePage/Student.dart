@@ -100,8 +100,11 @@ class _StudentProfilePage extends State<StudentProfile> {
                                 year: year,
                                 batch: batch,
                                 uid: uid,
+                                refreshAction: (){
+                                  _refresh();
+                                }
                               );
-                            return buildPost(context, snapshot, index-1);
+                            return buildPost(context, snapshot, index-1, _refresh);
                           });
                     } else {
                       return Center(child: Text('No Posts Available'));

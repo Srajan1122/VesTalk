@@ -14,6 +14,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> _refresh() async {
     if (!mounted) return;
     setState(() {
+      print('hi i got refreshed');
       Constants.data = _databaseMethods.getPosts();
     });
   }
@@ -110,7 +111,7 @@ class _HomePageState extends State<HomePage> {
             ],
           ));
         } else if (snapshot.hasData) {
-          return listbuidler(context, snapshot);
+          return listbuidler(context, snapshot, _refresh);
         }
         // else if (snapshot.data.length == 0) {
         // return Center(child: Text('No Posts Available'));}

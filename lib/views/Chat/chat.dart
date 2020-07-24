@@ -66,6 +66,9 @@ class _ChatState extends State<Chat> {
       displayName: tempSearchStore[index]['userInfo'][user[0]]["userName"],
       email: tempSearchStore[index]['userInfo'][user[0]]["email"],
       photoUrl: tempSearchStore[index]['userInfo'][user[0]]["photoUrl"],
+        refreshAction: (){
+          _refreshPage();
+        }
     );
   }
 
@@ -109,17 +112,19 @@ class _ChatState extends State<Chat> {
     return Scaffold(
       // appBar: getAppBar(),
         body: RefreshIndicator(
-          child: ListView.builder(
-            itemCount: tempSearchStore.length + 2,
-            itemBuilder: (context, index) {
-              if(index==0)
-                return ChatUserContent();
-              if(index == 1)
-                return _searchBar();
-              return _listItem(index-2);
-            },
-          ),
-          onRefresh: _refreshPage,
-        ));
+      child: ListView.builder(
+        itemCount: tempSearchStore.length + 2,
+        itemBuilder: (context, index) {
+          if (index == 0) return ChatUserContent(
+            refreshAction: (){
+              _refreshPage();
+            }
+          );
+          if (index == 1) return _searchBar();
+          return _listItem(index - 2);
+        },
+      ),
+      onRefresh: _refreshPage,
+    ));
   }
 }

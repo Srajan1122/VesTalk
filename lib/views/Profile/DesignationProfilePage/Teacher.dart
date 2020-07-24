@@ -70,34 +70,36 @@ class _TeacherProfilePage extends State<TeacherProfile> {
       child: Container(
           child: !checkIfNull()
               ? Center(
-            child: CircularProgressIndicator(),
-          )
+                  child: CircularProgressIndicator(),
+                )
               : FutureBuilder(
-            future: Constants.userPost,
-            builder: (_, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: Text('Loading....'));
-              } else if (snapshot.hasData) {
-                return ListView.builder(
-                    itemCount: snapshot.data.length + 1,
-                    itemBuilder: (_, index) {
-                      if (index == 0)
-                        return TeacherProfileUi(
-                          photoUrl: photoUrl,
-                          name: name,
-                          designation: designation,
-                          branch: branch,
-                          email: email,
-                          post: post,
-                          uid: uid,
-                        );
-                      return buildPost(context, snapshot, index-1);
-                    });
-              } else {
-                return Center(child: Text('No Posts Available'));
-              }
-            },
-          )),
+                  future: Constants.userPost,
+                  builder: (_, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: Text('Loading....'));
+                    } else if (snapshot.hasData) {
+                      return ListView.builder(
+                          itemCount: snapshot.data.length + 1,
+                          itemBuilder: (_, index) {
+                            if (index == 0)
+                              return TeacherProfileUi(
+                                  photoUrl: photoUrl,
+                                  name: name,
+                                  designation: designation,
+                                  branch: branch,
+                                  email: email,
+                                  post: post,
+                                  uid: uid,
+                                  refreshAction: () {
+                                    _refresh();
+                                  });
+                            return buildPost(context, snapshot, index - 1, _refresh);
+                          });
+                    } else {
+                      return Center(child: Text('No Posts Available'));
+                    }
+                  },
+                )),
       onRefresh: _refresh,
     );
   }

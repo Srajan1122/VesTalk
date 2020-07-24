@@ -87,6 +87,7 @@ class _LikeAndShareState extends State<LikeAndShare> {
   @override
   void initState() {
     databaseMethods.getLikedInfo(widget.postId).then((val) {
+      if(!mounted) return;
       setState(() {
         liked = val.data['liked'];
         userLiked = val.data['userLikedList'];
