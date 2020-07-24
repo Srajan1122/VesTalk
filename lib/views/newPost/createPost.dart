@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/views/newPost/widgets/chewie_list_item.dart';
 import 'package:video_player/video_player.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class CreatePost extends StatefulWidget {
   @override
@@ -17,8 +18,9 @@ class CreatePost extends StatefulWidget {
 class _CreatePostState extends State<CreatePost> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
   ImagePicker _picker = ImagePicker();
+  ProgressDialog _pr;
   final postController = TextEditingController();
-
+  bool loading = false;
   String description, id;
   File _attachment;
   bool isVideo = false;
@@ -37,7 +39,10 @@ class _CreatePostState extends State<CreatePost> {
       _showDialog();
       Fluttertoast.showToast(msg: "Please fill post content");
     } else {
+      await _pr.show();
       await databaseMethods.uploadFile(id, description, _attachment, isVideo);
+      await _pr.hide();
+
       setState(() {
         _attachment = null;
         description = null;
@@ -47,6 +52,10 @@ class _CreatePostState extends State<CreatePost> {
       Fluttertoast.showToast(msg: "Post Published");
     }
   }
+
+  Widget _progressWidget = Image.asset(
+    'images/double_ring_loading_io.gif',
+  );
 
   void _showDialog() {
     showDialog(
@@ -209,6 +218,12 @@ class _CreatePostState extends State<CreatePost> {
 
   @override
   Widget build(BuildContext context) {
+    _pr = new ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false);
+    _pr.style(
+      progressWidget: _progressWidget,
+      message: 'Posting...',
+    );
     return FocusWatcher(
       child: Scaffold(
           appBar: AppBar(

@@ -22,43 +22,48 @@ Align buildTextField(fieldController) {
   return Align(
     alignment: Alignment.bottomLeft,
     child: Container(
-      padding: EdgeInsets.only(left: 16, bottom: 10),
+      padding: EdgeInsets.only(left: 16, bottom: 5),
       width: double.infinity,
       color: Colors.white,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                color: Colors.blueGrey,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 21,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 16,
-          ),
-          Container(
-            width: 250,
+         Expanded(
+           child:  Container(
+             padding: EdgeInsets.only(right: 70,top: 5),
             child: TextField(
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              controller: fieldController,
-              decoration: InputDecoration(
-                  hintStyle: TextStyle(color: Colors.grey.shade500),
-                  hintText: "Type message...",
-                  border: InputBorder.none),
-              textCapitalization: TextCapitalization.sentences,
-            ),
-          )
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
+            controller: fieldController,
+            decoration: InputDecoration(
+              hintText: "Type Message",
+              hintStyle: TextStyle(color: Colors.grey.shade500),
+              fillColor: Colors.grey.shade100,
+              contentPadding: EdgeInsets.all(8),
+              border: UnderlineInputBorder(borderRadius: BorderRadius.circular(30)),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: BorderSide(color: Colors.grey.shade400),),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                borderSide: BorderSide(color: Colors.grey.shade400),
+                ),
+                ),
+                textCapitalization: TextCapitalization.sentences,
+              )
+           ),
+//            TextField(
+//              keyboardType: TextInputType.multiline,
+//              maxLines: null,
+//              controller: fieldController,
+//              decoration: InputDecoration(
+//                  hintStyle: TextStyle(color: Colors.grey.shade500),
+//                  hintText: "Type message...",
+//                  border: InputBorder.none),
+//              textCapitalization: TextCapitalization.sentences,
+//            ),
+          ),
         ],
       ),
     ),

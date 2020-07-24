@@ -20,12 +20,37 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  final snackbar = SnackBar(
+      backgroundColor: Colors.lightBlue,
+      duration: Duration(seconds: 3),
+      content: Container(
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          CircularProgressIndicator(
+            valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 40),
+            child: Text(
+              'Authenticating...',
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+        ],
+      )));
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  _showSnackbar(context) {
+    _scaffoldKey.currentState.showSnackBar(snackbar);
+  }
+
   final FirebaseMessaging _fcm = FirebaseMessaging();
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final DatabaseMethods databaseMethods = new DatabaseMethods();
 
   bool isLoading = false;
+
   bool isLoggedIn = false;
   SharedPreferences prefs;
   FirebaseUser currentUser;
@@ -65,6 +90,7 @@ class _SignInState extends State<SignIn> {
     setState(() {
       isLoading = true;
     });
+
     prefs = await SharedPreferences.getInstance();
     isLoggedIn = await _googleSignIn.isSignedIn();
     if (isLoggedIn && await check()) {
@@ -87,6 +113,7 @@ class _SignInState extends State<SignIn> {
 
     try {
       googleUser = await _googleSignIn.signIn();
+      _showSnackbar(context);
       googleAuth = await googleUser.authentication;
       credential = GoogleAuthProvider.getCredential(
           idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
@@ -148,9 +175,6 @@ class _SignInState extends State<SignIn> {
       }
     } else {
       Fluttertoast.showToast(msg: "Sign In Failed");
-      setState(() {
-        isLoading = false;
-      });
     }
     return firebaseUser;
   }
@@ -158,6 +182,7 @@ class _SignInState extends State<SignIn> {
   @override
   void initState() {
     initialise();
+
     super.initState();
     isSignIn();
   }
@@ -165,6 +190,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Center(
         child: Container(
           constraints: BoxConstraints.expand(),
@@ -184,6 +210,9 @@ class _SignInState extends State<SignIn> {
                   padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
                   child: RaisedButton.icon(
                     onPressed: () {
+                      // if (isLoading == false) {
+                      //   _showSnackbar(context);
+                      // }
                       try {
                         handleSignIn();
                       } catch (e) {
