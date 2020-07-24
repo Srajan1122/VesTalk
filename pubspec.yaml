@@ -44,6 +44,7 @@ flutter:
     - images/ProfilePage/
     - images/ProfileComp/
     - images/double_ring_loading_io.gif
+    - images/SignOut/
   # fonts:
   #   - family: OpenSans
   #     fonts:

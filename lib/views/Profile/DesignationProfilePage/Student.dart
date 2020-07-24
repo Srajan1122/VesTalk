@@ -22,7 +22,6 @@ class _StudentProfilePage extends State<StudentProfile> {
       branch,
       year,
       email,
-      phoneNumber,
       batch,
       uid;
 
@@ -40,7 +39,6 @@ class _StudentProfilePage extends State<StudentProfile> {
         email == null ||
         designation == null ||
         branch == null ||
-        phoneNumber == null ||
         year == null ||
         batch == null ||
         uid == null) {
@@ -61,7 +59,6 @@ class _StudentProfilePage extends State<StudentProfile> {
       branch = studentInfo['branch'];
       year = studentInfo['year'];
       email = studentInfo['email'];
-      phoneNumber = studentInfo['phoneNumber'];
       batch = studentInfo['batch'];
       uid = widget.uid;
     });
@@ -101,7 +98,6 @@ class _StudentProfilePage extends State<StudentProfile> {
                                 designation: designation,
                                 branch: branch,
                                 year: year,
-                                phoneNumber: phoneNumber,
                                 batch: batch,
                                 uid: uid,
                               );

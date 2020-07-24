@@ -12,7 +12,7 @@ class Student extends StatefulWidget {
 }
 
 class _StudentState extends State<Student> {
-  String id, phoneNumber, branch, batch, year;
+  String id, branch, batch, year;
   DatabaseMethods databaseMethods = new DatabaseMethods();
   List<String> listOfBranch = ['ETRX', 'CMPN', 'INST', 'EXTC', 'INFT', 'MCA'];
   List<String> listOfYear = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
@@ -69,15 +69,6 @@ class _StudentState extends State<Student> {
   }
 
   bool checkValidation() {
-    if (phoneNumber == null) {
-      _showDialog();
-      Fluttertoast.showToast(msg: "Please enter all the fields");
-    }
-    if (phoneNumber.length != 10) {
-      _validNumber();
-      Fluttertoast.showToast(msg: "Please enter a valid number");
-      return false;
-    }
     if (branch == null || batch == null || year == null) {
       _showDialog();
       Fluttertoast.showToast(msg: "Please enter all the fields");
@@ -299,7 +290,7 @@ class _StudentState extends State<Student> {
     } else {
       print('good to go');
       await getUserId();
-      databaseMethods.uploadStudentInfo(id, phoneNumber, branch, batch, year);
+      databaseMethods.uploadStudentInfo(id, branch, batch, year);
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => LandingPage()),
           (Route<dynamic> route) => false);
@@ -335,25 +326,6 @@ class _StudentState extends State<Student> {
                   customDropdown("Select Branch", branch, listOfBranch),
                   customDropdown("Select Year", year, listOfYear),
                   customDropdown("Select Division", batch, listOfBatch),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
-                    child: Container(
-                      width: 210,
-                      height: 70,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Enter Your Phone Number',
-                        ),
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) {
-                          setState(() {
-                            phoneNumber = value;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(40, 5, 40, 40),
                     child: Center(

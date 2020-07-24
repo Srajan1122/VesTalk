@@ -246,9 +246,8 @@ class DatabaseMethods {
     return teacherInfo;
   }
 
-  uploadStudentInfo(id, phoneNumber, branch, batch, year) async {
+  uploadStudentInfo(id, branch, batch, year) async {
     await Firestore.instance.collection('student').document(id).setData({
-      'phoneNumber': phoneNumber,
       'branch': branch,
       'batch': batch,
       'year': year

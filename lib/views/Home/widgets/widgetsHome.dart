@@ -22,6 +22,8 @@ class _likeAndShareState extends State<likeAndShare> {
   int liked;
   FaIcon solidHeart =
       FaIcon(FontAwesomeIcons.solidHeart, color: Colors.redAccent);
+  FaIcon solidHeart1 =
+  FaIcon(FontAwesomeIcons.solidHeart, color: Colors.redAccent,size: 14,);
   FaIcon heart = FaIcon(FontAwesomeIcons.heart);
   FaIcon icon;
   List userLiked;
@@ -62,18 +64,31 @@ class _likeAndShareState extends State<likeAndShare> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(left: 6),
+          child: Row(
+            children: <Widget>[
+              Text(liked.toString()),
+              SizedBox(width: 2,),
+              solidHeart1
+            ],
+          ) ,
+        ),
         Container(
           height: 1,
+          margin: EdgeInsets.only(left: 4,right: 4),
           width: double.maxFinite,
           color: Colors.grey.shade500,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     IconButton(
                       iconSize: 20,
@@ -87,13 +102,21 @@ class _likeAndShareState extends State<likeAndShare> {
                         pressedLike();
                       },
                     ),
-                    Text(liked.toString()),
                   ],
                 ),
-                Text('Like', style: TextStyle(fontSize: 15))
+                GestureDetector(
+                    child:Text('Like', style: TextStyle(fontSize: 15)),
+                    onTap: () async {
+                      DatabaseMethods _databaseMethods = DatabaseMethods();
+                      await _databaseMethods.updateLike(
+                          widget.postId, Constants.uid);
+                      pressedLike();
+                    },
+                ),
+
               ],
             ),
-            Column(
+            Row(
               children: <Widget>[
                 IconButton(
                   iconSize: 20,
@@ -110,7 +133,19 @@ class _likeAndShareState extends State<likeAndShare> {
                   },
                   color: Colors.grey.shade900,
                 ),
-                Text('Comment', style: TextStyle(fontSize: 15))
+                GestureDetector(
+                  child: Text('Comment', style: TextStyle(fontSize: 15),),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                PostDetails(
+                                    postId: widget.postId,
+                                    userId: widget.userId)));
+                  }
+                ),
+
               ],
             ),
             // Column(
@@ -134,7 +169,7 @@ class _likeAndShareState extends State<likeAndShare> {
             //     Text('Report', style: TextStyle(fontSize: 15))
             //   ],
             // ),
-            Column(
+            Row(
               children: <Widget>[
                 IconButton(
                   iconSize: 20,
@@ -151,10 +186,20 @@ class _likeAndShareState extends State<likeAndShare> {
                   },
                   color: Colors.grey.shade900,
                 ),
-                Text(
-                  'Share',
-                  style: TextStyle(fontSize: 15),
-                )
+                GestureDetector(
+                    child:  Text(
+                      'Share',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    onTap: () {
+                      FlutterShareMe().shareToWhatsApp(
+                          msg: widget.desc +
+                              "\nPosted By -" +
+                              widget.name +
+                              "\nRead More on VESTalk");
+                    },
+                ),
+
               ],
             ),
           ],
@@ -248,11 +293,9 @@ StatelessWidget buildUserImage(snapshot, int index) {
           (!snapshot.data[index].data['isVideo']))
       ? Container(
           child: SizedBox(
-              height: 450.0,
-              width: double.infinity,
               child: Image.network(snapshot.data[index].data['fileUrl'],
-                  fit: BoxFit.fitHeight)),
-          margin: EdgeInsets.only(top: 10, bottom: 10),
+                  fit: BoxFit.contain)),
+          margin: EdgeInsets.only(top: 10, bottom: 20),
         )
       : Container());
 }

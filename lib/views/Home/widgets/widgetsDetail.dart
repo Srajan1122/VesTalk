@@ -29,7 +29,7 @@ StatelessWidget buildUserImage(post) {
           clipBehavior: Clip.antiAliasWithSaveLayer,
           child: SizedBox(
               height: 200,
-              child: Image.network(post['fileUrl'], fit: BoxFit.fitHeight)),
+              child: Image.network(post['fileUrl'], fit: BoxFit.contain)),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),

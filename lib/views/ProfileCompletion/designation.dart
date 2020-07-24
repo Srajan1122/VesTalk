@@ -145,7 +145,7 @@ class _DesignationState extends State<Designation> {
                           dropdownValue = newValue;
                         });
                       },
-                      items: <String>['Student', 'Teacher', 'Council', 'Other']
+                      items: <String>['Student', 'Teacher', 'Council']
                           .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,

@@ -32,18 +32,57 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.white,
-          title: Center(
-            child: Text.rich(
-              TextSpan(
-                text: 'Ves',
-                style: TextStyle(fontSize: 30, color: Colors.black),
-                children: <TextSpan>[
-                  TextSpan(
-                      text: 'Talk', style: TextStyle(color: Colors.lightBlue)),
+          title:Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  CircleAvatar(
+                    radius: 20.0,
+                    backgroundImage: AssetImage('images/SignOut/applogo.png'),
+                  ),
+                  SizedBox(width: 5,),
+                  Text.rich(
+                    TextSpan(
+                      text: 'Ves',
+                      style: TextStyle(fontSize: 30, color: Colors.black),
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: 'Talk', style: TextStyle(color: Colors.lightBlue)),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
-          ),
+
+              GestureDetector(
+                child:Row(
+                  children: <Widget>[
+                    Text('SIGN OUT',style: TextStyle(color: Colors.red,fontSize: 12),),
+                    Container(
+                      height: 30,
+                      width: 30,
+                      child: Image.asset('images/SignOut/logout.png',),
+                    )
+                  ],
+                )
+
+              ),
+
+            ],
+          )
+//          Center(
+//            child: Text.rich(
+//              TextSpan(
+//                text: 'Ves',
+//                style: TextStyle(fontSize: 30, color: Colors.black),
+//                children: <TextSpan>[
+//                  TextSpan(
+//                      text: 'Talk', style: TextStyle(color: Colors.lightBlue)),
+//                ],
+//              ),
+//            ),
+//          ),
         ),
         body: Container(
           child: buildRefreshIndicator(context),

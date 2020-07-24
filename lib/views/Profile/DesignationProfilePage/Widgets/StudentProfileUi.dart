@@ -12,7 +12,6 @@ class StudentProfileUi extends StatelessWidget {
       @required this.designation,
       @required this.branch,
       @required this.year,
-      @required this.phoneNumber,
       @required this.batch,
       @required this.uid})
       : super(key: key);
@@ -24,7 +23,6 @@ class StudentProfileUi extends StatelessWidget {
   final String branch;
   final String batch;
   final String year;
-  final String phoneNumber;
   final String uid;
 
   @override
@@ -79,10 +77,6 @@ class StudentProfileUi extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Text(
-                      phoneNumber,
-                      style: TextStyle(fontSize: 14.0),
-                    ),
                   ],
                 ),
               ),
@@ -100,7 +94,6 @@ class StudentProfileUi extends StatelessWidget {
                     branch: branch,
                     batch: batch,
                     year: year,
-                    phoneNumber: phoneNumber,
                   )));
           },
           child: Container(
