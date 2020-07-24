@@ -43,8 +43,14 @@ class _ChatState extends State<Chat> {
 
   _listItem(index)  {
     List user =  tempSearchStore[index]["users"];
+    print(tempSearchStore[index]["users"]);
     indexAt=user.indexOf(Constants.uid);
-    seenTime=tempSearchStore[index]['userInfo'][user[indexAt]]["seenTime"];
+    print(indexAt.toString()+"erroerroerroerro");
+    print(tempSearchStore[index]['userInfo']);
+    try{seenTime= tempSearchStore[index]['userInfo'][user[indexAt]]["seenTime"];}
+    catch(e){
+      seenTime=0;
+    };
     messageTime=tempSearchStore[index]['userInfo'][user[indexAt]]["messageTime"];
     user.remove(Constants.uid);
     print(user[0]);
@@ -66,7 +72,7 @@ class _ChatState extends State<Chat> {
     databaseMethods.getsearch(Constants.uid).then((value) {
       for (int i = 0; i < value.documents.length; i++) {
         setState(() {
-          print('helloooooooooooo');
+//          print('helloooooooooooo');
 //          print(value.documents[i].data.toString()+"  heheheheheheeeheheh");
           queryResultSet.add(value.documents[i].data);
           tempSearchStore = queryResultSet;
@@ -77,16 +83,17 @@ class _ChatState extends State<Chat> {
 
   }
   Future<void> _refreshPage() async {
-    setState(() {
+       queryResultSet.clear();
+       tempSearchStore.clear();
       databaseMethods.getsearch(Constants.uid).then((value) {
+        setState(() {
         for (int i = 0; i < value.documents.length; i++) {
-          setState(() {
             print('helloooooooooooo');
 //          print(value.documents[i].data.toString()+"  heheheheheheeeheheh");
             queryResultSet.add(value.documents[i].data);
-            tempSearchStore = queryResultSet;
-            print(tempSearchStore[i]);
-          });
+
+//            print(tempSearchStore[i]);
+          tempSearchStore = queryResultSet;
         }
       });
     });
@@ -96,27 +103,19 @@ class _ChatState extends State<Chat> {
   Widget build(BuildContext context) {
     print("  "+ tempSearchStore.length.toString()+" mememememeeme");
     return Scaffold(
-        // appBar: getAppBar(),
-        body: SingleChildScrollView(
-           physics: BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ChatUserContent(),
-              RefreshIndicator(
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: tempSearchStore.length + 1,
-                  physics: ScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return index == 0 ? _searchBar() : _listItem(index - 1);
-                  },
-                ),
-                onRefresh: _refreshPage,
-              )
-            ],
+      // appBar: getAppBar(),
+        body: RefreshIndicator(
+          child: ListView.builder(
+            itemCount: tempSearchStore.length + 2,
+            itemBuilder: (context, index) {
+              if(index==0)
+                return ChatUserContent();
+              if(index == 1)
+                return _searchBar();
+              return _listItem(index-2);
+            },
           ),
-    ));
+          onRefresh: _refreshPage,
+        ));
   }
 }

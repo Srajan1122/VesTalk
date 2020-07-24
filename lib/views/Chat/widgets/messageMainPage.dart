@@ -96,8 +96,9 @@ class _MassagePageState extends State<MassagePage> {
           buildTextField(messageController),
           Align(
               alignment: Alignment.bottomRight,
+
               child: Container(
-                padding: EdgeInsets.only(right: 20, bottom: 12),
+                padding: EdgeInsets.only(right: 10, bottom: 2),
                 child: FloatingActionButton(
                   onPressed: () {
                     Timer(
@@ -110,7 +111,7 @@ class _MassagePageState extends State<MassagePage> {
                     Icons.send,
                     color: Colors.white,
                   ),
-                  backgroundColor: Colors.pink,
+                  backgroundColor: Colors.lightBlue,
                 ),
               ))
         ],
