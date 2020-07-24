@@ -36,7 +36,8 @@ class _MassagePageState extends State<MassagePage> {
       Map<String, dynamic> messageMap = {
         "message": messageController.text,
         "messagedBy": Constants.myName,
-        "time": DateTime.now()
+        "time": DateTime.now(),
+        "messagetime":  DateTime.now().millisecondsSinceEpoch
       };
       databaseMethods.updatetime(widget.chatRoomId);
       databaseMethods.udateMessageTime(widget.chatRoomId,widget.uid);

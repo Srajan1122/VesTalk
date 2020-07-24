@@ -99,7 +99,7 @@ class DatabaseMethods {
         .collection("ChatRoom")
         .document(chatRoomId)
         .collection("chats")
-        .orderBy("time", descending: false)
+        .orderBy("messagetime", descending: false)
         .snapshots();
   }
   getLatestTime(String chatRoomId) async{

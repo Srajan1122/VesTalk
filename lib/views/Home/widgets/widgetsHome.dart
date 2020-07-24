@@ -105,7 +105,7 @@ class _likeAndShareState extends State<likeAndShare> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => postDetail(
+                            builder: (context) => PostDetails(
                                 postId: widget.postId, userId: widget.userId)));
                   },
                   color: Colors.grey.shade900,

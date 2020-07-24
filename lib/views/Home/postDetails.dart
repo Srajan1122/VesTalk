@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:socail_network_flutter/services/constant.dart';
 import 'package:socail_network_flutter/views/Home/widgets/commentList.dart';
 import 'package:socail_network_flutter/views/Home/widgets/userInfoDetail.dart';
 import 'package:socail_network_flutter/views/Home/widgets/widgetsDetail.dart';
@@ -110,15 +111,20 @@ class _PostDetailsState extends State<PostDetails> {
 
   Row buildCommentInput() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        CircleAvatar(
+          backgroundColor: Colors.white,
+          radius: 25,
+          backgroundImage: NetworkImage(Constants.photoUrl),
+        ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+          padding: const EdgeInsets.fromLTRB(3, 0, 3, 0),
           child: Container(
             width: 300,
             color: Colors.white,
             child: Container(
-              color: Colors.grey.shade50,
-              // decoration: BoxDecoration(),
               child: TextField(
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
@@ -160,7 +166,10 @@ class _PostDetailsState extends State<PostDetails> {
           ),
         ),
         IconButton(
-          icon: Icon(Icons.send),
+          icon: Icon(
+            Icons.send,
+            size: 35,
+          ),
           color: flag,
           onPressed: () {
             if (comment.length >= 1) {

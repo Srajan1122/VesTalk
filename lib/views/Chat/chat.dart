@@ -5,6 +5,7 @@ import 'package:socail_network_flutter/services/constant.dart';
 import 'package:socail_network_flutter/views/Chat/widgets/chatlist.dart';
 import 'package:socail_network_flutter/views/Chat/widgets/chatUserContent.dart';
 import 'package:socail_network_flutter/views/Chat/widgets/widgets.dart';
+import 'package:socail_network_flutter/Widgets/widgets.dart';
 
 class Chat extends StatefulWidget {
   @override
@@ -46,19 +47,20 @@ class _ChatState extends State<Chat> {
     indexAt = user.indexOf(Constants.uid);
     print(indexAt.toString() + "erroerroerroerro");
     print(tempSearchStore[index]['userInfo']);
-    try {
-      seenTime = tempSearchStore[index]['userInfo'][user[indexAt]]["seenTime"];
-    } catch (e) {
-      seenTime = 0;
-    }
-    ;
-    messageTime =
-        tempSearchStore[index]['userInfo'][user[indexAt]]["messageTime"];
+    try{seenTime= tempSearchStore[index]['userInfo'][user[indexAt]]["seenTime"];}
+    catch(e){
+      seenTime=0;
+    };
+    try{
+    messageTime=tempSearchStore[index]['userInfo'][user[indexAt]]["messageTime"];}
+    catch(e){
+      messageTime=0;
+    };
     user.remove(Constants.uid);
     print(user[0]);
     return ChatUserList(
       isUserList: true,
-      seenTime: seenTime == null ? 0 : seenTime,
+      seenTime: seenTime==null?0:seenTime,
       messageTime: messageTime,
       uid: tempSearchStore[index]['userInfo'][user[0]]["id"],
       displayName: tempSearchStore[index]['userInfo'][user[0]]["userName"],
@@ -85,17 +87,17 @@ class _ChatState extends State<Chat> {
         });
       }
     });
-  }
 
+  }
   Future<void> _refreshPage() async {
-    queryResultSet.clear();
-    tempSearchStore.clear();
-    databaseMethods.getsearch(Constants.uid).then((value) {
-      setState(() {
+       queryResultSet.clear();
+       tempSearchStore.clear();
+      databaseMethods.getsearch(Constants.uid).then((value) {
+        setState(() {
         for (int i = 0; i < value.documents.length; i++) {
-          print('helloooooooooooo');
+            print('helloooooooooooo');
 //          print(value.documents[i].data.toString()+"  heheheheheheeeheheh");
-          queryResultSet.add(value.documents[i].data);
+            queryResultSet.add(value.documents[i].data);
 
 //            print(tempSearchStore[i]);
           tempSearchStore = queryResultSet;
@@ -106,9 +108,9 @@ class _ChatState extends State<Chat> {
 
   @override
   Widget build(BuildContext context) {
-    print("  " + tempSearchStore.length.toString() + " mememememeeme");
+    print("  "+ tempSearchStore.length.toString()+" mememememeeme");
     return Scaffold(
-        // appBar: getAppBar(),
+      // appBar: getAppBar(),
         body: RefreshIndicator(
       child: ListView.builder(
         itemCount: tempSearchStore.length + 2,
