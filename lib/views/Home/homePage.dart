@@ -64,12 +64,10 @@ class _HomePageState extends State<HomePage> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
               child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                'images/double_ring_loading_io.gif',
-              ),
-              SizedBox(height: 50),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  CircularProgressIndicator(),
+                  SizedBox(height: 50),
             ],
           ));
         } else if (snapshot.hasData) {
