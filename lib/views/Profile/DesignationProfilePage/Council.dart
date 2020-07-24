@@ -90,6 +90,9 @@ class _CouncilProfilePage extends State<CouncilProfile> {
                           member: member,
                           description: description,
                           uid: uid,
+                            refreshAction: (){
+                              _refresh();
+                            }
                         );
                       return buildPost(context, snapshot, index-1);
                     });

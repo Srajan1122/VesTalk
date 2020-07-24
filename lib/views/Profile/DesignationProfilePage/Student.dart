@@ -104,6 +104,9 @@ class _StudentProfilePage extends State<StudentProfile> {
                                 phoneNumber: phoneNumber,
                                 batch: batch,
                                 uid: uid,
+                                refreshAction: (){
+                                  _refresh();
+                                }
                               );
                             return buildPost(context, snapshot, index-1);
                           });

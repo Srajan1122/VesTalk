@@ -14,7 +14,8 @@ class StudentProfileUi extends StatelessWidget {
       @required this.year,
       @required this.phoneNumber,
       @required this.batch,
-      @required this.uid})
+      @required this.uid,
+      @required this.refreshAction})
       : super(key: key);
 
   final String photoUrl;
@@ -26,6 +27,7 @@ class StudentProfileUi extends StatelessWidget {
   final String year;
   final String phoneNumber;
   final String uid;
+  final VoidCallback refreshAction;
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +103,9 @@ class StudentProfileUi extends StatelessWidget {
                     batch: batch,
                     year: year,
                     phoneNumber: phoneNumber,
-                  )));
+                  ))).then((value) {
+                    refreshAction();
+            });
           },
           child: Container(
             alignment: Alignment.center,

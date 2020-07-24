@@ -14,6 +14,7 @@ class CouncilProfileUi extends StatelessWidget {
     @required this.member,
     @required this.description,
     @required this.uid,
+    @required this.refreshAction
   }) : super(key: key);
 
   final String photoUrl;
@@ -23,6 +24,7 @@ class CouncilProfileUi extends StatelessWidget {
   final String member;
   final String description;
   final String uid;
+  final VoidCallback refreshAction;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +90,9 @@ class CouncilProfileUi extends StatelessWidget {
                   designation: designation,
                   member: member,
                   description: description
-                )));
+                ))).then((value){
+                  refreshAction();
+            });
           },
           child: Container(
             alignment: Alignment.center,
