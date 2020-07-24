@@ -164,18 +164,18 @@ class _likeAndShareState extends State<likeAndShare> {
   }
 }
 
-Widget listbuidler(BuildContext context, snapshot) {
+Widget listbuidler(BuildContext context, snapshot, Function refresh) {
   {
     return ListView.builder(
         itemCount: snapshot.data.length,
         cacheExtent: 10000,
         itemBuilder: (_, index) {
-          return buildPost(context, snapshot, index);
+          return buildPost(context, snapshot, index, refresh);
         });
   }
 }
 
-Container buildPost(BuildContext context, snapshot, int index) {
+Container buildPost(BuildContext context, snapshot, int index, Function refresh) {
   return Container(
     width: double.maxFinite,
     child: Card(
@@ -201,7 +201,7 @@ Container buildPost(BuildContext context, snapshot, int index) {
                       children: <Widget>[
                         Column(
                           children: <Widget>[
-                            buildUserInfo(snapshot, index, context),
+                            buildUserInfo(snapshot, index, context, refresh),
                           ],
                         )
                       ],

@@ -93,7 +93,7 @@ class _TeacherProfilePage extends State<TeacherProfile> {
                                   refreshAction: () {
                                     _refresh();
                                   });
-                            return buildPost(context, snapshot, index - 1);
+                            return buildPost(context, snapshot, index - 1, _refresh);
                           });
                     } else {
                       return Center(child: Text('No Posts Available'));

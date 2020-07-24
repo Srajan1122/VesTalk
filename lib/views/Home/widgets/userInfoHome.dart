@@ -4,7 +4,7 @@ import 'package:socail_network_flutter/services/Database.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:socail_network_flutter/views/editPost/editPost.dart';
 
-Row buildUserInfo(snapshot, int index, context) {
+Row buildUserInfo(snapshot, int index, context, Function refresh) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: <Widget>[
@@ -69,22 +69,27 @@ Row buildUserInfo(snapshot, int index, context) {
         ),
       ),
       if (snapshot.data[index].data['id'] == Constants.uid)
-        _simplePopup(snapshot.data[index].documentID, context)
+        _simplePopup(snapshot.data[index].documentID, context, refresh)
     ],
   );
 }
 
-Widget _simplePopup(postId, context) {
+Widget _simplePopup(postId, context, Function refresh) {
   DatabaseMethods _database = DatabaseMethods();
   return PopupMenuButton<int>(
     onSelected: (value) => {
       if (value == 0)
         {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => EditPost(postId: postId)))
+              MaterialPageRoute(builder: (context) => EditPost(postId: postId))).then((value){
+                refresh();
+          })
         }
-      else if (value == 1)
-        {_database.deletePost(postId)}
+      else if (value == 1){
+        {_database.deletePost(postId).then((value){
+          refresh();
+        })}
+      }
     },
     itemBuilder: (context) => [
       PopupMenuItem(

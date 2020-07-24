@@ -13,6 +13,7 @@ class ChatUserList extends StatefulWidget {
   final String email;
   final String photoUrl;
   final bool isUserList;
+
   ChatUserList(
       {@required this.uid,
       this.displayName,
@@ -20,8 +21,11 @@ class ChatUserList extends StatefulWidget {
       this.photoUrl,
         this.isUserList,
         this.messageTime,
-        this.seenTime
+        this.seenTime,
+        this.refreshAction,
      });
+
+  final VoidCallback refreshAction;
 
   @override
   _ChatUserListState createState() => _ChatUserListState();
@@ -61,14 +65,18 @@ class _ChatUserListState extends State<ChatUserList> {
           context,
           MaterialPageRoute(
               builder: (context) => MassagePage(
-                  chatRoomId, widget.displayName, widget.photoUrl,widget.uid)));
+                  chatRoomId, widget.displayName, widget.photoUrl,widget.uid))).then((value){
+                    widget.refreshAction();
+      });
     } else {
       String chatRoomId = getChatRoomId(uid, Constants.uid);
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => MassagePage(
-                  chatRoomId, widget.displayName, widget.photoUrl,widget.uid)));
+                  chatRoomId, widget.displayName, widget.photoUrl,widget.uid))).then((value){
+                    widget.refreshAction();
+      });
       print("Same user");
     }
   }

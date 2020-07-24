@@ -108,7 +108,7 @@ class _StudentProfilePage extends State<StudentProfile> {
                                   _refresh();
                                 }
                               );
-                            return buildPost(context, snapshot, index-1);
+                            return buildPost(context, snapshot, index-1, _refresh);
                           });
                     } else {
                       return Center(child: Text('No Posts Available'));

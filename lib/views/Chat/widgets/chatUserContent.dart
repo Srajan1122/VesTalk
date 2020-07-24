@@ -3,8 +3,11 @@ import 'package:socail_network_flutter/views/Chat/widgets/newUser.dart';
 
 class ChatUserContent extends StatelessWidget {
   const ChatUserContent({
+    @required this.refreshAction,
     Key key,
   }) : super(key: key);
+
+  final VoidCallback refreshAction;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,9 @@ class ChatUserContent extends StatelessWidget {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return ChatSearchPage();
-                    }));
+                    })).then((value){
+                      refreshAction();
+                    });
                   },
                   child: Container(
                     child: Row(
