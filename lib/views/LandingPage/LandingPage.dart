@@ -111,32 +111,6 @@ class _LandingPageState extends State<LandingPage> {
           });
         },
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            UserAccountsDrawerHeader(
-              accountName: Text(Constants.myName),
-              accountEmail: Text(Constants.email),
-              currentAccountPicture: GestureDetector(
-                child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  backgroundImage: NetworkImage(Constants.photoUrl),
-                ),
-              ),
-              decoration: BoxDecoration(color: Colors.lightBlue),
-            ),
-            ListTile(
-              title: Text('Profile'),
-              leading: Icon(Icons.person_outline),
-            ),
-            ListTile(
-              title: Text('Sign Out'),
-              leading: Icon(Icons.arrow_left),
-              onTap: handleSignOut,
-            )
-          ],
-        ),
-      ),
     );
   }
 }

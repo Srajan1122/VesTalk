@@ -4,7 +4,6 @@ import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/services/constant.dart';
-import 'package:socail_network_flutter/views/Home/postDetail.dart';
 import 'package:socail_network_flutter/views/Home/postDetails.dart';
 import 'package:socail_network_flutter/views/Home/widgets/userInfoHome.dart';
 

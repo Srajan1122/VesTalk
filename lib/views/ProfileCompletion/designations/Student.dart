@@ -78,33 +78,6 @@ class _StudentState extends State<Student> {
     return true;
   }
 
-  void _validNumber() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: new Text(
-            "Warning !",
-            textAlign: TextAlign.center,
-          ),
-          content: new Text("Please enter a valid number"),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text(
-                "Close",
-                style: TextStyle(color: Color(0xFFFC2542)),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   void _showDialog() {
     showDialog(
       context: context,

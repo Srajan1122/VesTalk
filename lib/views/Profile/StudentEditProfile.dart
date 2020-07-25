@@ -16,7 +16,6 @@ class StudentEditProfile extends StatefulWidget {
     @required this.designation,
     @required this.branch,
     @required this.year,
-    @required this.phoneNumber,
     @required this.batch,
   }) : super(key: key);
 
@@ -27,7 +26,6 @@ class StudentEditProfile extends StatefulWidget {
   final String branch;
   final String batch;
   final String year;
-  final String phoneNumber;
 
   @override
   _StudentEditProfileState createState() => _StudentEditProfileState();
@@ -336,7 +334,6 @@ class _StudentEditProfileState extends State<StudentEditProfile> {
     newBranch = widget.branch;
     newYear = widget.year;
     newBatch = widget.batch;
-    newPhone = widget.phoneNumber;
     phoneController..text = newPhone;
   }
 

@@ -18,7 +18,7 @@ class DatabaseMethods {
   }
   Future <void> updateReport(postId) async{
     DocumentReference docRef =
-    await Firestore.instance.collection("posts").document(postId);
+    Firestore.instance.collection("posts").document(postId);
     DocumentSnapshot doc = await docRef.get();
     List reportList = doc.data['reportList'];
     int report = doc.data['report'];
@@ -184,7 +184,7 @@ class DatabaseMethods {
     print(doc.data['userInfo'][Constants.uid]);
     docRef.updateData({
       'userInfo.${Constants.uid}.messageTime':  DateTime.now().millisecondsSinceEpoch,
-      'userInfo.${id}.messageTime':  DateTime.now().millisecondsSinceEpoch
+      'userInfo.$id.messageTime':  DateTime.now().millisecondsSinceEpoch
     });
   }
 

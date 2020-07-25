@@ -1,11 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/services/constant.dart';
 import 'package:socail_network_flutter/views/Chat/widgets/chatlist.dart';
 import 'package:socail_network_flutter/views/Chat/widgets/chatUserContent.dart';
 import 'package:socail_network_flutter/views/Chat/widgets/widgets.dart';
-import 'package:socail_network_flutter/Widgets/widgets.dart';
 
 class Chat extends StatefulWidget {
   @override
@@ -16,7 +14,6 @@ class _ChatState extends State<Chat> {
   var queryResultSet = [];
   var tempSearchStore = [];
   int seenTime, messageTime, indexAt;
-  DocumentSnapshot Documents;
   DatabaseMethods databaseMethods = new DatabaseMethods();
   Stream chatRoomList;
 
@@ -50,12 +47,12 @@ class _ChatState extends State<Chat> {
     try{seenTime= tempSearchStore[index]['userInfo'][user[indexAt]]["seenTime"];}
     catch(e){
       seenTime=0;
-    };
+    }
     try{
     messageTime=tempSearchStore[index]['userInfo'][user[indexAt]]["messageTime"];}
     catch(e){
       messageTime=0;
-    };
+    }
     user.remove(Constants.uid);
     print(user[0]);
     return ChatUserList(
