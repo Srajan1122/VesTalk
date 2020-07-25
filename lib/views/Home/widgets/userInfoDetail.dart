@@ -73,7 +73,7 @@ Row buildUserInfo(BuildContext context, post) {
           ),
         ),
       ),
-      if (post['id'] == Constants.uid) _simplePopup(post,context)
+       _simplePopup(post,context,post['id'])
     ],
   );
 //  Row(
@@ -131,7 +131,7 @@ Row buildUserInfo(BuildContext context, post) {
 //  );
 }
 
-Widget _simplePopup(postId, context) {
+Widget _simplePopup(postId, context,userId) {
   DatabaseMethods _database = DatabaseMethods();
   return PopupMenuButton<int>(
     onSelected: (value) => {
@@ -154,14 +154,17 @@ Widget _simplePopup(postId, context) {
         }
     },
     itemBuilder: (context) => [
+      if (userId == Constants.uid)
       PopupMenuItem(
         value: 0,
         child: Text("Edit"),
       ),
+      if (userId == Constants.uid)
       PopupMenuItem(
         value: 1,
         child: Text("Delete"),
       ),
+      if (userId != Constants.uid)
       PopupMenuItem(
         value: 3,
         child: Text("Report"),

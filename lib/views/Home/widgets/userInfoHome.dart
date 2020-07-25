@@ -44,11 +44,6 @@ Row buildUserInfo(snapshot, int index, context, Function refresh) {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 10,
                                 color: Colors.grey.shade600)),
-                        Text(':-',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 10,
-                                color: Colors.grey.shade600)),
                         SizedBox(
                           width: 3,
                         ),
@@ -68,13 +63,13 @@ Row buildUserInfo(snapshot, int index, context, Function refresh) {
           ),
         ),
       ),
-      if (snapshot.data[index].data['id'] == Constants.uid)
-        _simplePopup(snapshot.data[index].documentID, context, refresh)
+
+        _simplePopup(snapshot.data[index].documentID, context, refresh,snapshot.data[index].data['id'])
     ],
   );
 }
 
-Widget _simplePopup(postId, context, Function refresh) {
+Widget _simplePopup(postId, context, Function refresh,userId) {
   DatabaseMethods _database = DatabaseMethods();
   return PopupMenuButton<int>(
     onSelected: (value) => {
@@ -99,14 +94,17 @@ Widget _simplePopup(postId, context, Function refresh) {
         }
     },
     itemBuilder: (context) => [
+      if (userId == Constants.uid)
       PopupMenuItem(
         value: 0,
         child: Text("Edit"),
       ),
+      if ( userId == Constants.uid)
       PopupMenuItem(
         value: 1,
         child: Text("Delete"),
       ),
+      if ( userId != Constants.uid)
       PopupMenuItem(
         value: 3,
         child: Text("Report"),
