@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:socail_network_flutter/services/constant.dart';
 
 class DatabaseMethods {
@@ -14,6 +15,23 @@ class DatabaseMethods {
       await storageReference.delete();
     }
     await Firestore.instance.collection('posts').document(postId).delete();
+  }
+  Future <void> updateReport(postId) async{
+    DocumentReference docRef =
+    await Firestore.instance.collection("posts").document(postId);
+    DocumentSnapshot doc = await docRef.get();
+    List reportList = doc.data['reportList'];
+    int report = doc.data['report'];
+    if (reportList.contains(Constants.uid) == true) {
+      Fluttertoast.showToast(msg: "Already Reported");
+    } else {
+
+      docRef.updateData({
+        'reportList': FieldValue.arrayUnion([Constants.uid]),
+        'report': report + 1
+      });
+      Fluttertoast.showToast(msg: "Reported");
+    }
   }
 
   Future getPosts() async {
@@ -433,7 +451,10 @@ class DatabaseMethods {
         'designation': userData.documents[0].data['designation'],
         'created': FieldValue.serverTimestamp(),
         'userLikedList': [],
-        'liked': 0
+        'liked': 0,
+        'report':0,
+        'reportList':[]
+
       });
     } catch (e) {
       print('id--> $id');

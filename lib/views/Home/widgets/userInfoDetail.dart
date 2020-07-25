@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:socail_network_flutter/services/Database.dart';
+import 'package:socail_network_flutter/views/editPost/editPost.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:socail_network_flutter/services/constant.dart';
 
@@ -71,7 +73,7 @@ Row buildUserInfo(BuildContext context, post) {
           ),
         ),
       ),
-      if (post['id'] == Constants.uid) _simplePopup(post)
+      if (post['id'] == Constants.uid) _simplePopup(post,context)
     ],
   );
 //  Row(
@@ -129,15 +131,41 @@ Row buildUserInfo(BuildContext context, post) {
 //  );
 }
 
-Widget _simplePopup(postId) => PopupMenuButton<int>(
-      itemBuilder: (context) => [
-        PopupMenuItem(
-          value: 1,
-          child: Text("Edit"),
-        ),
-        PopupMenuItem(
-          value: 2,
-          child: Text("Delete"),
-        ),
-      ],
-    );
+Widget _simplePopup(postId, context) {
+  DatabaseMethods _database = DatabaseMethods();
+  return PopupMenuButton<int>(
+    onSelected: (value) => {
+      if (value == 0)
+        {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => EditPost(postId: postId))).then((value){
+          })
+        }
+      else if (value == 1){
+        {_database.deletePost(postId).then((value){
+          print("reported");
+        })}
+      }
+      else if (value == 3){
+          {
+            _database.updateReport(postId).then((value){
+            })
+          }
+        }
+    },
+    itemBuilder: (context) => [
+      PopupMenuItem(
+        value: 0,
+        child: Text("Edit"),
+      ),
+      PopupMenuItem(
+        value: 1,
+        child: Text("Delete"),
+      ),
+      PopupMenuItem(
+        value: 3,
+        child: Text("Report"),
+      ),
+    ],
+  );
+}

@@ -1,8 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:socail_network_flutter/services/Database.dart';
 import 'package:socail_network_flutter/services/constant.dart';
 import 'package:socail_network_flutter/views/Home/widgets/widgetsHome.dart';
+
+import '../../main.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -11,6 +15,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   DatabaseMethods _databaseMethods = DatabaseMethods();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   Future<void> _refresh() async {
     if (!mounted) return;
     setState(() {
@@ -18,6 +23,27 @@ class _HomePageState extends State<HomePage> {
       Constants.data = _databaseMethods.getPosts();
     });
   }
+
+  bool isLoading = false;
+
+  Future<Null> handleSignOut() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await FirebaseAuth.instance.signOut();
+    await _googleSignIn.disconnect();
+    await _googleSignIn.signOut();
+
+    setState(() {
+      isLoading = false;
+    });
+
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => MyApp()),
+            (Route<dynamic> route) => false);
+  }
+
 
   @override
   void initState() {
@@ -40,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   CircleAvatar(
                     radius: 20.0,
-                    backgroundImage: AssetImage('images/SignOut/applogo.png'),
+                    backgroundImage: AssetImage('images/AppBar/applogo.png'),
                   ),
                   SizedBox(width: 5,),
                   Text.rich(
@@ -66,8 +92,8 @@ class _HomePageState extends State<HomePage> {
                       child: Image.asset('images/SignOut/logout.png',),
                     )
                   ],
-                )
-
+                ),
+                  onTap: handleSignOut
               ),
 
             ],

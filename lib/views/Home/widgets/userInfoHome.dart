@@ -90,6 +90,13 @@ Widget _simplePopup(postId, context, Function refresh) {
           refresh();
         })}
       }
+      else if (value == 3){
+        {
+          _database.updateReport(postId).then((value){
+            refresh();
+          })
+        }
+        }
     },
     itemBuilder: (context) => [
       PopupMenuItem(
@@ -99,6 +106,10 @@ Widget _simplePopup(postId, context, Function refresh) {
       PopupMenuItem(
         value: 1,
         child: Text("Delete"),
+      ),
+      PopupMenuItem(
+        value: 3,
+        child: Text("Report"),
       ),
     ],
   );
